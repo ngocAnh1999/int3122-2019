@@ -1,4 +1,4 @@
-package vn.edu.vnu.uet.flutter_app
+package com.group1.flutter_app
 
 import android.os.Bundle
 
