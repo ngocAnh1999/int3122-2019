@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
+import 'package:flutter_app/presentation/views/lesson.dart';
 
 class LessonItem extends StatelessWidget {
   final Lesson lesson;
@@ -9,28 +10,38 @@ class LessonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            title: Text(
-              lesson.title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+    return GestureDetector(
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Text(
+                lesson.title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              ),
             ),
-          ),
-          ListTile(
-            title: Text(
-              "${lesson.vocabs.length} thuật ngữ",
+            ListTile(
+              title: Text(
+                "${lesson.vocabs.length} thuật ngữ",
+              ),
             ),
-          ),
-          ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage("images/profile.jpg"),
-            ),
-            title: Text("minmon98"),
-          )
-        ],
+            ListTile(
+              leading: CircleAvatar(
+                backgroundImage: AssetImage("images/profile.jpg"),
+              ),
+              title: Text("minmon98"),
+            )
+          ],
+        ),
       ),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => LessonView(
+                      lesson: lesson,
+                    )));
+      },
     );
   }
 }
