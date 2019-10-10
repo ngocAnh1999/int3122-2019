@@ -59,6 +59,11 @@ flutter:
     - assets/images/ic_preview_2.png
     - assets/images/ic_preview_3.png
     - assets/images/ic_preview_4.png
+    - assets/images/book1.jpg 
+    - assets/images/book2.jpg
+    - assets/images/book3.jpg
+    - assets/images/book4.jpg
+    
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
