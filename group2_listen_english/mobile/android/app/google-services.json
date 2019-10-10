@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:846075695429:android:12cba960522dcf0f50ae2c",
+        "mobilesdk_app_id": "1:846075695429:android:50016b02769afefb50ae2c",
         "android_client_info": {
-          "package_name": "com.flutter.english.beater"
+          "package_name": "com.flutter.english.beater.mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "846075695429-9gsfpik4jhq1ti6n9dgqhtlmgvuaf7gt.apps.googleusercontent.com",
+          "client_id": "846075695429-44t48g6jk3dh7u7nable6svgg3sliei4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.flutter.english.beater",
+            "package_name": "com.flutter.english.beater.mobile",
             "certificate_hash": "40b61db05585959d3b37963e125ac6ea6871ef28"
           }
         },
@@ -40,10 +40,10 @@
               "client_type": 3
             },
             {
-              "client_id": "846075695429-dm04n18rhmchl59depc9e04kor4ojo27.apps.googleusercontent.com",
+              "client_id": "846075695429-qdd6spqu0oqe3iokl56jcebgs7n3og70.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.english.beater"
+                "bundle_id": "com.flutter.english.beater"
               }
             }
           ]
