@@ -9,27 +9,27 @@ class LessonItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 120,
-      child: Card(
-        child: Column(
-          children: <Widget>[
-            Text(
+    return Card(
+      child: Column(
+        children: <Widget>[
+          ListTile(
+            title: Text(
               lesson.title,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
-            Text(
+          ),
+          ListTile(
+            title: Text(
               "${lesson.vocabs.length} thuật ngữ",
             ),
-            ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.deepPurpleAccent,
-                child: Text(lesson.title[0]),
-              ),
-              subtitle: Text("minmon98"),
-            )
-          ],
-        ),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage("images/profile.jpg"),
+            ),
+            title: Text("minmon98"),
+          )
+        ],
       ),
     );
   }
@@ -46,8 +46,11 @@ class LessonListState extends State<LessonList> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      padding: const EdgeInsets.all(16.0),
       children: widget.lessons.map((Lesson lesson) {
-        return LessonItem(lesson: lesson,);
+        return LessonItem(
+          lesson: lesson,
+        );
       }).toList(),
     );
   }

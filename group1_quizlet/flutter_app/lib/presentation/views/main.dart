@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/api/APIDataSource.dart';
+import 'package:flutter_app/data/repository/LessonRepositoryImpl.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
 import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/usecase/GetLessonsUseCase.dart';
 import 'package:flutter_app/presentation/views/home.dart';
 
 void main() => runApp(MyApp());
@@ -28,85 +31,10 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
+  static final GetLessonsUseCase getLessonsUseCase = new GetLessonsUseCase(
+      lessonRepository: LessonRepositoryImpl(apiDataSource: APIDataSource()));
   static List<dynamic> _widgetOptions = <dynamic>[
-    LessonList(
-      lessons: <Lesson>[
-        Lesson(
-          title: "Bài 1",
-          description: "ABC",
-          vocabs: <Vocabulary>[
-            Vocabulary(
-              word: "dog",
-              meaning: "chó"
-            ),
-            Vocabulary(
-              word: "cat",
-              meaning: "mèo"
-            )
-          ]
-        ),
-        Lesson(
-            title: "Bài 2",
-            description: "ABCD",
-            vocabs: <Vocabulary>[
-              Vocabulary(
-                  word: "duck",
-                  meaning: "vịt"
-              ),
-              Vocabulary(
-                  word: "bird",
-                  meaning: "chim"
-              ),
-              Vocabulary(
-                word: "snake",
-                meaning: "rắn"
-              )
-            ]
-        ),
-        Lesson(
-            title: "Bài 1",
-            description: "ABC",
-            vocabs: <Vocabulary>[
-              Vocabulary(
-                  word: "dog",
-                  meaning: "chó"
-              ),
-              Vocabulary(
-                  word: "cat",
-                  meaning: "mèo"
-              )
-            ]
-        ),
-        Lesson(
-            title: "Bài 1",
-            description: "ABC",
-            vocabs: <Vocabulary>[
-              Vocabulary(
-                  word: "dog",
-                  meaning: "chó"
-              ),
-              Vocabulary(
-                  word: "cat",
-                  meaning: "mèo"
-              )
-            ]
-        ),
-        Lesson(
-            title: "Bài 1",
-            description: "ABC",
-            vocabs: <Vocabulary>[
-              Vocabulary(
-                  word: "dog",
-                  meaning: "chó"
-              ),
-              Vocabulary(
-                  word: "cat",
-                  meaning: "mèo"
-              )
-            ]
-        ),
-      ],
-    ),
+    LessonList(lessons: getLessonsUseCase.excute()),
   ];
 
   void _onItemTapped(int index) {
