@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:listen_english/src/model/Item.dart';
+import 'package:listen_english/src/core/models/Item.dart';
 import 'package:listen_english/src/component/GetRatings.dart';
-import 'package:listen_english/src/screen/GridItemDetails.dart';
-import 'package:listen_english/src/screen/DetailBookScreen.dart';
+import 'package:listen_english/src/screen/views/GridItemDetails.dart';
+import 'package:listen_english/src/screen/views/DetailBookScreen.dart';
 
 class ItemList extends StatelessWidget {
   final Item item;

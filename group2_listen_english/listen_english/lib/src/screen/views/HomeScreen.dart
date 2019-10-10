@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:listen_english/src/model/Item.dart';
+import 'package:listen_english/src/core/models/Item.dart';
 import 'package:listen_english/src/component/ItemList.dart';
-import 'package:listen_english/src/screen/UserProfileScreen.dart';
-import 'package:listen_english/src/screen/ResultUserScreen.dart';
-import 'package:listen_english/src/screen/AboutScreen.dart';
+import 'package:listen_english/src/screen/views/UserProfileScreen.dart';
+import 'package:listen_english/src/screen/views/ResultUserScreen.dart';
+import 'package:listen_english/src/screen/views/AboutScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   List<Item> itemList;

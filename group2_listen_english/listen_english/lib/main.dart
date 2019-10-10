@@ -4,9 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:listen_english/src/constant/Constant.dart';
-import 'package:listen_english/src/screen/GridItemDetails.dart';
-import 'package:listen_english/src/screen/HomeScreen.dart';
-import 'package:listen_english/src/screen/SplashScreen.dart';
+import 'package:listen_english/src/screen/views/GridItemDetails.dart';
+import 'package:listen_english/src/screen/views/HomeScreen.dart';
+import 'package:listen_english/src/screen/views/SplashScreen.dart';
 
 void main() => runApp(MaterialApp(
       title: 'GridView Demo',

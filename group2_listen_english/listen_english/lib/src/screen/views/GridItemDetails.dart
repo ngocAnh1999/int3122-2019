@@ -1,5 +1,5 @@
 ﻿import 'package:flutter/material.dart';
-import 'package:listen_english/src/model/Item.dart';
+import 'package:listen_english/src/core/models/Item.dart';
 import 'package:listen_english/src/component/GetRatings.dart';
 
 class GridItemDetails extends StatelessWidget {
