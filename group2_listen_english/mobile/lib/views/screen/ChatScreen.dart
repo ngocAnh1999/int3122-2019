@@ -18,7 +18,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String voice;
   int silencems;
   bool speakingState = false;
-
+  final GlobalKey _menuKey = new GlobalKey();
   String _newVoiceText;
 
   TtsState ttsState = TtsState.stopped;
@@ -83,9 +83,30 @@ class _ChatScreenState extends State<ChatScreen> {
     // }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Chat Screen"),
-      ),
+      appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
+        // action button
+        IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {},
+        ),
+        PopupMenuButton(
+            key: _menuKey,
+            itemBuilder: (_) => <PopupMenuItem<String>>[
+                  new PopupMenuItem<String>(
+                      child: const Text('Luyện nghe'), value: 'listen'),
+                  new PopupMenuItem<String>(
+                      child: const Text('Luyện với Bot'), value: 'vsBot'),
+                  new PopupMenuItem<String>(
+                      child: const Text('Luyện nói 2 người'), value: 'twoBot'),
+											new PopupMenuItem<String>(
+												child: Row(
+													children: <Widget>[
+													],
+												),
+											),
+                ],
+            onSelected: (_) {})
+      ]),
       body: ListView(
         children: <Widget>[
           message("Hello Bob!", MainAxisAlignment.start),
@@ -146,13 +167,17 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget bottomChat() {
     return Container(
       height: 50,
-			color: Colors.blueGrey[200],
+      color: Colors.blueGrey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
             onTap: _changeScreen,
-            child: Icon(speakingState ? Icons.mic : Icons.pause_circle_filled, color: Colors.blue, size: 32.0,),
+            child: Icon(
+              speakingState ? Icons.mic : Icons.pause_circle_filled,
+              color: Colors.blue,
+              size: 32.0,
+            ),
           )
         ],
       ),
