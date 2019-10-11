@@ -29,7 +29,7 @@ class ItemList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AspectRatio(
-              aspectRatio: 9.0 / 12.0,
+              aspectRatio: 10.0 / 12.0,
               child: Image.asset(
                 item.trailerImg1,
                 fit: BoxFit.fill,

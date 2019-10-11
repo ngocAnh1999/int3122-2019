@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/views/screen/ChatScreen.dart';
 
 class DetailBookScreen extends StatelessWidget {
   @override
@@ -28,24 +29,44 @@ class DetailBookScreen extends StatelessWidget {
         if (index >= listLesson.length) {
           listLesson.addAll(fiveLesson);
         }
-        return _buildRow(listLesson[index], index);
+        return _buildRow(listLesson[index], index, context);
       }),
     );
   }
 
-  Widget _buildRow(String title, int index) {
+  Widget _buildRow(String title, int index, BuildContext context) {
     final color = index < 5 ? Colors.red : Colors.blue;
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 10.0, right: 10.0),
-            child: Icon(Icons.favorite, color: color,),
+    return GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChatScreen()),
+          );
+        },
+        child: Container(
+          padding: EdgeInsets.all(10.0),
+          child: Row(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Icon(
+                  Icons.favorite,
+                  color: color,
+                ),
+              ),
+              Text(
+                title,
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              ),
+              new Spacer(),
+              Container(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                child: Icon(Icons.check_box_outline_blank, color: Colors.green)
+              ),
+              Icon(Icons.navigate_next, color: Colors.black)
+            ],
           ),
-          Text(title, style: TextStyle(color: Colors.black, fontSize: 18),)
-        ],
-      ),
-    );
+        ));
   }
 }

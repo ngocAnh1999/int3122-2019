@@ -3,6 +3,7 @@ import 'package:mobile/core/components/ItemList.dart';
 import 'package:mobile/core/models/Item.dart';
 import 'package:mobile/views/screen/AboutScreen.dart';
 import 'package:mobile/views/screen/ResultUserScreen.dart';
+import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -78,6 +79,37 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+            Container(
+                // This align moves the children to the bottom
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    // This container holds all the children that will be aligned
+                    // on the bottom and should not scroll with the above ListView
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Divider(),
+                        ListTile(
+                          leading: Icon(Icons.settings),
+                          title: Text('Settings'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SettingsScreen()),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.help),
+                          title: Text('Help and Feedback'),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ))))
           ],
         ),
       ),
@@ -88,7 +120,7 @@ class HomeScreen extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 2,
       padding: EdgeInsets.all(4.0),
-      childAspectRatio: 7.0 / 12.0,
+      childAspectRatio: 7.2 / 12.0,
       children: itemList
           .map(
             (Item) => ItemList(item: Item),
@@ -146,6 +178,70 @@ class HomeScreen extends StatelessWidget {
         trailerImg1: 'assets/images/book3.jpg',
         trailerImg2: 'assets/images/ic_thumb_31.png',
         trailerImg3: 'assets/images/ic_thumb_31.png',
+      ),
+      Item(
+        id: 3,
+        name: 'Speak English Level 4',
+        category: 'Action, Adventure, Comedy',
+        desc: 'book 4 description',
+        rating: 7.9,
+        directors: 'Directors: Taika Waititi',
+        releaseDate: '3 November 2017',
+        releaseDateDesc: 'USA (2017), 2h 10min',
+        runtime: '2h 10min',
+        bannerUrl: 'assets/images/movie_banner_4.png',
+        imageUrl: 'assets/images/ic_preview_4.png',
+        trailerImg1: 'assets/images/book4.jpg',
+        trailerImg2: 'assets/images/ic_thumb_41.png',
+        trailerImg3: 'assets/images/ic_thumb_41.png',
+      ),
+      Item(
+        id: 3,
+        name: 'Speak English Level 4',
+        category: 'Action, Adventure, Comedy',
+        desc: 'book 4 description',
+        rating: 7.9,
+        directors: 'Directors: Taika Waititi',
+        releaseDate: '3 November 2017',
+        releaseDateDesc: 'USA (2017), 2h 10min',
+        runtime: '2h 10min',
+        bannerUrl: 'assets/images/movie_banner_4.png',
+        imageUrl: 'assets/images/ic_preview_4.png',
+        trailerImg1: 'assets/images/book4.jpg',
+        trailerImg2: 'assets/images/ic_thumb_41.png',
+        trailerImg3: 'assets/images/ic_thumb_41.png',
+      ),
+      Item(
+        id: 3,
+        name: 'Speak English Level 4',
+        category: 'Action, Adventure, Comedy',
+        desc: 'book 4 description',
+        rating: 7.9,
+        directors: 'Directors: Taika Waititi',
+        releaseDate: '3 November 2017',
+        releaseDateDesc: 'USA (2017), 2h 10min',
+        runtime: '2h 10min',
+        bannerUrl: 'assets/images/movie_banner_4.png',
+        imageUrl: 'assets/images/ic_preview_4.png',
+        trailerImg1: 'assets/images/book4.jpg',
+        trailerImg2: 'assets/images/ic_thumb_41.png',
+        trailerImg3: 'assets/images/ic_thumb_41.png',
+      ),
+      Item(
+        id: 3,
+        name: 'Speak English Level 4',
+        category: 'Action, Adventure, Comedy',
+        desc: 'book 4 description',
+        rating: 7.9,
+        directors: 'Directors: Taika Waititi',
+        releaseDate: '3 November 2017',
+        releaseDateDesc: 'USA (2017), 2h 10min',
+        runtime: '2h 10min',
+        bannerUrl: 'assets/images/movie_banner_4.png',
+        imageUrl: 'assets/images/ic_preview_4.png',
+        trailerImg1: 'assets/images/book4.jpg',
+        trailerImg2: 'assets/images/ic_thumb_41.png',
+        trailerImg3: 'assets/images/ic_thumb_41.png',
       ),
       Item(
         id: 3,
