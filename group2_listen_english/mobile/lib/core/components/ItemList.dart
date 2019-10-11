@@ -21,6 +21,7 @@ class ItemList extends StatelessWidget {
         );
       },
       child: Card(
+        margin: EdgeInsets.all(10.0),
         elevation: 1.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
@@ -29,12 +30,14 @@ class ItemList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AspectRatio(
-              aspectRatio: 10.0 / 12.0,
-              child: Image.asset(
-                item.trailerImg1,
-                fit: BoxFit.fill,
-              ),
-            ),
+                aspectRatio: 10.0 / 12.0,
+                child: ClipRRect(
+                  borderRadius: new BorderRadius.circular(12.0),
+                  child: Image.asset(
+                    item.trailerImg1,
+                    fit: BoxFit.fill,
+                  ),
+                )),
             new Padding(
               padding: EdgeInsets.fromLTRB(12.0, 10.0, 12.0, 10.0),
               child: Column(
