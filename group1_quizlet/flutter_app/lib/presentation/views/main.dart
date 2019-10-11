@@ -1,28 +1,7 @@
-//import 'package:flutter/material.dart';
-//
-//void main() => runApp(MaterialApp(
-//  title: "Quizlet application",
-//  home: HomeDisplay(),
-//  theme: ThemeData(
-//    primaryColor: Colors.purple
-//  ),
-//));
-//
-//class HomeDisplay extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text("Trang chủ"),
-//      ),
-//      body: Center(
-//        child: Text("Đây là trang chủ ứng dụng"),
-//      ),
-//    );
-//  }
-//}
-
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/repository/LessonRepositoryImpl.dart';
+import 'package:flutter_app/domain/usecase/GetLessonsUseCase.dart';
+import 'package:flutter_app/presentation/views/home.dart';
 
 void main() => runApp(MyApp());
 
@@ -49,25 +28,10 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Search',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Edit',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: User',
-      style: optionStyle,
-    ),
+  static final GetLessonsUseCase getLessonsUseCase =
+      new GetLessonsUseCase(lessonRepository: LessonRepositoryImpl());
+  static List<dynamic> _widgetOptions = <dynamic>[
+    LessonList(lessons: getLessonsUseCase.excute()),
   ];
 
   void _onItemTapped(int index) {

@@ -1,5 +1,5 @@
-name: flutter_app
-description: A new Flutter application.
+name: listen_english
+description: A new Flutter project.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,8 +19,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_swiper: ^1.1.6
-  flutter_flip_view: ^1.0.3
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -40,11 +39,27 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  assets:
-    - images/profile.jpg
-  # To add assets to your application, add an assets section, like this:
+  
 
-#    - images/a_dot_ham.jpeg
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/ic_thumb_11.png
+    - assets/images/ic_thumb_12.png
+    - assets/images/ic_thumb_13.png
+    - assets/images/ic_thumb_21.png
+    - assets/images/ic_thumb_31.png
+    - assets/images/ic_thumb_41.png
+    - assets/images/movie_banner_1.png
+    - assets/images/movie_banner_2.png
+    - assets/images/movie_banner_3.png
+    - assets/images/movie_banner_4.png
+    - assets/images/logo.png
+    - assets/images/powered_by.png
+    - assets/images/ic_preview_1.png
+    - assets/images/ic_preview_2.png
+    - assets/images/ic_preview_3.png
+    - assets/images/ic_preview_4.png
+  #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
