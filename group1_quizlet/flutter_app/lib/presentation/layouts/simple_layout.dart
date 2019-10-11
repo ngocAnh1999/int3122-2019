@@ -3,7 +3,7 @@ import 'package:flutter_app/domain/model/FlashCard.dart';
 import 'package:flutter_flip_view/flutter_flip_view.dart';
 
 class SimpleExample extends StatefulWidget {
-  final Vocabulary vocabulary;
+  final FlashCard vocabulary;
 
   SimpleExample({Key key, this.vocabulary}) : super(key: key);
 

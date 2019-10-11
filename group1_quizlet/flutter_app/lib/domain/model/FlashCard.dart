@@ -1,6 +1,6 @@
-class Vocabulary {
+class FlashCard {
   final String word;
   final String meaning;
 
-  Vocabulary({this.word, this.meaning});
+  FlashCard({this.word, this.meaning});
 }

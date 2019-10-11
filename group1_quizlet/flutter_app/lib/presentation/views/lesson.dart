@@ -8,9 +8,9 @@ import 'package:flutter_app/presentation/layouts/simple_layout.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class VocabularyItem extends StatelessWidget {
-  final Vocabulary vocabulary;
+  final FlashCard vocabulary;
 
-  VocabularyItem({Vocabulary vocabulary})
+  VocabularyItem({FlashCard vocabulary})
       : vocabulary = vocabulary,
         super(key: ObjectKey(vocabulary));
 

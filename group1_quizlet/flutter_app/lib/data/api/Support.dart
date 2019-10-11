@@ -6,19 +6,19 @@ class Constant {
     LessonEntity(
         title: "Animal",
         description: "List of animal words",
-        vocabs: <VocabularyEntity>[
-          VocabularyEntity(word: "dog", meaning: "chó"),
-          VocabularyEntity(word: "cat", meaning: "mèo"),
-          VocabularyEntity(word: "duck", meaning: "vịt")
+        vocabs: <FlashCardEntity>[
+          FlashCardEntity(word: "dog", meaning: "chó"),
+          FlashCardEntity(word: "cat", meaning: "mèo"),
+          FlashCardEntity(word: "duck", meaning: "vịt")
         ]),
     LessonEntity(
         title: "Fruit",
         description: "List of fruit words",
-        vocabs: <VocabularyEntity>[
-          VocabularyEntity(word: "apple", meaning: "táo"),
-          VocabularyEntity(word: "orange", meaning: "cam"),
-          VocabularyEntity(word: "banana", meaning: "chuối"),
-          VocabularyEntity(word: "mango", meaning: "xoài")
+        vocabs: <FlashCardEntity>[
+          FlashCardEntity(word: "apple", meaning: "táo"),
+          FlashCardEntity(word: "orange", meaning: "cam"),
+          FlashCardEntity(word: "banana", meaning: "chuối"),
+          FlashCardEntity(word: "mango", meaning: "xoài")
         ]),
   ];
 }
