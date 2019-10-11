@@ -3,9 +3,9 @@ import 'package:flutter_app/domain/model/FlashCard.dart';
 import 'package:flutter_flip_view/flutter_flip_view.dart';
 
 class SimpleExample extends StatefulWidget {
-  final FlashCard vocabulary;
+  final FlashCard flashCard;
 
-  SimpleExample({Key key, this.vocabulary}) : super(key: key);
+  SimpleExample({Key key, this.flashCard}) : super(key: key);
 
   @override
   _SimpleExampleState createState() => _SimpleExampleState();
@@ -43,15 +43,15 @@ class _SimpleExampleState extends State<SimpleExample> with SingleTickerProvider
     return Center(
       child: FlipView(
         animationController: _curvedAnimation,
-        front: _buildCard(widget.vocabulary.word, () => _flip(true)),
-        back: _buildCard(widget.vocabulary.meaning, () => _flip(false)),
+        front: _buildCard(widget.flashCard.word, () => _flip(true)),
+        back: _buildCard(widget.flashCard.meaning, () => _flip(false)),
       ),
     );
   }
 
   Widget _buildCard(String title, GestureTapCallback onTap) {
     return AspectRatio(
-      aspectRatio: 0.7,
+      aspectRatio: 1.5,
       child: Card(
         elevation: 4,
         clipBehavior: Clip.hardEdge,
@@ -76,21 +76,12 @@ class _SimpleExampleState extends State<SimpleExample> with SingleTickerProvider
               borderRadius: BorderRadius.circular(8),
               onTap: onTap,
               child: Center(
-                child: Container(
-                  width: 200,
-                  height: 30,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(60),
-                    color: Colors.amber,
-                  ),
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
