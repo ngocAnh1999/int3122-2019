@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "846075695429",
+    "firebase_url": "https://fly-high-cac72.firebaseio.com",
+    "project_id": "fly-high-cac72",
+    "storage_bucket": "fly-high-cac72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846075695429:android:50016b02769afefb50ae2c",
+        "android_client_info": {
+          "package_name": "com.flutter.english.beater.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846075695429-44t48g6jk3dh7u7nable6svgg3sliei4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.english.beater.mobile",
+            "certificate_hash": "40b61db05585959d3b37963e125ac6ea6871ef28"
+          }
+        },
+        {
+          "client_id": "846075695429-c80rnbqd6506bgmk2tvtalg6ennqtv9q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACHtpNe9nWeUdZEg93j8TBY3-h5dTtwM8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846075695429-c80rnbqd6506bgmk2tvtalg6ennqtv9q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "846075695429-qdd6spqu0oqe3iokl56jcebgs7n3og70.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutter.english.beater"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
