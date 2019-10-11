@@ -6,6 +6,9 @@ import 'package:mobile/views/screen/ResultUserScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
 
 class HomeScreen extends StatelessWidget {
+  final String currentUserId;
+
+  HomeScreen({Key key, @required this.currentUserId}) : super(key: key);
   List<Item> itemList;
 
   @override
@@ -14,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Listen & Speak English 2'),
+        title: Text('Listen & Speak English'),
       ),
       body: _gridView(),
       drawer: Drawer(
