@@ -22,6 +22,7 @@ class ItemList extends StatelessWidget {
       },
       child: Card(
         elevation: 1.0,
+        margin: EdgeInsets.all(12.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
         ),

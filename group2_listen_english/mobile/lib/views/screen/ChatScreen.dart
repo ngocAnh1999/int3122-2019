@@ -46,7 +46,7 @@ class _ChatScreenState extends State<ChatScreen> {
   //   }
   // }
 
-	void _changeScreen() {
+  void _changeScreen() {
     setState(() {
       // sets it to the opposite of the current screen
       speakingState = !speakingState;
@@ -126,8 +126,16 @@ class _ChatScreenState extends State<ChatScreen> {
             // decoration: myBoxDecoration(),
             decoration: BoxDecoration(
               color: Colors.blue[100],
-              border: Border.all(color: Colors.blueAccent),
-              borderRadius: BorderRadius.all(Radius.circular(8.0)),
+              // border: Border.all(color: Colors.blueAccent),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  topRight: Radius.circular(10.0),
+                  bottomLeft: alignment == MainAxisAlignment.end
+                      ? Radius.circular(10.0)
+                      : Radius.circular(0.0),
+                  bottomRight: alignment == MainAxisAlignment.start
+                      ? Radius.circular(10.0)
+                      : Radius.circular(0.0)),
             ),
           ),
         )
@@ -138,12 +146,13 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget bottomChat() {
     return Container(
       height: 50,
+			color: Colors.blueGrey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
             onTap: _changeScreen,
-            child: Icon(speakingState ? Icons.mic : Icons.pause),
+            child: Icon(speakingState ? Icons.mic : Icons.pause_circle_filled, color: Colors.blue, size: 32.0,),
           )
         ],
       ),
