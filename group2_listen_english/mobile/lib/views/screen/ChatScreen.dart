@@ -1,6 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  @override
+  _ChatScreenState createState() => _ChatScreenState();
+}
+
+enum TtsState { playing, stopped }
+
+class _ChatScreenState extends State<ChatScreen> {
+  // final flutterTts = FlutterTts();
+
+  FlutterTts flutterTts;
+  dynamic languages;
+  dynamic voices;
+  String language;
+  String voice;
+  int silencems;
+
+  String _newVoiceText;
+
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+
+  @override
+  initState() {
+    super.initState();
+    initTts();
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+  }
+
+  // Future _speak(String text) async {
+  //   if (text != null) {
+  //     if (text.isNotEmpty) {
+  //       var result = await flutterTts.speak(text);
+  //       if (result == 1) setState(() => ttsState = TtsState.playing);
+  //     }
+  //   }
+  // }
+
+  Future _read(String text) async {
+    /// Wenn noch am Reden, dann Klappe halten!
+    await flutterTts.stop();
+    if (text != null && text.isNotEmpty) {
+      /// Als Kleinbuchstaben aussprechen lassen, da sonst beispielsweise "Großbuchstabe X" statt nur "X" gesagt wird...
+      await flutterTts.speak(text.toLowerCase());
+    }
+  }
+
+  Future _stop() async {
+    var result = await flutterTts.stop();
+    if (result == 1) setState(() => ttsState = TtsState.stopped);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Widget viewBottom = new Container(
@@ -48,6 +106,7 @@ class ChatScreen extends StatelessWidget {
         GestureDetector(
           onTap: () {
             print(text);
+            _read(text);
           },
           child: Container(
             margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),

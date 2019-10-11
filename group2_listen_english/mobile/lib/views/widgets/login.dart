@@ -25,7 +25,6 @@ class LoginScreenState extends State<LoginScreen> {
   bool isLoggedIn = false;
   FirebaseUser currentUser;
 
-
   @override
   void initState() {
     super.initState();
@@ -43,7 +42,9 @@ class LoginScreenState extends State<LoginScreen> {
     if (isLoggedIn) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen(currentUserId: prefs.getString('id'))),
+        MaterialPageRoute(
+            builder: (context) =>
+                HomeScreen(currentUserId: prefs.getString('id'))),
       );
     }
 
@@ -67,15 +68,22 @@ class LoginScreenState extends State<LoginScreen> {
       idToken: googleAuth.idToken,
     );
 
-    FirebaseUser firebaseUser = (await firebaseAuth.signInWithCredential(credential)).user;
+    FirebaseUser firebaseUser =
+        (await firebaseAuth.signInWithCredential(credential)).user;
 
     if (firebaseUser != null) {
       // Check is already sign up
-      final QuerySnapshot result = await Firestore.instance.collection('users').where('id', isEqualTo: firebaseUser.uid).getDocuments();
+      final QuerySnapshot result = await Firestore.instance
+          .collection('users')
+          .where('id', isEqualTo: firebaseUser.uid)
+          .getDocuments();
       final List<DocumentSnapshot> documents = result.documents;
       if (documents.length == 0) {
         // Update data to server if new user
-        Firestore.instance.collection('users').document(firebaseUser.uid).setData({
+        Firestore.instance
+            .collection('users')
+            .document(firebaseUser.uid)
+            .setData({
           'nickname': firebaseUser.displayName,
           'photoUrl': firebaseUser.photoUrl,
           'id': firebaseUser.uid,
@@ -100,7 +108,11 @@ class LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(currentUserId: firebaseUser.uid)));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  HomeScreen(currentUserId: firebaseUser.uid)));
     } else {
       Fluttertoast.showToast(msg: "Sign in fail");
       this.setState(() {
@@ -139,17 +151,27 @@ class LoginScreenState extends State<LoginScreen> {
             Positioned(
               child: isLoading
                   ? Container(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-                  ),
-                ),
-                color: Colors.white.withOpacity(0.8),
-              )
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                        ),
+                      ),
+                      color: Colors.white.withOpacity(0.8),
+                    )
                   : Container(),
+            ),
+            FlatButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          HomeScreen(currentUserId: prefs.getString('id'))),
+                );
+              },
+              child: Text("Skip"),
             ),
           ],
         ));
   }
-
 }

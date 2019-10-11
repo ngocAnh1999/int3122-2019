@@ -3,6 +3,7 @@ import 'package:mobile/core/components/ItemList.dart';
 import 'package:mobile/core/models/Item.dart';
 import 'package:mobile/views/screen/AboutScreen.dart';
 import 'package:mobile/views/screen/ResultUserScreen.dart';
+import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -78,6 +79,37 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+            Container(
+                // This align moves the children to the bottom
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    // This container holds all the children that will be aligned
+                    // on the bottom and should not scroll with the above ListView
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Divider(),
+                        ListTile(
+                          leading: Icon(Icons.settings),
+                          title: Text('Settings'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SettingsScreen()),
+                            );
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.help),
+                          title: Text('Help and Feedback'),
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ))))
           ],
         ),
       ),
