@@ -58,9 +58,12 @@ class LessonViewState extends State<LessonView> {
 //      ),
       body: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return new SimpleExample(vocabulary: widget.lesson.vocabs[index % widget.lesson.vocabs.length],);
+          if (index >= widget.lesson.vocabs.length) {
+            return null;
+          }
+          return new SimpleExample(vocabulary: widget.lesson.vocabs[index],);
         },
-        itemCount: 10,
+        itemCount: widget.lesson.vocabs.length,
         viewportFraction: 0.8,
         scale: 0.9,
 
