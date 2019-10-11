@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
-import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/model/FlashCard.dart';
+import 'package:flutter_app/presentation/layouts/simple_layout.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class VocabularyItem extends StatelessWidget {
   final Vocabulary vocabulary;
@@ -44,13 +48,22 @@ class LessonViewState extends State<LessonView> {
       appBar: AppBar(
         title: Text(widget.lesson.title),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: widget.lesson.vocabs.map((Vocabulary vocabulary) {
-          return VocabularyItem(
-            vocabulary: vocabulary,
-          );
-        }).toList(),
+//      body: ListView(
+//        padding: const EdgeInsets.all(16.0),
+//        children: widget.lesson.vocabs.map((Vocabulary vocabulary) {
+//          return VocabularyItem(
+//            vocabulary: vocabulary,
+//          );
+//        }).toList(),
+//      ),
+      body: Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return new SimpleExample(vocabulary: widget.lesson.vocabs[index % widget.lesson.vocabs.length],);
+        },
+        itemCount: 10,
+        viewportFraction: 0.8,
+        scale: 0.9,
+
       ),
     );
   }

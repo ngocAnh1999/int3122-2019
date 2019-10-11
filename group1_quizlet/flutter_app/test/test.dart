@@ -1,6 +1,6 @@
 import 'package:flutter_app/data/api/APIDataSource.dart';
 import 'package:flutter_app/data/model/LessonEntity.dart';
-import 'package:flutter_app/data/model/VocabularyEntity.dart';
+import 'package:flutter_app/data/model/FlashCardEntity.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
 
 void main() {

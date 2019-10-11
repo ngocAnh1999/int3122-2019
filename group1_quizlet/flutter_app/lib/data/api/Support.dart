@@ -1,5 +1,5 @@
 import 'package:flutter_app/data/model/LessonEntity.dart';
-import 'package:flutter_app/data/model/VocabularyEntity.dart';
+import 'package:flutter_app/data/model/FlashCardEntity.dart';
 
 class Constant {
   static final List<LessonEntity> lessons = <LessonEntity>[

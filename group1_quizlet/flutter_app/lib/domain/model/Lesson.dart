@@ -1,4 +1,4 @@
-import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/model/FlashCard.dart';
 
 class Lesson {
   final String title;

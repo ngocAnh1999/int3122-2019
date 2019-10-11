@@ -1,5 +1,5 @@
 import 'package:flutter_app/data/mapper/Mapper.dart';
-import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/model/FlashCard.dart';
 
 class VocabularyEntity extends Mapper<Vocabulary, VocabularyEntity> {
   final String word;

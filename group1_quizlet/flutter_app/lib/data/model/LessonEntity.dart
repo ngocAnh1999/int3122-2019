@@ -1,7 +1,7 @@
 import 'package:flutter_app/data/mapper/Mapper.dart';
-import 'package:flutter_app/data/model/VocabularyEntity.dart';
+import 'package:flutter_app/data/model/FlashCardEntity.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
-import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/model/FlashCard.dart';
 
 class LessonEntity extends Mapper<Lesson, LessonEntity> {
   final String title;
