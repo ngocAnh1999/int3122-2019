@@ -17,6 +17,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String language;
   String voice;
   int silencems;
+  bool speakingState = false;
 
   String _newVoiceText;
 
@@ -44,6 +45,13 @@ class _ChatScreenState extends State<ChatScreen> {
   //     }
   //   }
   // }
+
+	void _changeScreen() {
+    setState(() {
+      // sets it to the opposite of the current screen
+      speakingState = !speakingState;
+    });
+  }
 
   Future _read(String text) async {
     /// Wenn noch am Reden, dann Klappe halten!
@@ -75,28 +83,31 @@ class _ChatScreenState extends State<ChatScreen> {
     // }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Chat Screen"),
-        ),
-        body: ListView(
-          children: <Widget>[
-            message("Hello Bob!", MainAxisAlignment.start),
-            message("Hello Harry!", MainAxisAlignment.end),
-            message("How are you today?", MainAxisAlignment.start),
-            message("Good! It is so beautiful!", MainAxisAlignment.end),
-            message("Yeah, have a nice day!", MainAxisAlignment.start),
-            message("You too!", MainAxisAlignment.end),
-            message("Yeah, have a nice day!", MainAxisAlignment.start),
-            message("You too!", MainAxisAlignment.end),
-            message("Yeah, have a nice day!", MainAxisAlignment.start),
-            message("You too!", MainAxisAlignment.end),
-            message("Yeah, have a nice day!", MainAxisAlignment.start),
-            message("You too!", MainAxisAlignment.end),
-            message("Yeah, have a nice day!", MainAxisAlignment.start),
-            message("You too!", MainAxisAlignment.end),
-            // sectionBottom("Abc"),
-          ],
-        ));
+      appBar: AppBar(
+        title: Text("Chat Screen"),
+      ),
+      body: ListView(
+        children: <Widget>[
+          message("Hello Bob!", MainAxisAlignment.start),
+          message("Hello Harry!", MainAxisAlignment.end),
+          message("How are you today?", MainAxisAlignment.start),
+          message("Good! It is so beautiful!", MainAxisAlignment.end),
+          message("Yeah, have a nice day!", MainAxisAlignment.start),
+          message("You too!", MainAxisAlignment.end),
+          message("Yeah, have a nice day!", MainAxisAlignment.start),
+          message("You too!", MainAxisAlignment.end),
+          message("Yeah, have a nice day!", MainAxisAlignment.start),
+          message("You too!", MainAxisAlignment.end),
+          message("Yeah, have a nice day!", MainAxisAlignment.start),
+          message("You too!", MainAxisAlignment.end),
+          message("Yeah, have a nice day!", MainAxisAlignment.start),
+          message("You too!", MainAxisAlignment.end),
+          bottomChat()
+          // sectionBottom("Abc"),
+        ],
+      ),
+      bottomSheet: bottomChat(),
+    );
   }
 
   Widget message(String text, MainAxisAlignment alignment) {
@@ -121,6 +132,21 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         )
       ],
+    );
+  }
+
+  Widget bottomChat() {
+    return Container(
+      height: 50,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          GestureDetector(
+            onTap: _changeScreen,
+            child: Icon(speakingState ? Icons.mic : Icons.pause),
+          )
+        ],
+      ),
     );
   }
 }
