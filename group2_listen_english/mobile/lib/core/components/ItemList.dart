@@ -30,9 +30,12 @@ class ItemList extends StatelessWidget {
           children: <Widget>[
             AspectRatio(
               aspectRatio: 10.0 / 12.0,
-              child: Image.asset(
-                item.trailerImg1,
-                fit: BoxFit.fill,
+              child: ClipRRect(
+                borderRadius: new BorderRadius.circular(12.0),
+                child: Image.asset(
+                  item.trailerImg1,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             new Padding(
