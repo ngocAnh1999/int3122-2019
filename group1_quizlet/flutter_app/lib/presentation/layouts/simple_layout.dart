@@ -51,7 +51,7 @@ class _SimpleExampleState extends State<SimpleExample> with SingleTickerProvider
 
   Widget _buildCard(String title, GestureTapCallback onTap) {
     return AspectRatio(
-      aspectRatio: 1.5,
+      aspectRatio: 1.25,
       child: Card(
         elevation: 4,
         clipBehavior: Clip.hardEdge,
