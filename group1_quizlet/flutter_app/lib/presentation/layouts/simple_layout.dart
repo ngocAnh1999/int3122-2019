@@ -59,14 +59,7 @@ class _SimpleExampleState extends State<SimpleExample> with SingleTickerProvider
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              colors: [
-                Color(0xff92ffc0),
-                Color(0Xff002661),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Color(0xFFFFEA9C),
           ),
           child: Material(
             color: Colors.transparent,
@@ -80,7 +73,7 @@ class _SimpleExampleState extends State<SimpleExample> with SingleTickerProvider
                   title,
                   style: TextStyle(
                     fontSize: 24,
-                    color: Colors.white,
+                    color: Colors.black54,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

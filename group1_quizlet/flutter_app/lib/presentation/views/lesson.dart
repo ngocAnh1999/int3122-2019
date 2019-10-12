@@ -48,27 +48,6 @@ class LessonView extends StatefulWidget {
   LessonViewState createState() => new LessonViewState();
 }
 
-class Slider extends StatelessWidget {
-  final Lesson lesson;
-
-  Slider({this.lesson});
-
-  @override
-  Widget build(BuildContext context) => new Swiper(
-        itemBuilder: (BuildContext context, int index) {
-          if (index >= lesson.vocabs.length) {
-            return null;
-          }
-          return new SimpleExample(
-            flashCard: lesson.vocabs[index],
-          );
-        },
-        itemCount: lesson.vocabs.length,
-        viewportFraction: 0.8,
-        scale: 0.9,
-      );
-}
-
 class LessonViewState extends State<LessonView> {
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +55,7 @@ class LessonViewState extends State<LessonView> {
           title: Text(widget.lesson.title),
         ),
         body: ListView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           children: <Widget>[
             ListTile(
               title: SizedBox(
@@ -98,14 +77,34 @@ class LessonViewState extends State<LessonView> {
               ),
             ),
             ListTile(
-              title: Column(
-                children: widget.lesson.vocabs.map((FlashCard flashCard) {
-                  return FlashCardItem(
-                    flashCard: flashCard,
-                  );
-                }).toList(),
-              )
-            )
+              title: Text(
+                widget.lesson.title,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Row(
+                children: <Widget>[
+                  Text(
+                    "${widget.lesson.vocabs.length} thuật ngữ  |  ",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  CircleAvatar(
+                    backgroundImage: AssetImage("images/profile.jpg"),
+                  ),
+                  Text(
+                    " minmon98",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+                title: Column(
+              children: widget.lesson.vocabs.map((FlashCard flashCard) {
+                return FlashCardItem(
+                  flashCard: flashCard,
+                );
+              }).toList(),
+            ))
           ],
         ));
   }
