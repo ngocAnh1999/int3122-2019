@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
-import 'package:flutter_app/presentation/views/lesson.dart';
+import 'package:flutter_app/presentation/views/LessonController.dart';
 
 class LessonItem extends StatelessWidget {
   final Lesson lesson;

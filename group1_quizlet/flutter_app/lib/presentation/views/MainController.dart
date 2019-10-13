@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/repository/LessonRepositoryImpl.dart';
 import 'package:flutter_app/domain/usecase/GetLessonsUseCase.dart';
-import 'package:flutter_app/presentation/views/home.dart';
+import 'package:flutter_app/presentation/views/HomeController.dart';
 
 void main() => runApp(MyApp());
 

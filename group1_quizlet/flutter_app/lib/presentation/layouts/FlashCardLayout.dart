@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/FlashCard.dart';
 import 'package:flutter_flip_view/flutter_flip_view.dart';
 
-class SimpleExample extends StatefulWidget {
+class FlashCardLayout extends StatefulWidget {
   final FlashCard flashCard;
 
-  SimpleExample({Key key, this.flashCard}) : super(key: key);
+  FlashCardLayout({Key key, this.flashCard}) : super(key: key);
 
   @override
-  _SimpleExampleState createState() => _SimpleExampleState();
+  _FlashCardLayoutState createState() => _FlashCardLayoutState();
 }
 
-class _SimpleExampleState extends State<SimpleExample> with SingleTickerProviderStateMixin {
+class _FlashCardLayoutState extends State<FlashCardLayout>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _curvedAnimation;
 
@@ -19,8 +20,10 @@ class _SimpleExampleState extends State<SimpleExample> with SingleTickerProvider
   void initState() {
     super.initState();
 
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _curvedAnimation = CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _curvedAnimation =
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut);
   }
 
   @override

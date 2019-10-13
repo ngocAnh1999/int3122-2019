@@ -8,25 +8,16 @@ class FlashCardEntity extends Mapper<FlashCard, FlashCardEntity> {
   FlashCardEntity({this.word, this.meaning});
 
   factory FlashCardEntity.fromJson(Map<String, dynamic> json) {
-    return FlashCardEntity(
-      word: json["word"],
-      meaning: json["meaning"]
-    );
+    return FlashCardEntity(word: json["word"], meaning: json["meaning"]);
   }
 
   @override
   FlashCardEntity mapToData(FlashCard domain) {
-    return FlashCardEntity(
-      word: domain.word,
-      meaning: domain.meaning
-    );
+    return FlashCardEntity(word: domain.word, meaning: domain.meaning);
   }
 
   @override
   FlashCard mapToDomain(FlashCardEntity data) {
-    return FlashCard(
-      word: data.word,
-      meaning: data.meaning
-    );
+    return FlashCard(word: data.word, meaning: data.meaning);
   }
 }

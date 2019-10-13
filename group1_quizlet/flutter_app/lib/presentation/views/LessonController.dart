@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
 import 'package:flutter_app/domain/model/FlashCard.dart';
-import 'package:flutter_app/presentation/layouts/simple_layout.dart';
+import 'package:flutter_app/presentation/layouts/FlashCardLayout.dart';
+import 'package:flutter_app/presentation/layouts/FlashCardLearningLayout.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class FlashCardItem extends StatelessWidget {
@@ -66,7 +67,7 @@ class LessonViewState extends State<LessonView> {
                     if (index >= widget.lesson.vocabs.length) {
                       return null;
                     }
-                    return new SimpleExample(
+                    return new FlashCardLayout(
                       flashCard: widget.lesson.vocabs[index],
                     );
                   },
@@ -97,6 +98,45 @@ class LessonViewState extends State<LessonView> {
                 ],
               ),
             ),
+            Divider(),
+            ListTile(
+              title: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FlashCardLearningLayout(
+                        iconData: Icons.map,
+                        title: "Map",
+                      ),
+                      FlashCardLearningLayout(
+                        iconData: Icons.email,
+                        title: "Email",
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FlashCardLearningLayout(
+                        iconData: Icons.description,
+                        title: "Description",
+                      ),
+                      FlashCardLearningLayout(
+                        iconData: Icons.print,
+                        title: "Print",
+                      ),
+                      FlashCardLearningLayout(
+                        iconData: Icons.zoom_in,
+                        title: "Zoom",
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Divider(),
             ListTile(
                 title: Column(
               children: widget.lesson.vocabs.map((FlashCard flashCard) {
