@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "864298258193",
+    "firebase_url": "https://group3-edictionary.firebaseio.com",
+    "project_id": "group3-edictionary",
+    "storage_bucket": "group3-edictionary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864298258193:android:3137d3570f4480aff946b0",
+        "android_client_info": {
+          "package_name": "com.example.group3_edictionary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "864298258193-627krb7kd2qcbnngc29cmugej73b9as6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbWZjv_T0rVWVo_HybLIwh-uioW4HfOpI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "864298258193-627krb7kd2qcbnngc29cmugej73b9as6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

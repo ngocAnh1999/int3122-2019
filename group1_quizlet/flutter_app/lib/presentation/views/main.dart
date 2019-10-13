@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/api/APIDataSource.dart';
 import 'package:flutter_app/data/repository/LessonRepositoryImpl.dart';
-import 'package:flutter_app/domain/model/Lesson.dart';
-import 'package:flutter_app/domain/model/Vocabulary.dart';
 import 'package:flutter_app/domain/usecase/GetLessonsUseCase.dart';
 import 'package:flutter_app/presentation/views/home.dart';
 
@@ -10,7 +7,7 @@ void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
+  static const String _title = 'Quizlet';
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +28,8 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static final GetLessonsUseCase getLessonsUseCase = new GetLessonsUseCase(
-      lessonRepository: LessonRepositoryImpl(apiDataSource: APIDataSource()));
+  static final GetLessonsUseCase getLessonsUseCase =
+      new GetLessonsUseCase(lessonRepository: LessonRepositoryImpl());
   static List<dynamic> _widgetOptions = <dynamic>[
     LessonList(lessons: getLessonsUseCase.excute()),
   ];

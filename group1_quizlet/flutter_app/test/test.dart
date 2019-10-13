@@ -1,16 +1,16 @@
 import 'package:flutter_app/data/api/APIDataSource.dart';
 import 'package:flutter_app/data/model/LessonEntity.dart';
-import 'package:flutter_app/data/model/VocabularyEntity.dart';
+import 'package:flutter_app/data/model/FlashCardEntity.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
 
 void main() {
   LessonEntity abc = new LessonEntity(
     title: "ABC",
     description: "BCD",
-    vocabs: <VocabularyEntity>[
-      VocabularyEntity(word: "a", meaning: "a"),
-      VocabularyEntity(word: "b", meaning: "b"),
-      VocabularyEntity(word: "c", meaning: "c"),
+    vocabs: <FlashCardEntity>[
+      FlashCardEntity(word: "a", meaning: "a"),
+      FlashCardEntity(word: "b", meaning: "b"),
+      FlashCardEntity(word: "c", meaning: "c"),
     ]
   );
   print(abc.title);

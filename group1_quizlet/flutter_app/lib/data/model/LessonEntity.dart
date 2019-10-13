@@ -1,12 +1,12 @@
 import 'package:flutter_app/data/mapper/Mapper.dart';
-import 'package:flutter_app/data/model/VocabularyEntity.dart';
+import 'package:flutter_app/data/model/FlashCardEntity.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
-import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/model/FlashCard.dart';
 
 class LessonEntity extends Mapper<Lesson, LessonEntity> {
   final String title;
   final String description;
-  final List<VocabularyEntity> vocabs;
+  final List<FlashCardEntity> vocabs;
 
   LessonEntity({this.title, this.description, this.vocabs});
 
@@ -22,8 +22,8 @@ class LessonEntity extends Mapper<Lesson, LessonEntity> {
     return LessonEntity(
         title: domain.title,
         description: domain.description,
-        vocabs: domain.vocabs.map((Vocabulary vocabulary) {
-          return VocabularyEntity(
+        vocabs: domain.vocabs.map((FlashCard vocabulary) {
+          return FlashCardEntity(
               word: vocabulary.word, meaning: vocabulary.meaning);
         }).toList());
   }
@@ -33,8 +33,8 @@ class LessonEntity extends Mapper<Lesson, LessonEntity> {
     return Lesson(
         title: data.title,
         description: data.description,
-        vocabs: data.vocabs.map((VocabularyEntity vocabularyEntity) {
-          return Vocabulary(
+        vocabs: data.vocabs.map((FlashCardEntity vocabularyEntity) {
+          return FlashCard(
               word: vocabularyEntity.word, meaning: vocabularyEntity.meaning);
         }).toList());
   }

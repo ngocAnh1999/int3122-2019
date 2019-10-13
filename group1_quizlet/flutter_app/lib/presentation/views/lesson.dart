@@ -1,14 +1,18 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
-import 'package:flutter_app/domain/model/Vocabulary.dart';
+import 'package:flutter_app/domain/model/FlashCard.dart';
+import 'package:flutter_app/presentation/layouts/simple_layout.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
-class VocabularyItem extends StatelessWidget {
-  final Vocabulary vocabulary;
+class FlashCardItem extends StatelessWidget {
+  final FlashCard flashCard;
 
-  VocabularyItem({Vocabulary vocabulary})
-      : vocabulary = vocabulary,
-        super(key: ObjectKey(vocabulary));
+  FlashCardItem({FlashCard flashCard})
+      : flashCard = flashCard,
+        super(key: ObjectKey(flashCard));
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +20,20 @@ class VocabularyItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text(vocabulary.word, style: TextStyle(fontSize: 20),),
+            title: Text(
+              flashCard.word,
+              style: TextStyle(fontSize: 20),
+            ),
             trailing: IconButton(
               icon: Icon(Icons.star_border),
               onPressed: null,
             ),
           ),
           ListTile(
-            title: Text(vocabulary.meaning, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+            title: Text(
+              flashCard.meaning,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           )
         ],
       ),
@@ -41,17 +51,61 @@ class LessonView extends StatefulWidget {
 class LessonViewState extends State<LessonView> {
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.lesson.title),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: widget.lesson.vocabs.map((Vocabulary vocabulary) {
-          return VocabularyItem(
-            vocabulary: vocabulary,
-          );
-        }).toList(),
-      ),
-    );
+        appBar: AppBar(
+          title: Text(widget.lesson.title),
+        ),
+        body: ListView(
+          padding: const EdgeInsets.all(8.0),
+          children: <Widget>[
+            ListTile(
+              title: SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: Swiper(
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index >= widget.lesson.vocabs.length) {
+                      return null;
+                    }
+                    return new SimpleExample(
+                      flashCard: widget.lesson.vocabs[index],
+                    );
+                  },
+                  itemCount: widget.lesson.vocabs.length,
+                  viewportFraction: 0.8,
+                  scale: 0.9,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                widget.lesson.title,
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Row(
+                children: <Widget>[
+                  Text(
+                    "${widget.lesson.vocabs.length} thuật ngữ  |  ",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  CircleAvatar(
+                    backgroundImage: AssetImage("images/profile.jpg"),
+                  ),
+                  Text(
+                    " minmon98",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+            ListTile(
+                title: Column(
+              children: widget.lesson.vocabs.map((FlashCard flashCard) {
+                return FlashCardItem(
+                  flashCard: flashCard,
+                );
+              }).toList(),
+            ))
+          ],
+        ));
   }
 }
