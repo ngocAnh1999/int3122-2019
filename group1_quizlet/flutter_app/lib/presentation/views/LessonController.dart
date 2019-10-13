@@ -107,12 +107,12 @@ class LessonViewState extends State<LessonView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       FlashCardLearningLayout(
-                        iconData: Icons.map,
-                        title: "Map",
+                        iconData: Icons.refresh,
+                        title: "Học",
                       ),
                       FlashCardLearningLayout(
-                        iconData: Icons.email,
-                        title: "Email",
+                        iconData: Icons.folder_open,
+                        title: "Thẻ ghi nhớ",
                       )
                     ],
                   ),
@@ -120,16 +120,16 @@ class LessonViewState extends State<LessonView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       FlashCardLearningLayout(
-                        iconData: Icons.description,
-                        title: "Description",
+                        iconData: Icons.mode_edit,
+                        title: "Viết",
                       ),
                       FlashCardLearningLayout(
-                        iconData: Icons.print,
-                        title: "Print",
+                        iconData: Icons.filter_none,
+                        title: "Ghép thẻ",
                       ),
                       FlashCardLearningLayout(
-                        iconData: Icons.zoom_in,
-                        title: "Zoom",
+                        iconData: Icons.insert_drive_file,
+                        title: "Kiểm tra",
                       )
                     ],
                   )
