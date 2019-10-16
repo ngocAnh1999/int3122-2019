@@ -6,6 +6,7 @@ import 'package:flutter_app/domain/model/Lesson.dart';
 import 'package:flutter_app/domain/model/FlashCard.dart';
 import 'package:flutter_app/presentation/layouts/FlashCardLayout.dart';
 import 'package:flutter_app/presentation/layouts/FlashCardLearningLayout.dart';
+import 'package:flutter_app/presentation/views/TagLearningController.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class FlashCardItem extends StatelessWidget {
@@ -69,6 +70,7 @@ class LessonViewState extends State<LessonView> {
                     }
                     return new FlashCardLayout(
                       flashCard: widget.lesson.vocabs[index],
+                      ratio: 1.25,
                     );
                   },
                   itemCount: widget.lesson.vocabs.length,
@@ -109,10 +111,18 @@ class LessonViewState extends State<LessonView> {
                       FlashCardLearningLayout(
                         iconData: Icons.refresh,
                         title: "Học",
+                        flashCardLearningEvent: null,
                       ),
                       FlashCardLearningLayout(
                         iconData: Icons.folder_open,
                         title: "Thẻ ghi nhớ",
+                        flashCardLearningEvent: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TagLearningController(
+                                      lesson: widget.lesson)));
+                        },
                       )
                     ],
                   ),
@@ -120,16 +130,19 @@ class LessonViewState extends State<LessonView> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       FlashCardLearningLayout(
-                        iconData: Icons.mode_edit,
+                        iconData: Icons.border_color,
                         title: "Viết",
+                        flashCardLearningEvent: null,
                       ),
                       FlashCardLearningLayout(
                         iconData: Icons.filter_none,
                         title: "Ghép thẻ",
+                        flashCardLearningEvent: null,
                       ),
                       FlashCardLearningLayout(
                         iconData: Icons.insert_drive_file,
                         title: "Kiểm tra",
+                        flashCardLearningEvent: null,
                       )
                     ],
                   )

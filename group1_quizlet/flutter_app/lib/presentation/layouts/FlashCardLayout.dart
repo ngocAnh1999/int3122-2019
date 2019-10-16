@@ -4,8 +4,9 @@ import 'package:flutter_flip_view/flutter_flip_view.dart';
 
 class FlashCardLayout extends StatefulWidget {
   final FlashCard flashCard;
+  final double ratio;
 
-  FlashCardLayout({Key key, this.flashCard}) : super(key: key);
+  FlashCardLayout({Key key, this.flashCard, this.ratio}) : super(key: key);
 
   @override
   _FlashCardLayoutState createState() => _FlashCardLayoutState();
@@ -54,7 +55,7 @@ class _FlashCardLayoutState extends State<FlashCardLayout>
 
   Widget _buildCard(String title, GestureTapCallback onTap) {
     return AspectRatio(
-      aspectRatio: 1.25,
+      aspectRatio: widget.ratio,
       child: Card(
         elevation: 4,
         clipBehavior: Clip.hardEdge,
