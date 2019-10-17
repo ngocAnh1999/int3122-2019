@@ -6,6 +6,7 @@ import 'package:flutter_app/domain/model/Lesson.dart';
 import 'package:flutter_app/domain/model/FlashCard.dart';
 import 'package:flutter_app/presentation/layouts/FlashCardLayout.dart';
 import 'package:flutter_app/presentation/layouts/FlashCardLearningLayout.dart';
+import 'package:flutter_app/presentation/views/MatchTagLearningController.dart';
 import 'package:flutter_app/presentation/views/TagLearningController.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
@@ -137,7 +138,13 @@ class LessonViewState extends State<LessonView> {
                       FlashCardLearningLayout(
                         iconData: Icons.filter_none,
                         title: "Ghép thẻ",
-                        flashCardLearningEvent: null,
+                        flashCardLearningEvent: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MatchTagLearningController(
+                                      lesson: widget.lesson,)));
+                        },
                       ),
                       FlashCardLearningLayout(
                         iconData: Icons.insert_drive_file,

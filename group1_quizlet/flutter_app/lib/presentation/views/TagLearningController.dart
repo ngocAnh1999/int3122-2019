@@ -13,10 +13,10 @@ class TagLearningController extends StatefulWidget {
   TagLearningController({Key key, this.lesson}) : super(key: key);
 
   @override
-  TagLearningControllerState createState() => new TagLearningControllerState();
+  TagLearningState createState() => new TagLearningState();
 }
 
-class TagLearningControllerState extends State<TagLearningController> {
+class TagLearningState extends State<TagLearningController> {
   int cardIndex = 1;
   int count = 0;
 
@@ -42,7 +42,14 @@ class TagLearningControllerState extends State<TagLearningController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("$cardIndex/${widget.lesson.vocabs.length}"),
+        leading: IconButton(
+          icon: Icon(Icons.close, color: Colors.black54,),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text("$cardIndex/${widget.lesson.vocabs.length}", style: TextStyle(color: Colors.black54),),
+        backgroundColor: Colors.white,
       ),
       body: Swiper(
         onIndexChanged: (index) {
@@ -65,7 +72,7 @@ class TagLearningControllerState extends State<TagLearningController> {
         itemCount: widget.lesson.vocabs.length,
         itemWidth: 300.0,
         itemHeight: 400.0,
-        layout: SwiperLayout.STACK,
+        layout: SwiperLayout.TINDER,
       ),
     );
   }
