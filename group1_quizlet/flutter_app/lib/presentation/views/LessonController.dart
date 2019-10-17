@@ -142,8 +142,10 @@ class LessonViewState extends State<LessonView> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MatchTagLearningController(
-                                      lesson: widget.lesson,)));
+                                  builder: (context) =>
+                                      MatchTagLearningController(
+                                        lesson: widget.lesson,
+                                      )));
                         },
                       ),
                       FlashCardLearningLayout(

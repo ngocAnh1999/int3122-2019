@@ -15,9 +15,18 @@ class FinishLearningLayout extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("🏅", style: TextStyle(fontSize: ICON_SIZE),),
-            Text(TITLE, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
-            Text(DESCRIPTION, style: TextStyle(fontSize: 18),),
+            Text(
+              "🏅",
+              style: TextStyle(fontSize: ICON_SIZE),
+            ),
+            Text(
+              TITLE,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
+            Text(
+              DESCRIPTION,
+              style: TextStyle(fontSize: 18),
+            ),
             RaisedButton(
               color: Colors.greenAccent,
               child: Text("Chơi lại"),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/domain/model/Lesson.dart';
 import 'package:flutter_app/presentation/layouts/FinishLearningLayout.dart';
 import 'package:flutter_app/presentation/layouts/TagLearningLayout.dart';
+import 'package:toast/toast.dart';
 
 final int LIST_TAG_LENGTH = 6;
 final int MAP_LENGTH = 12;
@@ -93,7 +94,7 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           flashCard: widget.lesson.vocabs[key],
-          onClicked: () {
+          onClicked: () async {
             switch (count) {
               case 0:
                 setFirstIndex(listTagLearning.indexWhere((item) {
@@ -129,16 +130,21 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
                     listTagLearning.removeWhere((item) => item == firstTag);
                     listTagLearning.removeWhere((item) => item == secondTag);
                     if (listTagLearning.isEmpty) {
-                      Navigator.push(
+                      final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => FinishLearningLayout()));
+                      generateListTagLearning();
                     }
                     generatePosition();
                     generateChildren();
-                    print("Success");
                   } else {
-                    print("Fail");
+                    Toast.show("Wrong answer", context,
+                        duration: Toast.LENGTH_SHORT,
+                        gravity: Toast.BOTTOM,
+                        backgroundColor: Colors.deepPurple,
+                        border: Border.all(width: 2),
+                        textColor: Colors.white);
                   }
                   resetCount();
                   visitedClear();
@@ -154,7 +160,7 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           flashCard: widget.lesson.vocabs[key],
-          onClicked: () {
+          onClicked: () async {
             switch (count) {
               case 0:
                 setFirstIndex(listTagLearning.indexWhere((item) {
@@ -190,16 +196,21 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
                     listTagLearning.removeWhere((item) => item == firstTag);
                     listTagLearning.removeWhere((item) => item == secondTag);
                     if (listTagLearning.isEmpty) {
-                      Navigator.push(
+                      final result = await Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => FinishLearningLayout()));
+                      generateListTagLearning();
                     }
                     generatePosition();
                     generateChildren();
-                    print("Success");
                   } else {
-                    print("Fail");
+                    Toast.show("Wrong answer", context,
+                        duration: Toast.LENGTH_SHORT,
+                        gravity: Toast.BOTTOM,
+                        backgroundColor: Colors.deepPurple,
+                        border: Border.all(width: 2),
+                        textColor: Colors.white);
                   }
                   resetCount();
                   visitedClear();
@@ -264,8 +275,9 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
           },
         ),
         title: Text(
-          "0:42",
-          style: TextStyle(color: Colors.black54),
+          "Ghép thẻ",
+          style:
+              TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(

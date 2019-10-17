@@ -43,12 +43,19 @@ class TagLearningState extends State<TagLearningController> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.close, color: Colors.black54,),
+          icon: Icon(
+            Icons.close,
+            color: Colors.black54,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: Text("$cardIndex/${widget.lesson.vocabs.length}", style: TextStyle(color: Colors.black54),),
+        title: Text(
+          "$cardIndex/${widget.lesson.vocabs.length}",
+          style:
+              TextStyle(color: Colors.deepPurple, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white,
       ),
       body: Swiper(

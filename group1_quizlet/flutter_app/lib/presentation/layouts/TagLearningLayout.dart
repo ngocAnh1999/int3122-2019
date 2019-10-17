@@ -8,7 +8,8 @@ class TagLearningLayout extends StatefulWidget {
   final FlashCard flashCard;
   final Text title;
   final ColorCallback onClicked;
-  TagLearningLayout({Key key, this.flashCard, this.title, this.onClicked}) : super(key: key);
+  TagLearningLayout({Key key, this.flashCard, this.title, this.onClicked})
+      : super(key: key);
 
   @override
   TagLearningState createState() => new TagLearningState();
@@ -52,10 +53,9 @@ class TagLearningState extends State<TagLearningLayout> {
                 border: Border.all(color: Colors.black38, width: 3)),
             child: Center(
               child: widget.title,
-            )
-        ),
+            )),
         onTap: () {
-          clickEvent();
+//          clickEvent();
           widget.onClicked();
         },
       ),
