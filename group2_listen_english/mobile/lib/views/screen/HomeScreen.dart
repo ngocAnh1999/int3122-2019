@@ -39,7 +39,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              // ListView contains a group of widgets that scroll inside the drawer
               child: ListView(
                 children: <Widget>[
                   DrawerHeader(
@@ -95,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.info),
+                    leading: Icon(Icons.exit_to_app),
                     title: Text('Log out'),
                     onTap: logout,
                   ),
@@ -107,8 +106,6 @@ class HomeScreen extends StatelessWidget {
                 // This align moves the children to the bottom
                 child: Align(
                     alignment: FractionalOffset.bottomCenter,
-                    // This container holds all the children that will be aligned
-                    // on the bottom and should not scroll with the above ListView
                     child: Container(
                         child: Column(
                       children: <Widget>[

@@ -87,14 +87,14 @@ class _ChatScreenState extends State<ChatScreen> {
   bool speakingState = false;
   final GlobalKey _menuKey = new GlobalKey();
   String _newVoiceText;
-  int indexSpeaking = 0;
+  int indexSpeaking = -1;
   String _now;
   Timer _everySecond;
+  int readDone = -1;
 
   TtsState ttsState = TtsState.stopped;
 
   get isPlaying => ttsState == TtsState.playing;
-
   get isStopped => ttsState == TtsState.stopped;
 
   @override
@@ -108,6 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
         if (speakingState) {
           // _now = DateTime.now().second.toString();
+          readDone = indexSpeaking;
           indexSpeaking++;
         }
       });
@@ -143,6 +144,9 @@ class _ChatScreenState extends State<ChatScreen> {
     if (text != null && text.isNotEmpty) {
       /// Als Kleinbuchstaben aussprechen lassen, da sonst beispielsweise "Großbuchstabe X" statt nur "X" gesagt wird...
       await flutterTts.speak(text.toLowerCase());
+      setState(() {
+        readDone = indexSpeaking;
+      });
     }
   }
 
@@ -192,7 +196,7 @@ class _ChatScreenState extends State<ChatScreen> {
       ]),
       body: Container(
         child: ListView.builder(
-            padding: EdgeInsets.only(bottom: 50.0),
+            padding: EdgeInsets.only(bottom: 60.0),
             itemCount: listMessages.length,
             itemBuilder: (context, index) {
               return _buildRow(
@@ -215,7 +219,9 @@ class _ChatScreenState extends State<ChatScreen> {
     final alignment = message.type == TYPE.ONE_HUMAN
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
-    indexSpeaking == index ? _read(textMessage) : null;
+    if (speakingState && indexSpeaking == index && readDone != index) {
+      _read(textMessage);
+    }
     return GestureDetector(
         onTap: () {},
         child: Row(
@@ -231,7 +237,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
                 padding: EdgeInsets.all(10.0),
                 child: Text(textMessage),
-                // decoration: myBoxDecoration(),
                 decoration: BoxDecoration(
                   color: backgroundMessageColor,
                   border: Border.all(color: borderMessageColor),
@@ -251,41 +256,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ));
   }
 
-  Widget message(String text, MainAxisAlignment alignment, int indexSpeaking) {
-    final Color tintColor =
-        (indexSpeaking == 0) ? Colors.red : Colors.blue[100];
-    return Row(
-      mainAxisAlignment: alignment,
-      children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            print(text);
-            _read(text);
-          },
-          child: Container(
-            margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-            padding: EdgeInsets.all(10.0),
-            child: Text(text),
-            // decoration: myBoxDecoration(),
-            decoration: BoxDecoration(
-              color: tintColor,
-              // border: Border.all(color: Colors.blueAccent),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  topRight: Radius.circular(10.0),
-                  bottomLeft: alignment == MainAxisAlignment.end
-                      ? Radius.circular(10.0)
-                      : Radius.circular(0.0),
-                  bottomRight: alignment == MainAxisAlignment.start
-                      ? Radius.circular(10.0)
-                      : Radius.circular(0.0)),
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
   Widget bottomChat() {
     return Container(
       height: 50,
@@ -296,9 +266,9 @@ class _ChatScreenState extends State<ChatScreen> {
           GestureDetector(
             onTap: _changeScreen,
             child: Icon(
-              speakingState ? Icons.mic : Icons.pause_circle_filled,
+              speakingState ? Icons.pause_circle_filled : Icons.play_circle_filled ,
               color: Colors.blue,
-              size: 32.0,
+              size: 40.0,
             ),
           )
         ],
