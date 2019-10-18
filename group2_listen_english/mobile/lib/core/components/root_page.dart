@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/core/components/auth_provider.dart';
 import 'package:mobile/core/services/authentication.dart';
 import 'package:mobile/views/LoginPage.dart';
 import 'package:mobile/views/screen/HomeScreen.dart';
@@ -29,13 +28,15 @@ class _RootPageState extends State<RootPage> {
         if (user != null) {
           _userId = user?.uid;
         }
-        authStatus =
-        user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
+        authStatus = user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
       });
     });
   }
 
   void _signedIn() {
+    setState(() {
+      authStatus = AuthStatus.NOT_DETERMINED;
+    });
     widget.auth.getCurrentUser().then((user) {
       setState(() {
         _userId = user.uid.toString();
@@ -56,8 +57,6 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     switch (authStatus) {
-      case AuthStatus.NOT_DETERMINED:
-        return _buildWaitingScreen();
       case AuthStatus.NOT_LOGGED_IN:
         return LoginPage(
           auth: widget.auth,
@@ -70,18 +69,8 @@ class _RootPageState extends State<RootPage> {
           onSignedOut: _signedOut,
         );
       default:
-        return _buildWaitingScreen();
+        return Container();
     }
     return null;
   }
-
-  Widget _buildWaitingScreen() {
-    return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-
 }

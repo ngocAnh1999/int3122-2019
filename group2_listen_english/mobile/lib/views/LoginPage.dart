@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile/core/components/CustomIcons.dart';
+import 'package:mobile/core/constant/Constant.dart';
 import 'package:mobile/core/services/authentication.dart';
+import 'package:mobile/views/screen/HomeScreen.dart';
 import 'package:mobile/views/widgets/SocialIcons.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,6 +28,35 @@ class _LoginPageState extends State<LoginPage> {
   String _email;
   String _password;
   FormType _formType = FormType.LOGIN;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isSignedIn();
+  }
+
+  void isSignedIn() async {
+    this.setState(() {
+      isLoading = true;
+    });
+
+    widget.auth.getCurrentUser().then((user) {
+      setState(() {
+        if (user != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomeScreen()),
+          );
+        }
+      });
+    });
+
+    this.setState(() {
+      isLoading = false;
+    });
+  }
 
   bool validateAndSave() {
     final FormState form = formKey.currentState;
@@ -37,33 +68,50 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> validateAndSubmit() async {
+    setState((){
+      isLoading = true;
+    });
     if (validateAndSave()) {
       try {
         if (_formType == FormType.LOGIN) {
           final String userId = await widget.auth.signIn(_email, _password);
           Fluttertoast.showToast(msg: "Sign in as $userId");
+          widget.onSignedIn();
         } else {
           final String userId = await widget.auth.signUp(_email, _password);
         }
-        widget.onSignedIn();
       } catch (e) {
         Fluttertoast.showToast(msg: "Your email or password are incorrect");
       }
     }
+    setState((){
+      isLoading = false;
+    });
   }
 
   Future<void> signinGG() async {
+    setState((){
+      isLoading = true;
+    });
     final String userId = await widget.auth.signInGG();
     widget.onSignedIn();
+    setState((){
+      isLoading = false;
+    });
     Fluttertoast.showToast(msg: "Sign in by Google account");
   }
 
   Future<void> signinFB() async {
+    setState((){
+      isLoading = true;
+    });
     final String userId = await widget.auth.signInFB();
     widget.onSignedIn();
+    setState((){
+      isLoading = true;
+    });
     Fluttertoast.showToast(msg: "Sign in by Facebook account");
   }
-
 
   void moveToRegister() {
     formKey.currentState.reset();
@@ -139,15 +187,6 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
                   Center(
                     child: Image.asset("assets/images/appname.png"),
-//                      child: Text("ENGLISH BEATER",
-//                          style: TextStyle(
-//                              fontFamily: "Poppins-Bold",
-//                              fontStyle: FontStyle.italic,
-//                              fontSize: ScreenUtil.getInstance().setSp(46),
-//                              letterSpacing: .6,
-//                              color: Colors.white,
-//                              fontWeight: FontWeight.bold)
-//                      )
                   ),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(20),
@@ -333,7 +372,19 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               )
             ),
-          )
+          ),
+          Positioned(
+            child: isLoading
+                ? Container(
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                ),
+              ),
+              color: Colors.white.withOpacity(0.8),
+            )
+                : Container(),
+          ),
         ],
       )
     );
