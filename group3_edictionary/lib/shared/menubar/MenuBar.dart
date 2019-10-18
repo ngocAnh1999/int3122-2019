@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../screens/book/BookList.dart';
+import '../../screens/account/AccountPage.dart';
 import './components/UserGeneralInfo.dart';
 
 class MenuBar extends StatelessWidget{
 
-    MenuBar({ Key key }) : super(key : key);
+  MenuBar({ Key key }) : super(key : key);
 
 	@override 
 	Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class MenuBar extends StatelessWidget{
 						onTap : (){
 							print('Pressed User.');
 							Navigator.pop(context);
-             			 	Navigator.push(context, MaterialPageRoute(builder: (context) => BookList()));
+             	Navigator.push(context, MaterialPageRoute(builder: (context) => AccountPage()));
 						}
 					)
 				],

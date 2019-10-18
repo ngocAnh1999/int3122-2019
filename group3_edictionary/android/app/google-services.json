@@ -10,10 +10,18 @@
       "client_info": {
         "mobilesdk_app_id": "1:864298258193:android:3137d3570f4480aff946b0",
         "android_client_info": {
-          "package_name": "com.example.group3_edictionary"
+          "package_name": "com.uet.group3_edictionary"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "864298258193-uiio4d3oin81kn9f67h1u63tbtg5v8du.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uet.group3_edictionary",
+            "certificate_hash": "9bea4d33dbd160508d41149e86661298bb8bf234"
+          }
+        },
         {
           "client_id": "864298258193-627krb7kd2qcbnngc29cmugej73b9as6.apps.googleusercontent.com",
           "client_type": 3
