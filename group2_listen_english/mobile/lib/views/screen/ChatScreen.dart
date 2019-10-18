@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mobile/core/models/Message.dart';
+import 'dart:async';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -9,6 +11,71 @@ class ChatScreen extends StatefulWidget {
 enum TtsState { playing, stopped }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final List<Message> listMessages = [
+    Message(
+        id: "0", text: "Hello Bob!", type: TYPE.ONE_HUMAN, voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Hello Harry!",
+        type: TYPE.TWO_HUMAN,
+        voice: "Hello Harry!"),
+    Message(
+        id: "0",
+        text: "How are you today?",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Good! It is so beautiful!",
+        type: TYPE.TWO_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Yeah, have a nice day!",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Yeah, have a nice day!",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Yeah, have a nice day!",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Yeah, have a nice day!",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Yeah, have a nice day!",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Yeah, have a nice day!",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+  ];
+
+//   Timer timer = new Timer(new Duration(seconds: 5), () {
+//    debugPrint("Print after 5 seconds");
+// });
   // final flutterTts = FlutterTts();
 
   FlutterTts flutterTts;
@@ -20,6 +87,9 @@ class _ChatScreenState extends State<ChatScreen> {
   bool speakingState = false;
   final GlobalKey _menuKey = new GlobalKey();
   String _newVoiceText;
+  int indexSpeaking = 0;
+  String _now;
+  Timer _everySecond;
 
   TtsState ttsState = TtsState.stopped;
 
@@ -31,6 +101,20 @@ class _ChatScreenState extends State<ChatScreen> {
   initState() {
     super.initState();
     initTts();
+    _now = DateTime.now().second.toString();
+
+    // defines a timer
+    _everySecond = Timer.periodic(Duration(seconds: 2), (Timer t) {
+      setState(() {
+        if (speakingState) {
+          // _now = DateTime.now().second.toString();
+          indexSpeaking++;
+        }
+      });
+      if (indexSpeaking >= listMessages.length - 1) {
+        _everySecond.cancel();
+      }
+    });
   }
 
   initTts() {
@@ -98,40 +182,78 @@ class _ChatScreenState extends State<ChatScreen> {
                       child: const Text('Luyện với Bot'), value: 'vsBot'),
                   new PopupMenuItem<String>(
                       child: const Text('Luyện nói 2 người'), value: 'twoBot'),
-											new PopupMenuItem<String>(
-												child: Row(
-													children: <Widget>[
-													],
-												),
-											),
+                  // new PopupMenuItem<String>(
+                  //   child: Row(
+                  //     children: <Widget>[],
+                  //   ),
+                  // ),
                 ],
             onSelected: (_) {})
       ]),
-      body: ListView(
-        children: <Widget>[
-          message("Hello Bob!", MainAxisAlignment.start),
-          message("Hello Harry!", MainAxisAlignment.end),
-          message("How are you today?", MainAxisAlignment.start),
-          message("Good! It is so beautiful!", MainAxisAlignment.end),
-          message("Yeah, have a nice day!", MainAxisAlignment.start),
-          message("You too!", MainAxisAlignment.end),
-          message("Yeah, have a nice day!", MainAxisAlignment.start),
-          message("You too!", MainAxisAlignment.end),
-          message("Yeah, have a nice day!", MainAxisAlignment.start),
-          message("You too!", MainAxisAlignment.end),
-          message("Yeah, have a nice day!", MainAxisAlignment.start),
-          message("You too!", MainAxisAlignment.end),
-          message("Yeah, have a nice day!", MainAxisAlignment.start),
-          message("You too!", MainAxisAlignment.end),
-          bottomChat()
-          // sectionBottom("Abc"),
-        ],
+      body: Container(
+        child: ListView.builder(
+            padding: EdgeInsets.only(bottom: 50.0),
+            itemCount: listMessages.length,
+            itemBuilder: (context, index) {
+              return _buildRow(
+                listMessages[index],
+                index,
+                context,
+              );
+            }),
       ),
       bottomSheet: bottomChat(),
     );
   }
 
-  Widget message(String text, MainAxisAlignment alignment) {
+  Widget _buildRow(Message message, int index, BuildContext context) {
+    final backgroundMessageColor =
+        indexSpeaking == index ? Colors.red[100] : Colors.blue[100];
+    final borderMessageColor =
+        indexSpeaking == index ? Colors.red : Colors.transparent;
+    final textMessage = message.text;
+    final alignment = message.type == TYPE.ONE_HUMAN
+        ? MainAxisAlignment.start
+        : MainAxisAlignment.end;
+    indexSpeaking == index ? _read(textMessage) : null;
+    return GestureDetector(
+        onTap: () {},
+        child: Row(
+          mainAxisAlignment: alignment,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                print(textMessage);
+                _read(textMessage);
+              },
+              child: Container(
+                margin:
+                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                padding: EdgeInsets.all(10.0),
+                child: Text(textMessage),
+                // decoration: myBoxDecoration(),
+                decoration: BoxDecoration(
+                  color: backgroundMessageColor,
+                  border: Border.all(color: borderMessageColor),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                      bottomLeft: alignment == MainAxisAlignment.end
+                          ? Radius.circular(10.0)
+                          : Radius.circular(0.0),
+                      bottomRight: alignment == MainAxisAlignment.start
+                          ? Radius.circular(10.0)
+                          : Radius.circular(0.0)),
+                ),
+              ),
+            )
+          ],
+        ));
+  }
+
+  Widget message(String text, MainAxisAlignment alignment, int indexSpeaking) {
+    final Color tintColor =
+        (indexSpeaking == 0) ? Colors.red : Colors.blue[100];
     return Row(
       mainAxisAlignment: alignment,
       children: <Widget>[
@@ -146,7 +268,7 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Text(text),
             // decoration: myBoxDecoration(),
             decoration: BoxDecoration(
-              color: Colors.blue[100],
+              color: tintColor,
               // border: Border.all(color: Colors.blueAccent),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.0),
