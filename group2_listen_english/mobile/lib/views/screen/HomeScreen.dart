@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/components/ItemList.dart';
 import 'package:mobile/core/models/Item.dart';
+import 'package:mobile/core/services/authentication.dart';
 import 'package:mobile/views/screen/AboutScreen.dart';
 import 'package:mobile/views/screen/ResultUserScreen.dart';
 import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
 
 class HomeScreen extends StatelessWidget {
-  final String currentUserId;
+  HomeScreen({Key key, this.auth, this.userId, this.onSignedOut })
+      : super(key: key);
 
-  HomeScreen({Key key, @required this.currentUserId}) : super(key: key);
+  final BaseAuth auth;
+  final VoidCallback onSignedOut;
+  final String userId;
   List<Item> itemList;
+
+
+  void logout() async{
+    try {
+      await auth.signOut();
+      onSignedOut();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +93,11 @@ class HomeScreen extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => AboutScreen()),
                       );
                     },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.info),
+                    title: Text('Log out'),
+                    onTap: logout,
                   ),
                 ],
               ),

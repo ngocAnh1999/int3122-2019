@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/core/components/root_page.dart';
+import 'package:mobile/core/services/authentication.dart';
+import 'package:mobile/views/LoginPage.dart';
 import 'package:mobile/views/screen/HomeScreen.dart';
+import 'package:mobile/views/screen/LoginScreen.dart';
 import 'package:mobile/views/screen/SplashScreen.dart';
-import 'package:mobile/views/widgets/login.dart';
 
 import 'core/constant/Constant.dart';
 
 void main() => runApp(MaterialApp(
-  title: 'GridView Demo',
+  title: 'English Beater',
   home: SplashScreen(),
   debugShowCheckedModeBanner: false,
   theme: ThemeData(
@@ -15,8 +18,9 @@ void main() => runApp(MaterialApp(
   ),
   routes: <String, WidgetBuilder>{
     SPLASH_SCREEN: (BuildContext context) => SplashScreen(),
-    LOGIN_SCREEN: (BuildContext context) => LoginScreen(),
     HOME_SCREEN: (BuildContext context) => HomeScreen(),
+    LOGIN_SCREEN: (BuildContext context) => RootPage(auth: new Auth()),
+
     // GRID_ITEM_DETAILS_SCREEN: (BuildContext context) => GridItemDetails(),
   },
 ));
