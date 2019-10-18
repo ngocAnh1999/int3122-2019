@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/core/components/root_page.dart';
 import 'package:mobile/core/constant/Constant.dart';
+import 'package:mobile/core/services/authentication.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

@@ -29,6 +29,7 @@ class LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     isSignedIn();
+    Color a = Color(0xFFFFFF);
   }
 
   void isSignedIn() async {
@@ -39,14 +40,14 @@ class LoginScreenState extends State<LoginScreen> {
     prefs = await SharedPreferences.getInstance();
 
     isLoggedIn = await googleSignIn.isSignedIn();
-    if (isLoggedIn) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                HomeScreen(currentUserId: prefs.getString('id'))),
-      );
-    }
+//    if (isLoggedIn) {
+//      Navigator.push(
+//        context,
+//        MaterialPageRoute(
+//            builder: (context) =>
+//                HomeScreen(currentUserId: prefs.getString('id'))),
+//      );
+//    }
 
     this.setState(() {
       isLoading = false;
@@ -108,11 +109,11 @@ class LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
 
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  HomeScreen(currentUserId: firebaseUser.uid)));
+//      Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//              builder: (context) =>
+//                  HomeScreen(currentUserId: firebaseUser.uid)));
     } else {
       Fluttertoast.showToast(msg: "Sign in fail");
       this.setState(() {
@@ -162,12 +163,12 @@ class LoginScreenState extends State<LoginScreen> {
             ),
             FlatButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HomeScreen(currentUserId: prefs.getString('id'))),
-                );
+//                Navigator.push(
+//                  context,
+//                  MaterialPageRoute(
+//                      builder: (context) =>
+//                          HomeScreen(currentUserId: prefs.getString('id'))),
+//                );
               },
               child: Text("Skip"),
             ),
