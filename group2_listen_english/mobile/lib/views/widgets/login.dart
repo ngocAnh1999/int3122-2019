@@ -29,7 +29,6 @@ class LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     isSignedIn();
-    Color a = Color(0xFFFFFF);
   }
 
   void isSignedIn() async {
