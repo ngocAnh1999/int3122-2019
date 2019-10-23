@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/lesson.dart';
 import 'package:quizlet_clone/core/repositories/lessonRepository.dart';
 
 class LessonService {
-  final LessonRepository repository = new LessonRepository();
+  final LessonRepository repository;
+
+  const LessonService({@required this.repository});
 
   Future<List<Lesson>> getLessons() async {
     return repository.getLessons();

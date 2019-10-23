@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:quizlet_clone/core/models/lesson.dart';
+import 'package:quizlet_clone/core/repositories/implementations/lessonRepositoryImpl.dart';
 import 'package:quizlet_clone/core/services/lessonService.dart';
-import 'package:quizlet_clone/presentation/views/HomeController.dart';
+
+import 'home/LessonList.dart';
+
 void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
@@ -26,9 +30,9 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
-  static final LessonService lessonService = new LessonService();
-  //static final FlashCardService flashCardService = new FlashCardService();
-  static List<dynamic> _widgetOptions = <dynamic>[
+  static final LessonService lessonService =
+      new LessonService(repository: new LessonRepositoryImpl());
+  final List<dynamic> _widgetOptions = <dynamic>[
     LessonList(lessons: lessonService.getLessons()),
     Center(
       child: Text("Đây là màn hình tìm kiếm"),
