@@ -58,6 +58,7 @@ class WritingControllerState extends State<WritingController> {
       hideSuffixIcon();
       if (wrongTimes[index] == 0) {
         wrongTimes[index]++;
+        answerTimes++;
       }
       helperText = ENTER_TRUE_ANSWERS_TITLE;
       helperTextColor = Colors.red;
@@ -224,9 +225,7 @@ class WritingControllerState extends State<WritingController> {
                       setState(() {
                         wrongTimes[index]++;
                       });
-                      if (containerChild == null) {
-                        showContainerChild(myEditingController.value.text);
-                      }
+                      showContainerChild(myEditingController.value.text);
                       myEditingController.clear();
                     }
                   },
