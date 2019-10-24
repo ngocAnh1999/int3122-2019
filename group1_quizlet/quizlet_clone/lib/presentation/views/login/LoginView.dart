@@ -42,7 +42,7 @@ class LoginViewState extends State<LoginView> {
                   ),
                 ),
                 Container(
-                  width: 360,
+                  width: 330,
                   height: 300,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -53,7 +53,7 @@ class LoginViewState extends State<LoginView> {
                     children: <Widget>[
                       Center(
                           child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                              margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
                               height: 60,
                               width: 300,
                               decoration: BoxDecoration(

@@ -30,7 +30,7 @@ class AuthService {
         User fireStoreUser = await _userService.getUser(id: firebaseUser.uid);
 
         if (fireStoreUser == null) {
-          var profile = FacebookProfileGetter.getProfile(
+          var profile = await FacebookProfileGetter.getProfile(
               accessToken: result.accessToken.token);
           var newUsername = await UsernameFactory.getUsername(
               firstName: profile['first_name'], lastName: profile['last_name']);
