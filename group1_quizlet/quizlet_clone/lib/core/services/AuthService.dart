@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/UserService.dart';
 import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
-
 import 'package:quizlet_clone/core/utilities/UsernameFactory.dart';
 
 class AuthService {

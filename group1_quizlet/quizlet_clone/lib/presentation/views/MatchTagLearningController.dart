@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
+import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/presentation/layouts/FinishLearningLayout.dart';
 import 'package:quizlet_clone/presentation/layouts/TagLearningLayout.dart';
 import 'package:toast/toast.dart';
@@ -18,6 +18,7 @@ enum TagState { CLEAR, CLICKED, SUCCESS, FAIL }
 class MatchTagLearningController extends StatefulWidget {
   final Lesson lesson;
   final List<FlashCard> flashCards;
+
   MatchTagLearningController({Key key, this.lesson, this.flashCards})
       : super(key: key);
 

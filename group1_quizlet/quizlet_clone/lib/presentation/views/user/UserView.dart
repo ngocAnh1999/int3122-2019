@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/presentation/views/login/LoginView.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:quizlet_clone/presentation/views/login/LoginView.dart';
 
 class UserView extends StatefulWidget {
   @override

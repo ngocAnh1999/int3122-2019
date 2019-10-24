@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/User.dart';
-import 'package:quizlet_clone/core/repositories/implementations/UserRepositoryImpl.dart';
 import 'package:quizlet_clone/core/repositories/UserRepository.dart';
+import 'package:quizlet_clone/core/repositories/implementations/UserRepositoryImpl.dart';
 
 class UserService {
   static final UserService instance =

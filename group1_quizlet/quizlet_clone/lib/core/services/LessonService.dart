@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
-import 'package:quizlet_clone/core/repositories/implementations/LessonRepositoryImpl.dart';
 import 'package:quizlet_clone/core/repositories/LessonRepository.dart';
+import 'package:quizlet_clone/core/repositories/implementations/LessonRepositoryImpl.dart';
 
 class LessonService {
   static final LessonService instance =

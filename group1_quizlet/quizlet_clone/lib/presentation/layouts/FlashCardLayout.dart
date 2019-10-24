@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:flutter_flip_view/flutter_flip_view.dart';
+import 'package:quizlet_clone/core/models/FlashCard.dart';
 
 class FlashCardLayout extends StatefulWidget {
   final FlashCard flashCard;
