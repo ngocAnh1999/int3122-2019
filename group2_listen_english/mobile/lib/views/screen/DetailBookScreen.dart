@@ -42,8 +42,9 @@ class DetailBookScreen extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Icon(
-                  Icons.favorite,
+                  Icons.book,
                   color: color,
+                  size: 26,
                 ),
               ),
               Text(
@@ -55,7 +56,7 @@ class DetailBookScreen extends StatelessWidget {
               //   padding: EdgeInsets.only(left: 10.0, right: 10.0),
               //   child: Icon(Icons.check_box_outline_blank, color: Colors.green)
               // ),
-              Icon(Icons.navigate_next, color: Colors.black)
+              Icon(Icons.navigate_next, color: Colors.black),
             ],
           ),
         ));

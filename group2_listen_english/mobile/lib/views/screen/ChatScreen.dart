@@ -12,6 +12,8 @@ enum TtsState { playing, stopped }
 enum LearningMode { botVsBot, playerVsPlayer, botVsPlayer }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey  = new GlobalKey<ScaffoldState>();
+
   final List<Message> listMessages = [
     Message(
         id: "0", text: "Hello Bob!", type: TYPE.ONE_HUMAN, voice: "Hello Bob!"),
@@ -187,15 +189,31 @@ class _ChatScreenState extends State<ChatScreen> {
     if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
+  _showSnackBar() {
+    final snackBar = new SnackBar(
+      content: Text("Changed learning mode!"),
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.green,
+      action: SnackBarAction(
+        label: "OK",
+        onPressed: (){
+
+        },
+      ),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
         // action button
-        IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {},
-        ),
+        // IconButton(
+        //   icon: Icon(Icons.settings),
+        //   onPressed: () {},
+        // ),
         PopupMenuButton(
           onSelected: (String value) {
             print(value);
@@ -204,16 +222,19 @@ class _ChatScreenState extends State<ChatScreen> {
                 setState(() {
                   learningMode = LearningMode.botVsBot;
                 });
+                _showSnackBar();
                 break;
               case 'botVsPlayer':
                 setState(() {
                   learningMode = LearningMode.botVsPlayer;
                 });
+                _showSnackBar();
                 break;
               case 'playerVsPlayer':
                 setState(() {
                   learningMode = LearningMode.playerVsPlayer;
                 });
+                _showSnackBar();
                 break;
               default:
             }
@@ -241,7 +262,7 @@ class _ChatScreenState extends State<ChatScreen> {
               );
             }),
       ),
-      bottomSheet: bottomChat(),
+      bottomSheet: bottomControl(),
     );
   }
 
@@ -309,9 +330,10 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget bottomChat() {
+  Widget bottomControl() {
     return Container(
       height: 50,
+      // padding: EdgeInsets.only(bottom: 10.0),
       color: Colors.blueGrey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
