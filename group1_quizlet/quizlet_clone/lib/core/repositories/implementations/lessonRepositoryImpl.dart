@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/lesson.dart';
 import 'package:quizlet_clone/core/repositories/lessonRepository.dart';
 
@@ -15,7 +16,7 @@ class LessonRepositoryImpl implements LessonRepository {
   }
 
   @override
-  Future<Lesson> getLessonById(String id) async {
+  Future<Lesson> getLessonById({@required String id}) async {
     var doc = await ref.document(id).get();
     return Lesson.fromMap(doc.data, doc.documentID);
   }

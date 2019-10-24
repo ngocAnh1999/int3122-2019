@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:quizlet_clone/core/models/user.dart';
 import 'package:quizlet_clone/core/repositories/implementations/lessonRepositoryImpl.dart';
 import 'package:quizlet_clone/core/services/lessonService.dart';
+import 'package:quizlet_clone/presentation/views/user/UserView.dart';
 
-import 'home/LessonList.dart';
+import 'LessonList.dart';
 
-void main() => runApp(MyApp());
-
-/// This Widget is the main application widget.
-class MyApp extends StatelessWidget {
-  static const String _title = 'Quizlet';
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: MyStatefulWidget(),
-      theme: ThemeData(primaryColor: Colors.deepPurple),
-    );
-  }
-}
-
-class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
+class HomeView extends StatefulWidget {
+  final User currentUser;
+  HomeView({Key key, @required this.currentUser}) : super(key: key);
 
   @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+class _HomeViewState extends State<HomeView> {
+  static const _TAB_NAMES = ['Trang chủ', 'Tìm kiếm', 'Chỉnh sửa', 'Người dùng'];
   int _selectedIndex = 0;
+
   static final LessonService lessonService =
       new LessonService(repository: new LessonRepositoryImpl());
   final List<dynamic> _widgetOptions = <dynamic>[
@@ -40,7 +29,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       child: Text("Đây là màn hình chỉnh sửa"),
     ),
     Center(
-      child: Text("Đây là màn hình người dùng"),
+      child: UserView()
     )
   ];
 
@@ -54,7 +43,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Trang chủ'),
+        title: Text(_TAB_NAMES[_selectedIndex]),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

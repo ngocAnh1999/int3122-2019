@@ -2,23 +2,54 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:quizlet_clone/core/models/user.dart';
+import 'package:quizlet_clone/core/repositories/implementations/userRepositoryImpl.dart';
+import 'package:quizlet_clone/core/services/UserService.dart';
+import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
+
+import 'package:quizlet_clone/core/utilities/UsernameFactory.dart';
 
 class AuthService {
+  static final UserService _userService =
+      new UserService(repository: new UserRepositoryImpl());
   static final _auth = FirebaseAuth.instance;
 
-  static Future<FirebaseUser> logInWithFacebook() async {
-    //print('Facebook');
+  static Future<FirebaseUser> getCurrentUser() async =>
+      await _auth.currentUser();
+
+  static Future<User> logInWithFacebook() async {
     final facebookLogin = FacebookLogin();
+    if(await facebookLogin.isLoggedIn) facebookLogin.logOut();
     final result = await facebookLogin.logIn(['email']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        //print(result.accessToken.token);
         final AuthCredential credential = FacebookAuthProvider.getCredential(
             accessToken: result.accessToken.token);
-        return _firebaseLogIn(credential: credential);
+
+        final firebaseUser = await _firebaseLogIn(credential: credential);
+        User fireStoreUser = await _userService.getUser(id: firebaseUser.uid);
+
+        if (fireStoreUser == null) {
+          var profile = FacebookProfileGetter.getProfile(accessToken: result.accessToken.token);
+          var newUsername = await UsernameFactory.getUsername(
+              firstName: profile['first_name'], lastName: profile['last_name']);
+
+          fireStoreUser = new User(
+              facebookId: profile['id'],
+              firstName: profile['first_name'],
+              lastName: profile['last_name'],
+              email: profile['email'],
+              username: newUsername
+          );
+          await _userService.addUser(
+              data: fireStoreUser.toJson(), id: firebaseUser.uid);
+          fireStoreUser.id = firebaseUser.uid;
+        }
+        return fireStoreUser;
       case FacebookLoginStatus.cancelledByUser:
         return null;
       case FacebookLoginStatus.error:
+        print(result.errorMessage);
         return null;
     }
     return null;
@@ -35,15 +66,15 @@ class AuthService {
   }
 
   static Future<FirebaseUser> _firebaseLogIn({@required credential}) async {
-    final FirebaseUser user =
+    final FirebaseUser firebaseUser =
         (await _auth.signInWithCredential(credential)).user;
-    assert(user.email != null);
-    assert(user.displayName != null);
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
+    assert(firebaseUser.email != null);
+    assert(firebaseUser.displayName != null);
+    assert(!firebaseUser.isAnonymous);
+    assert(await firebaseUser.getIdToken() != null);
 
     final FirebaseUser currentUser = await _auth.currentUser();
-    assert(user.uid == currentUser.uid);
-    return user;
+    assert(firebaseUser.uid == currentUser.uid);
+    return firebaseUser;
   }
 }

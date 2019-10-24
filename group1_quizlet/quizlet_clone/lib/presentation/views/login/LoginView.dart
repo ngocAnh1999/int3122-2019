@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:quizlet_clone/core/services/authService.dart';
 
+import '../home/HomeView.dart';
+
 class LoginView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => LoginViewState();
 }
 
 class LoginViewState extends State<LoginView> {
-  String _loginResult = 'Not logged in';
-  String _userEmail = 'unknown';
+  String _loginResult = 'waiting';
 
   @override
   Widget build(BuildContext context) {
@@ -94,11 +95,24 @@ class LoginViewState extends State<LoginView> {
             child: Text('Status: $_loginResult',
                 style: TextStyle(fontSize: 20, color: Colors.redAccent)),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
-            child: Text('User email: $_userEmail',
-                style: TextStyle(fontSize: 20, color: Colors.redAccent)),
-          )
+//          Padding(
+//            padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+//            child: Text('User email: $_userEmail',
+//                style: TextStyle(fontSize: 20, color: Colors.redAccent)),
+//          ),
+//          Center(
+//            child: Container(
+//              height: 200,
+//              width: 200,
+//              decoration: BoxDecoration(
+//                  shape: BoxShape.circle,
+//                  image: DecorationImage(
+//                      fit: BoxFit.fill,
+//                      image: NetworkImage(_profilePicUrl)
+//                  )
+//              ),
+//            ),
+//          )
         ],
       ),
     );
@@ -107,28 +121,15 @@ class LoginViewState extends State<LoginView> {
   _logInWithFacebook() async {
     var user = await AuthService.logInWithFacebook();
     if (user != null) {
-      setState(() {
-        _loginResult = 'Logged in with Facebook';
-        _userEmail = user.email;
-      });
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeView()));
     } else
       setState(() {
-        _loginResult = 'Unable to log in with Facebook';
-        _userEmail = 'unknown';
+        _loginResult = 'error';
       });
   }
 
   _logInWithGoogle() async {
-    var user = await AuthService.logInWithGoogle();
-    if (user != null) {
-      setState(() {
-        _loginResult = 'Logged in with Facebook';
-        _userEmail = user.email;
-      });
-    } else
-      setState(() {
-        _loginResult = 'Unable to log in with Facebook';
-        _userEmail = 'unknown';
-      });
+    print('Google pressed');
   }
 }

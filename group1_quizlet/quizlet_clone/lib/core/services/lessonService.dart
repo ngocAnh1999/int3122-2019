@@ -11,7 +11,7 @@ class LessonService {
     return repository.getLessons();
   }
 
-  Future<Lesson> getLessonById(String id) async {
-    return repository.getLessonById(id);
+  Future<Lesson> getLessonById({@required String id}) async {
+    return repository.getLessonById(id: id);
   }
 }

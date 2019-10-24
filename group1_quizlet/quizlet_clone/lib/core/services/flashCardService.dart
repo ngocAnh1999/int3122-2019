@@ -8,6 +8,6 @@ class FlashCardService {
   FlashCardService({@required this.repository});
 
   Future<List<FlashCard>> getFlashCards({@required lessonId}) async {
-    return repository.getFlashCards(lessonId);
+    return repository.getFlashCards(lessonId: lessonId);
   }
 }
