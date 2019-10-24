@@ -9,7 +9,7 @@ import 'package:quizlet_clone/presentation/layouts/FlashCardLearningLayout.dart'
 import 'package:quizlet_clone/presentation/views/MatchTagLearningController.dart';
 import 'package:quizlet_clone/presentation/views/TagLearningController.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-
+import 'package:quizlet_clone/presentation/views/WritingController.dart';
 import 'FlashCardItem.dart';
 
 class LessonView extends StatefulWidget {
@@ -132,7 +132,15 @@ class LessonViewState extends State<LessonView> {
                             FlashCardLearningLayout(
                               iconData: Icons.border_color,
                               title: "Viết",
-                              flashCardLearningEvent: null,
+                              flashCardLearningEvent: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WritingController(
+                                          lesson: widget.lesson,
+                                          flashCards: flashCards,
+                                        )));
+                              },
                             ),
                             FlashCardLearningLayout(
                               iconData: Icons.filter_none,

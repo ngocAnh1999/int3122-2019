@@ -41,7 +41,7 @@ dev_dependencies:
   toast: ^0.1.5
   flutter_timer: ^0.0.5
   loading_indicator: ^1.0.0
-
+  percent_indicator: ^2.1.1+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
