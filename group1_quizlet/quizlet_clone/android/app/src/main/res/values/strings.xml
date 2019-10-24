@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">flutter quizlet clone</string>
+    <string name="facebook_app_id">533576483883952</string>
+    <string name="fb_login_protocol_scheme">fb533576483883952</string>
+</resources>

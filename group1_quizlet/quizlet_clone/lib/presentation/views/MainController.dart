@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/lesson.dart';
 import 'package:quizlet_clone/core/repositories/implementations/lessonRepositoryImpl.dart';
 import 'package:quizlet_clone/core/services/lessonService.dart';
 
