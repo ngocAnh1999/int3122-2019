@@ -15,7 +15,12 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  static const _TAB_NAMES = ['Trang chủ', 'Tìm kiếm', 'Chỉnh sửa', 'Người dùng'];
+  static const _TAB_NAMES = [
+    'Trang chủ',
+    'Tìm kiếm',
+    'Chỉnh sửa',
+    'Người dùng'
+  ];
   int _selectedIndex = 0;
 
   static final LessonService lessonService =
@@ -28,9 +33,7 @@ class _HomeViewState extends State<HomeView> {
     Center(
       child: Text("Đây là màn hình chỉnh sửa"),
     ),
-    Center(
-      child: UserView()
-    )
+    Center(child: UserView())
   ];
 
   void _onItemTapped(int index) {

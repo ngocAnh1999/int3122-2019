@@ -19,7 +19,7 @@ class AuthService {
 
   static Future<User> logInWithFacebook() async {
     final facebookLogin = FacebookLogin();
-    if(await facebookLogin.isLoggedIn) facebookLogin.logOut();
+    if (await facebookLogin.isLoggedIn) facebookLogin.logOut();
     final result = await facebookLogin.logIn(['email']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
@@ -30,7 +30,8 @@ class AuthService {
         User fireStoreUser = await _userService.getUser(id: firebaseUser.uid);
 
         if (fireStoreUser == null) {
-          var profile = FacebookProfileGetter.getProfile(accessToken: result.accessToken.token);
+          var profile = FacebookProfileGetter.getProfile(
+              accessToken: result.accessToken.token);
           var newUsername = await UsernameFactory.getUsername(
               firstName: profile['first_name'], lastName: profile['last_name']);
 
@@ -39,8 +40,7 @@ class AuthService {
               firstName: profile['first_name'],
               lastName: profile['last_name'],
               email: profile['email'],
-              username: newUsername
-          );
+              username: newUsername);
           await _userService.addUser(
               data: fireStoreUser.toJson(), id: firebaseUser.uid);
           fireStoreUser.id = firebaseUser.uid;

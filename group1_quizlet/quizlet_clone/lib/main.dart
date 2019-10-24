@@ -39,9 +39,7 @@ class QuizletCloneApp extends StatelessWidget {
                 return null;
               },
             ),
-      theme: ThemeData(
-        primaryColor: Colors.deepPurple
-      ),
+      theme: ThemeData(primaryColor: Colors.deepPurple),
     );
   }
 }

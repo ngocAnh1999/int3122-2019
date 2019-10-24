@@ -137,9 +137,9 @@ class LessonViewState extends State<LessonView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => WritingController(
-                                          lesson: widget.lesson,
-                                          flashCards: flashCards,
-                                        )));
+                                              lesson: widget.lesson,
+                                              flashCards: flashCards,
+                                            )));
                               },
                             ),
                             FlashCardLearningLayout(

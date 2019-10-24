@@ -11,7 +11,8 @@ String APPBAR_TITLE = "Thẻ ghi nhớ";
 class TagLearningController extends StatefulWidget {
   final Lesson lesson;
   final List<FlashCard> flashCards;
-  TagLearningController({Key key, this.lesson, this.flashCards}) : super(key: key);
+  TagLearningController({Key key, this.lesson, this.flashCards})
+      : super(key: key);
 
   @override
   TagLearningState createState() => new TagLearningState();
