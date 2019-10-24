@@ -13,19 +13,13 @@ final int MAP_LENGTH = 12;
 final int MAP_ROW = 4;
 final int MAP_COLUMN = 3;
 
-enum TagState {
-  CLEAR,
-  CLICKED,
-  SUCCESS,
-  FAIL
-}
+enum TagState { CLEAR, CLICKED, SUCCESS, FAIL }
 
 class MatchTagLearningController extends StatefulWidget {
   final Lesson lesson;
   final List<FlashCard> flashCards;
-  MatchTagLearningController({Key key, this.lesson, this.flashCards}) : super(key: key);
-
-
+  MatchTagLearningController({Key key, this.lesson, this.flashCards})
+      : super(key: key);
 
   @override
   MatchTagLearningState createState() => new MatchTagLearningState();
@@ -47,6 +41,14 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
     generatePosition();
     generateChildren();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    listTagLearning.clear();
+    listPosition.clear();
+    columnChildren.clear();
+    super.dispose();
   }
 
   void increaseTrueAnswers() {
@@ -241,11 +243,8 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => FinishLearningLayout()));
-                      setState(() {
-                        listTagLearning.clear();
-                        listPosition.clear();
-                        columnChildren.clear();
-                      });
+                      dispose();
+                      initState();
 //                      generateListTagLearning();
 //                      generatePosition();
 //                      generateChildren();

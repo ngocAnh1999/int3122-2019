@@ -10,8 +10,7 @@ class TagLearningLayout extends StatefulWidget {
   ColorCallback onClicked;
   final tagLearningState = new TagLearningState();
 
-  TagLearningLayout(
-      {Key key, this.flashCard, this.title, this.onClicked})
+  TagLearningLayout({Key key, this.flashCard, this.title, this.onClicked})
       : super(key: key);
 
   void clearEvent() {

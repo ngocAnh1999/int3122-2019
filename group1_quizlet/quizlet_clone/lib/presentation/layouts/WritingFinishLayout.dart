@@ -164,8 +164,15 @@ class WritingFinishState extends State<WritingFinsishLayout> {
                   children: resultBox.flashCards.map((FlashCard flashCard) {
                     return Card(
                       child: ListTile(
-                        title: Text(flashCard.word, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),),
-                        subtitle: Text(flashCard.meaning, style: TextStyle(fontSize: 15),),
+                        title: Text(
+                          flashCard.word,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 17),
+                        ),
+                        subtitle: Text(
+                          flashCard.meaning,
+                          style: TextStyle(fontSize: 15),
+                        ),
                       ),
                     );
                   }).toList(),

@@ -63,7 +63,7 @@ class _FlashCardLayoutState extends State<FlashCardLayout>
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Color(0xFFFFEA9C),
+            color: Colors.white,
           ),
           child: Material(
             color: Colors.transparent,
