@@ -25,8 +25,6 @@ class MatchTagLearningController extends StatefulWidget {
   final List<FlashCard> flashCards;
   MatchTagLearningController({Key key, this.lesson, this.flashCards}) : super(key: key);
 
-
-
   @override
   MatchTagLearningState createState() => new MatchTagLearningState();
 }
@@ -47,6 +45,14 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
     generatePosition();
     generateChildren();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    listTagLearning.clear();
+    listPosition.clear();
+    columnChildren.clear();
+    super.dispose();
   }
 
   void increaseTrueAnswers() {
@@ -241,11 +247,8 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => FinishLearningLayout()));
-                      setState(() {
-                        listTagLearning.clear();
-                        listPosition.clear();
-                        columnChildren.clear();
-                      });
+                      dispose();
+                      initState();
 //                      generateListTagLearning();
 //                      generatePosition();
 //                      generateChildren();

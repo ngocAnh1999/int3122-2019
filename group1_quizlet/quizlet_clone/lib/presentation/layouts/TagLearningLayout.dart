@@ -30,6 +30,8 @@ class TagLearningLayout extends StatefulWidget {
     tagLearningState.failEvent();
   }
 
+
+
   @override
   TagLearningState createState() => tagLearningState;
 }
