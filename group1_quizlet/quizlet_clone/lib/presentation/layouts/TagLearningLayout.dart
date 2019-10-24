@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/flashCard.dart';
+import 'package:quizlet_clone/core/models/FlashCard.dart';
 
 typedef void ColorCallback();
 

@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:quizlet_clone/core/models/lesson.dart';
-import 'package:quizlet_clone/core/repositories/implementations/flashCardRepositoryImpl.dart';
-import 'package:quizlet_clone/core/services/flashCardService.dart';
+import 'package:quizlet_clone/core/models/Lesson.dart';
+import 'package:quizlet_clone/core/services/LessonService.dart';
 
 import 'LessonItem.dart';
 
 class LessonList extends StatefulWidget {
-  final Future<List<Lesson>> lessons;
-  final FlashCardService flashCardService =
-      new FlashCardService(repository: new FlashCardRepositoryImpl());
-
-  LessonList({Key key, this.lessons}) : super(key: key);
+  LessonList({Key key}) : super(key: key);
 
   @override
   LessonListState createState() => new LessonListState();
@@ -20,7 +15,7 @@ class LessonListState extends State<LessonList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: widget.lessons,
+      future: LessonService.instance.getLessons(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:

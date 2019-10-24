@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/lesson.dart';
-import 'package:quizlet_clone/core/models/flashCard.dart';
+import 'package:quizlet_clone/core/models/Lesson.dart';
+import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/presentation/layouts/FinishLearningLayout.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLayout.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';

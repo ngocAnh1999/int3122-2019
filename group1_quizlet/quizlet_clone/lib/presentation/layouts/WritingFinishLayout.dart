@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/flashCard.dart';
+import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 final EXCELLENT_TITLE = "Tốt lắm";

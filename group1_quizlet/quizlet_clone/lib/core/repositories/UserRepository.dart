@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:quizlet_clone/core/models/user.dart';
+import 'package:quizlet_clone/core/models/User.dart';
 
 abstract class UserRepository {
   Future<User> getUser({@required String id});

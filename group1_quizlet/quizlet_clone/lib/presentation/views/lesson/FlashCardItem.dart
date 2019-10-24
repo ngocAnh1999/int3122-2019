@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/flashCard.dart';
+import 'package:quizlet_clone/core/models/FlashCard.dart';
 
 class FlashCardItem extends StatelessWidget {
   final FlashCard flashCard;
 
-  FlashCardItem({FlashCard flashCard})
-      : flashCard = flashCard,
-        super(key: ObjectKey(flashCard));
+  FlashCardItem({@required this.flashCard}) : super(key: ObjectKey(flashCard));
 
   @override
   Widget build(BuildContext context) {

@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/user.dart';
-import 'package:quizlet_clone/core/repositories/implementations/lessonRepositoryImpl.dart';
-import 'package:quizlet_clone/core/services/lessonService.dart';
+import 'package:quizlet_clone/core/services/LessonService.dart';
 import 'package:quizlet_clone/presentation/views/user/UserView.dart';
 
 import 'LessonList.dart';
 
 class HomeView extends StatefulWidget {
-  final User currentUser;
-  HomeView({Key key, @required this.currentUser}) : super(key: key);
+  HomeView({Key key}) : super(key: key);
 
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  static const _TAB_NAMES = ['Trang chủ', 'Tìm kiếm', 'Chỉnh sửa', 'Người dùng'];
+  static const _TAB_NAMES = [
+    'Trang chủ',
+    'Tìm kiếm',
+    'Chỉnh sửa',
+    'Người dùng'
+  ];
   int _selectedIndex = 0;
 
-  static final LessonService lessonService =
-      new LessonService(repository: new LessonRepositoryImpl());
+  static final LessonService lessonService = LessonService.instance;
   final List<dynamic> _widgetOptions = <dynamic>[
-    LessonList(lessons: lessonService.getLessons()),
+    LessonList(),
     Center(
       child: Text("Đây là màn hình tìm kiếm"),
     ),
     Center(
       child: Text("Đây là màn hình chỉnh sửa"),
     ),
-    Center(
-      child: UserView()
-    )
+    Center(child: UserView())
   ];
 
   void _onItemTapped(int index) {

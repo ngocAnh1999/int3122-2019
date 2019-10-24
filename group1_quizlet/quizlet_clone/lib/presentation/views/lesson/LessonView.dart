@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quizlet_clone/core/models/lesson.dart';
-import 'package:quizlet_clone/core/models/flashCard.dart';
-import 'package:quizlet_clone/core/repositories/implementations/flashCardRepositoryImpl.dart';
-import 'package:quizlet_clone/core/services/flashCardService.dart';
+import 'package:quizlet_clone/core/models/Lesson.dart';
+import 'package:quizlet_clone/core/models/FlashCard.dart';
+import 'package:quizlet_clone/core/models/User.dart';
+import 'package:quizlet_clone/core/services/FlashCardService.dart';
+import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLayout.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLearningLayout.dart';
 import 'package:quizlet_clone/presentation/views/MatchTagLearningController.dart';
@@ -14,14 +15,10 @@ import 'FlashCardItem.dart';
 
 class LessonView extends StatefulWidget {
   final Lesson lesson;
-  final Future<List<FlashCard>> flashCards;
+  final User user;
+  final FlashCardService fcService = FlashCardService.instance;
 
-  static final FlashCardService fcService =
-      new FlashCardService(repository: new FlashCardRepositoryImpl());
-
-  LessonView({Key key, this.lesson})
-      : flashCards = fcService.getFlashCards(lessonId: lesson.id),
-        super(key: key);
+  LessonView({Key key, this.lesson, this.user}) : super(key: key);
 
   @override
   LessonViewState createState() => new LessonViewState();
@@ -34,22 +31,15 @@ class LessonViewState extends State<LessonView> {
         title: Text(widget.lesson.title),
       ),
       body: FutureBuilder(
-        future: widget.flashCards,
+        future: widget.fcService.getFlashCards(lessonId: widget.lesson.id),
         builder: (context, snapshot) {
           final flashCards = snapshot.data;
+
           switch (snapshot.connectionState) {
             case ConnectionState.none:
-              return Center(
-                child: Text("No connection"),
-              );
             case ConnectionState.waiting:
-              return Center(
-                child: Text("Waiting for connection"),
-              );
             case ConnectionState.active:
-              return Center(
-                child: Text("Getting lesson"),
-              );
+              return Center(child: CircularProgressIndicator());
             case ConnectionState.done:
               return ListView(
                 padding: const EdgeInsets.all(8.0),
@@ -87,10 +77,12 @@ class LessonViewState extends State<LessonView> {
                           style: TextStyle(fontSize: 18),
                         ),
                         CircleAvatar(
-                          backgroundImage: AssetImage("images/profile.jpg"),
+                          backgroundImage: NetworkImage(
+                              FacebookProfileGetter.getAvatarUrl(
+                                  facebookId: widget.user.facebookId)),
                         ),
                         Text(
-                          " minmon98",
+                          '\t' + widget.user.username,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18),
                         ),
@@ -137,9 +129,9 @@ class LessonViewState extends State<LessonView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => WritingController(
-                                          lesson: widget.lesson,
-                                          flashCards: flashCards,
-                                        )));
+                                              lesson: widget.lesson,
+                                              flashCards: flashCards,
+                                            )));
                               },
                             ),
                             FlashCardLearningLayout(

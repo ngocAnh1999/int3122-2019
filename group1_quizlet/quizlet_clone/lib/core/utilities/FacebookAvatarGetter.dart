@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -12,7 +11,7 @@ class FacebookProfileGetter {
   }
 
   static String getAvatarUrl({@required String facebookId}) {
-    print(facebookId);
+//    print(facebookId);
     return 'http://graph.facebook.com/$facebookId/picture?width=500&height=500';
   }
 }

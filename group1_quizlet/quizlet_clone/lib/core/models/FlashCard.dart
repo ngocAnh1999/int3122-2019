@@ -13,9 +13,7 @@ class FlashCard {
     this.meaning = snapshot['meaning'] ?? '';
   }
 
-  @override
-  String toString() {
-    // TODO: implement toString
-    return word + ": " + meaning;
+  toJson() {
+    return {'word': word, 'meaning': meaning, 'lessonId': lessonId};
   }
 }

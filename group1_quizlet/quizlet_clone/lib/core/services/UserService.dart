@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
-import 'package:quizlet_clone/core/models/user.dart';
-import 'package:quizlet_clone/core/repositories/userRepository.dart';
+import 'package:quizlet_clone/core/models/User.dart';
+import 'package:quizlet_clone/core/repositories/implementations/UserRepositoryImpl.dart';
+import 'package:quizlet_clone/core/repositories/UserRepository.dart';
 
 class UserService {
+  static final UserService instance =
+      UserService._(repository: new UserRepositoryImpl());
   final UserRepository repository;
 
-  const UserService({@required this.repository});
+  const UserService._({@required this.repository});
 
-  Future<User> getUser({@required String id}) {
+  Future<User> getUser({@required String id}) async {
+//    await Future.delayed(Duration(seconds: 3));
     return repository.getUser(id: id);
   }
 
