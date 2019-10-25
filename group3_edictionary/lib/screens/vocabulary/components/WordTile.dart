@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
+import '../../../models/Word.dart';
+import '../../../helpers/Speaker.dart';
 
 class WordTile extends StatefulWidget{
 
-	final int wordId;
+	Word word;
 
-	WordTile({ Key key, @required this.wordId }) : super(key : key);
+	WordTile({ Key key, @required this.word }) : super(key : key);
 
 	@override
   	WordTileState createState() => new WordTileState();
 }
 
 class WordTileState extends State<WordTile> { 
+  Speaker _speaker = new Speaker();
+  Word get word => widget.word;
 
-	@override WordTile get widget => super.widget;
-
-	Map pickedMethods = {
-		'listenning' : false,
-		'speaking' : false,
-		'writing' : false,
-		'reading' : false
-	};
-
-	final String word = 'football';
-	final String example = 'They like football.';
-	final String meaning = 'Bóng đá';
-
-
+  Map pickedMethods = {
+    'listenning' : true,
+    'writing' : true,
+    'reading' : true,
+    'speaking' : true
+  };
+  
 	@override
 	Widget build(BuildContext context) {
 		return ListTile(
@@ -34,46 +31,55 @@ class WordTileState extends State<WordTile> {
 					Row(
 						mainAxisAlignment: MainAxisAlignment.start,
 						children: <Widget>[
-						new Container(
-							margin: EdgeInsets.only(right: 20),
-							width: 40.0,
-							height: 40.0,
-							decoration: new BoxDecoration(
-							shape: BoxShape.circle,
-							color: Colors.blue  
-							),
-						),	
-						new Column(
-							crossAxisAlignment: CrossAxisAlignment.start,
-							mainAxisAlignment: MainAxisAlignment.start,
-							children: <Widget>[
-							new Row(
-								children: <Widget>[
-								Text(
-									this.word,
-									textScaleFactor: 0.95,
-									style: TextStyle(color: Colors.red)
-								),
-								IconButton(
-									icon: Icon(Icons.volume_up),
-									color: Colors.green,
-									onPressed: () => print('Press started music.'),
-								),
-								Text(this.meaning, textScaleFactor: 0.95)
-								],
-							),
-							Text(this.example, style: TextStyle(fontStyle: FontStyle.italic))
-							],
-						),
+              Container(
+                margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                width: 40.0,
+                height: 40.0,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(word.imageSource)
+                  ),
+                  color: Colors.blue
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start ,
+                children: <Widget>[
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        word.content,
+                        textScaleFactor: 0.95,
+                        style: TextStyle(color: Colors.red)
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.volume_up),
+                        color: Colors.green,
+                        onPressed: _handleOnContentPressPlay(word.content),
+                      ),
+                    ],
+                  ),
+                  Text(word.meaning,
+                    textScaleFactor: 0.95,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  
+                  // Text(word.sentence, style: TextStyle(fontStyle: FontStyle.italic))
+                ],
+						  ),
 						],
 					),
-					getCheckBoxes(),
+					// getCheckBoxes(),
 					Divider()
 
 				],
-			)
-
-			
+			),
 		);
 	}
 
@@ -102,6 +108,14 @@ class WordTileState extends State<WordTile> {
 		);
 	}
 
+  Function _handleOnContentPressPlay(content){
+    Future<Null> _handlePlay() async {
+      return await _speaker.speak(content);
+    }
+
+    return _handlePlay;
+  }
+
 	Function handleOnChangeCheckbox(String methodKey){
 		void changeState(value) {
 			setState(() {
@@ -112,6 +126,5 @@ class WordTileState extends State<WordTile> {
 
 		return changeState;
 	}
-	
 
 }

@@ -146,17 +146,17 @@ class LoginPageState extends State<LoginPage>{
               Divider(thickness: 1)
             ],
           ),
-          loading ? Stack(
-            children: <Widget>[
-              Opacity(
-                opacity: 0.7,
-                child: ModalBarrier(dismissible: false, color : Colors.black),
-              ),
-              Center(
-                child: CircularProgressIndicator(),
-              )
-            ],
-          ) : Stack()
+            loading ? Stack(
+              children: <Widget>[
+                Opacity(
+                  opacity: 0.7,
+                  child: ModalBarrier(dismissible: false, color : Colors.black),
+                ),
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
+            ) : Stack()
         ],
       )
        

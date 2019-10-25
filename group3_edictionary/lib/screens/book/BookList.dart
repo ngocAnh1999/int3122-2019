@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../shared/menubar/MenuBar.dart';
-import '../lession/LessionList.dart';
+import '../unit/UnitList.dart';
 import '../../models/Book.dart';
 import '../../services/BookServices.dart';
 
@@ -71,7 +71,6 @@ class BookListState extends State<BookList> {
 			return null;
 
     Book currentBook = books[index];
-    print(currentBook.coverUrl);
 		return new ListTile(
 			title : Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -103,9 +102,9 @@ class BookListState extends State<BookList> {
       ),
 			onTap: () {
 				Navigator.push(context, 
-					MaterialPageRoute(builder: (context) => LessionList(
-						bookId : index,
-						bookName : 'Book $index'
+					MaterialPageRoute(builder: (context) => UnitList(
+						bookId : currentBook.bookId,
+						bookTitle : currentBook.name 
 					)));
 			},
 		);
