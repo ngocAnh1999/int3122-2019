@@ -11,7 +11,7 @@ class LoginView extends StatefulWidget {
 }
 
 class LoginViewState extends State<LoginView> {
-  String _loginResult = 'waiting';
+  String _loginStatus = '';
   bool _authenticating = false;
 
   @override
@@ -115,7 +115,11 @@ class LoginViewState extends State<LoginView> {
                             ))),
                     Center(
                         child: (_authenticating)
-                            ? Text('Đang xác thực...')
+                            ? Text(
+                                '$_loginStatus',
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              )
                             : null)
                   ],
                 ),
@@ -146,15 +150,21 @@ class LoginViewState extends State<LoginView> {
   _logInWithFacebook() async {
     setState(() {
       _authenticating = true;
+      _loginStatus = 'Đang xác thực...';
     });
-    var user = await AuthService.instance.logInWithFacebook();
+    var user = await AuthService.instance.logInWithFacebook().timeout(Duration(seconds: 15), onTimeout: () {
+      setState(() {
+        _authenticating = false;
+        _loginStatus = 'Đăng nhập không thành công';
+      });
+    });
     if (user != null) {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => HomeView()));
     } else {
       await Future.delayed(Duration(seconds: 1));
       setState(() {
-        _loginResult = 'error';
+        _loginStatus = 'Đăng nhập không thành công';
         _authenticating = false;
       });
     }

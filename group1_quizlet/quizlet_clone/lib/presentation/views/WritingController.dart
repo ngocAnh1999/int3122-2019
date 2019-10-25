@@ -155,7 +155,7 @@ class WritingControllerState extends State<WritingController> {
         appBar: AppBar(
           title: LinearPercentIndicator(
             width: MediaQuery.of(context).size.width * 70 / 100,
-            lineHeight: 14.0,
+            lineHeight: 20.0,
             center: Text(
                 "${((index / widget.flashCards.length) * 100).toStringAsFixed(0)}%"),
             percent: index / widget.flashCards.length,
