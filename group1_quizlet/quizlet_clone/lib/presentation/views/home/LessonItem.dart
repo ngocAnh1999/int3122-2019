@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/UserService.dart';
-import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
+import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/presentation/views/lesson/LessonView.dart';
 
 class LessonItem extends StatelessWidget {

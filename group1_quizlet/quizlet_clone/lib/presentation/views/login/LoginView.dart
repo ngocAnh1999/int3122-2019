@@ -17,10 +17,10 @@ class LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+        body: SingleChildScrollView(
+            child: Center(
           child: Container(
-            height: 500,
-            width: 400,
+            padding: EdgeInsets.fromLTRB(10, 100, 10, 50),
             child: Column(
               children: <Widget>[
                 Center(
@@ -29,7 +29,7 @@ class LoginViewState extends State<LoginView> {
                         height: 60,
                         child: Image.asset('assets/images/quizlet_label.png'))),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Center(
                     child: Text(
                       'Đăng nhập',
@@ -42,27 +42,27 @@ class LoginViewState extends State<LoginView> {
                   ),
                 ),
                 Container(
-                  width: 330,
-                  height: 300,
+                  padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     border: Border.all(color: Colors.transparent, width: 1),
-                    color: Colors.indigo,
+                    color: Colors.transparent,
                   ),
                   child: Column(
                     children: <Widget>[
                       Center(
                           child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
                               height: 60,
-                              width: 300,
                               decoration: BoxDecoration(
-                                color: Colors.blueAccent,
+                                color: _authenticating
+                                    ? Colors.blueAccent.withOpacity(0.3)
+                                    : Colors.blueAccent,
                                 border: Border.all(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: FlatButton(
-                                onPressed: () => _logInWithFacebook(),
+                                onPressed:
+                                    _authenticating ? null : _logInWithFacebook,
                                 child: Row(
                                   children: <Widget>[
                                     Icon(
@@ -83,21 +83,23 @@ class LoginViewState extends State<LoginView> {
                               ))),
                       Center(
                           child: Container(
-                              margin: EdgeInsets.fromLTRB(0, 10, 0, 30),
+                              margin: EdgeInsets.fromLTRB(0, 10, 0, 20),
                               height: 60,
-                              width: 300,
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: _authenticating
+                                    ? Colors.redAccent.withOpacity(0.3)
+                                    : Colors.redAccent,
                                 border: Border.all(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: FlatButton(
-                                onPressed: () => _logInWithGoogle(),
+                                onPressed:
+                                    _authenticating ? null : _logInWithGoogle,
                                 child: Row(
                                   children: <Widget>[
                                     Icon(
                                       FontAwesomeIcons.google,
-                                      color: Colors.redAccent,
+                                      color: Colors.white,
                                       size: 24,
                                     ),
                                     SizedBox(
@@ -106,15 +108,14 @@ class LoginViewState extends State<LoginView> {
                                     Text('Đăng nhập với Google',
                                         style: TextStyle(
                                             fontSize: 20,
-                                            color: Colors.black,
+                                            color: Colors.white,
                                             fontFamily: 'Open Sans'))
                                   ],
                                 ),
                               ))),
                       Center(
                           child: (_authenticating)
-                              ? CircularProgressIndicator(
-                                  backgroundColor: Colors.white)
+                              ? CircularProgressIndicator()
                               : null)
                     ],
                   ),
@@ -122,7 +123,7 @@ class LoginViewState extends State<LoginView> {
               ],
             ),
           ),
-        ),
+        )),
         bottomSheet: Container(
             height: 50,
             child: Center(

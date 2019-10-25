@@ -4,7 +4,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/UserService.dart';
-import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
+import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/core/utilities/UsernameFactory.dart';
 
 class AuthService {

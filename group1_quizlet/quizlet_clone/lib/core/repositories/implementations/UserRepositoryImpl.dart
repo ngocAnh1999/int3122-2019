@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/repositories/UserRepository.dart';
-import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
+import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final CollectionReference _ref = Firestore.instance.collection('users');

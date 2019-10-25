@@ -5,7 +5,7 @@ import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/FlashCardService.dart';
-import 'package:quizlet_clone/core/utilities/FacebookAvatarGetter.dart';
+import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLayout.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLearningLayout.dart';
 import 'package:quizlet_clone/presentation/views/MatchTagLearningController.dart';
