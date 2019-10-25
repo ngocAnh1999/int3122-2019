@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">English Beater</string>
+
+    <string name="facebook_app_id">870746379989590</string>
+    <string name="fb_login_protocol_scheme">fb870746379989590</string>
+</resources>
