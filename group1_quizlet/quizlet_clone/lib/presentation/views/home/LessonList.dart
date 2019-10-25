@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/core/services/LessonService.dart';
 
@@ -19,11 +20,9 @@ class LessonListState extends State<LessonList> {
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
-            return Text('No connection!');
           case ConnectionState.waiting:
-            return Text('Waiting for connection');
           case ConnectionState.active:
-            return Text('Getting lessons');
+            return CircularProgressIndicator();
           case ConnectionState.done:
             var lessons = snapshot.data;
             return ListView(

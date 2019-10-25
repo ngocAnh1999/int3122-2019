@@ -8,7 +8,7 @@ import 'package:quizlet_clone/presentation/views/home/HomeView.dart';
 import 'package:quizlet_clone/presentation/views/login/LoginView.dart';
 
 void main() async {
-  var currentUser = await AuthService.getCurrentUser();
+  var currentUser = await AuthService.instance.getCurrentUser();
   runApp(QuizletCloneApp(currentUser: currentUser));
 }
 

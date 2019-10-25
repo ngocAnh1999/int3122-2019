@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/repositories/UserRepository.dart';
 import 'package:quizlet_clone/core/repositories/implementations/UserRepositoryImpl.dart';
+import 'package:quizlet_clone/core/services/AuthService.dart';
 
 class UserService {
   static final UserService instance =
@@ -25,5 +26,9 @@ class UserService {
 
   Future<String> getFacebookAvatarUrl({@required String userId}) {
     return repository.getFacebookAvatarUrl(userId: userId);
+  }
+
+  Future<User> getCurrentUser() async {
+    return getUser(id: (await AuthService.instance.getCurrentUser()).uid);
   }
 }

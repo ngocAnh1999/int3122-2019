@@ -15,10 +15,10 @@ class AuthService {
 
   AuthService._();
 
-  static Future<FirebaseUser> getCurrentUser() async =>
+  Future<FirebaseUser> getCurrentUser() async =>
       await _auth.currentUser();
 
-  static Future<User> logInWithFacebook() async {
+  Future<User> logInWithFacebook() async {
     if (await _facebookLogin.isLoggedIn) _facebookLogin.logOut();
     final result = await _facebookLogin.logIn(['email']);
     switch (result.status) {
@@ -55,7 +55,7 @@ class AuthService {
     return null;
   }
 
-  static Future<FirebaseUser> logInWithGoogle() async {
+  Future<FirebaseUser> logInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount googleUser = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleAuth =
@@ -65,7 +65,7 @@ class AuthService {
     return _firebaseLogIn(credential: credential);
   }
 
-  static Future<FirebaseUser> _firebaseLogIn({@required credential}) async {
+  Future<FirebaseUser> _firebaseLogIn({@required credential}) async {
     final FirebaseUser firebaseUser =
         (await _auth.signInWithCredential(credential)).user;
     assert(firebaseUser.email != null);
@@ -78,7 +78,7 @@ class AuthService {
     return firebaseUser;
   }
 
-  static Future<void> firebaseLogOut() async {
+  Future<void> firebaseLogOut() async {
     await _auth.signOut();
     await _facebookLogin.logOut();
   }
