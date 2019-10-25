@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class BaseAuth {
@@ -65,9 +66,11 @@ class Auth implements BaseAuth{
 
   @override
   Future<String> signInFB() async {
-
-    // TODO: implement signInFB
-    return null;
+    final facebookLogin = new FacebookLogin();
+    final res = await facebookLogin.logIn(['email']);
+    final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: res.accessToken.token);
+    final FirebaseUser firebaseUser = (await _firebaseAuth.signInWithCredential(credential)).user;
+    return firebaseUser.uid;
   }
 
   @override
