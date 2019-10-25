@@ -14,21 +14,12 @@ class DetailBookScreen extends StatelessWidget {
       "Lesson 7 - Games",
       "Lesson 8 - Sports",
     ];
-    final fiveLesson = [
-      "Lesson 1 - Sports",
-      "Lesson 2 - Alphabet",
-      "Lesson 3 - Work",
-      "Lesson 4 - Animals",
-      "Lesson 5 - Countries",
-    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text("List lesson"),
       ),
-      body: new ListView.builder(itemBuilder: (context, index) {
-        if (index >= listLesson.length) {
-          listLesson.addAll(fiveLesson);
-        }
+      body: new ListView.builder(itemCount: listLesson.length, itemBuilder: (context, index) {
         return _buildRow(listLesson[index], index, context);
       }),
     );
@@ -51,8 +42,9 @@ class DetailBookScreen extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 child: Icon(
-                  Icons.favorite,
+                  Icons.book,
                   color: color,
+                  size: 26,
                 ),
               ),
               Text(
@@ -64,7 +56,7 @@ class DetailBookScreen extends StatelessWidget {
               //   padding: EdgeInsets.only(left: 10.0, right: 10.0),
               //   child: Icon(Icons.check_box_outline_blank, color: Colors.green)
               // ),
-              Icon(Icons.navigate_next, color: Colors.black)
+              Icon(Icons.navigate_next, color: Colors.black),
             ],
           ),
         ));

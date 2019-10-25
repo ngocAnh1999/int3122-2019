@@ -71,6 +71,5 @@ class _RootPageState extends State<RootPage> {
       default:
         return Container();
     }
-    return null;
   }
 }

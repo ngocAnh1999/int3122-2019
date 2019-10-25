@@ -8,22 +8,35 @@ import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key key, this.auth, this.userId, this.onSignedOut })
+  HomeScreen({Key key, this.auth, this.userId, this.onSignedOut})
       : super(key: key);
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final BaseAuth auth;
   final VoidCallback onSignedOut;
   final String userId;
   List<Item> itemList;
 
-
-  void logout() async{
+  void logout() async {
     try {
       await auth.signOut();
       onSignedOut();
     } catch (e) {
       print(e);
     }
+  }
+
+  _showSnackBar() {
+    final snackBar = new SnackBar(
+      content: Text("Updated new books!!"),
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.green,
+      action: SnackBarAction(
+        label: "OK",
+        onPressed: () {},
+      ),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
   @override
@@ -39,7 +52,6 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              // ListView contains a group of widgets that scroll inside the drawer
               child: ListView(
                 children: <Widget>[
                   DrawerHeader(
@@ -57,6 +69,7 @@ class HomeScreen extends StatelessWidget {
                     title: Text('Sách'),
                     onTap: () {
                       Navigator.pop(context);
+                      _showSnackBar();
                     },
                   ),
                   ListTile(
@@ -95,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.info),
+                    leading: Icon(Icons.exit_to_app),
                     title: Text('Log out'),
                     onTap: logout,
                   ),
@@ -107,8 +120,6 @@ class HomeScreen extends StatelessWidget {
                 // This align moves the children to the bottom
                 child: Align(
                     alignment: FractionalOffset.bottomCenter,
-                    // This container holds all the children that will be aligned
-                    // on the bottom and should not scroll with the above ListView
                     child: Container(
                         child: Column(
                       children: <Widget>[
@@ -136,7 +147,6 @@ class HomeScreen extends StatelessWidget {
                           padding: EdgeInsets.all(5.0),
                           child: Text("Version: 1.0"),
                         ),
-                        
                       ],
                     ))))
           ],

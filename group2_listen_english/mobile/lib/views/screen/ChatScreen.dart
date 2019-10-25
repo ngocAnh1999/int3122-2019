@@ -9,8 +9,11 @@ class ChatScreen extends StatefulWidget {
 }
 
 enum TtsState { playing, stopped }
+enum LearningMode { botVsBot, playerVsPlayer, botVsPlayer }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey  = new GlobalKey<ScaffoldState>();
+
   final List<Message> listMessages = [
     Message(
         id: "0", text: "Hello Bob!", type: TYPE.ONE_HUMAN, voice: "Hello Bob!"),
@@ -31,52 +34,67 @@ class _ChatScreenState extends State<ChatScreen> {
         voice: "Hello Bob!"),
     Message(
         id: "0",
-        text: "Yeah, have a nice day!",
+        text: "How many people are there in your family?",
         type: TYPE.ONE_HUMAN,
         voice: "Hello Bob!"),
-    Message(
-        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
     Message(
         id: "0",
-        text: "Yeah, have a nice day!",
-        type: TYPE.ONE_HUMAN,
+        text:
+            "There are 5 people in my family: my father, mother, brother, sister, and me.",
+        type: TYPE.TWO_HUMAN,
         voice: "Hello Bob!"),
-    Message(
-        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
     Message(
         id: "0",
-        text: "Yeah, have a nice day!",
+        text: "Does your family live in a house or an apartment?",
         type: TYPE.ONE_HUMAN,
         voice: "Hello Bob!"),
-    Message(
-        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
     Message(
         id: "0",
-        text: "Yeah, have a nice day!",
-        type: TYPE.ONE_HUMAN,
+        text: "We live in a house in the countryside.",
+        type: TYPE.TWO_HUMAN,
         voice: "Hello Bob!"),
-    Message(
-        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
     Message(
         id: "0",
-        text: "Yeah, have a nice day!",
+        text: "What does your father do?",
         type: TYPE.ONE_HUMAN,
         voice: "Hello Bob!"),
-    Message(
-        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
     Message(
         id: "0",
-        text: "Yeah, have a nice day!",
+        text: "My father is a doctor. He works at the local hospital.",
+        type: TYPE.TWO_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "How old is your mother?",
         type: TYPE.ONE_HUMAN,
         voice: "Hello Bob!"),
     Message(
-        id: "0", text: "You too!", type: TYPE.TWO_HUMAN, voice: "Hello Bob!"),
+        id: "0",
+        text: "She is 40 years old, 1 year younger than my father.",
+        type: TYPE.TWO_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Do you have any siblings? What’s his/her name?",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text:
+            "Yes, I do. I have 1 elder brother, David, and 1 younger sister, Mary.",
+        type: TYPE.TWO_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "Are you the oldest amongst your brothers and sisters?",
+        type: TYPE.ONE_HUMAN,
+        voice: "Hello Bob!"),
+    Message(
+        id: "0",
+        text: "No, I’m not. I’m the second child in my family.",
+        type: TYPE.TWO_HUMAN,
+        voice: "Hello Bob!"),
   ];
-
-//   Timer timer = new Timer(new Duration(seconds: 5), () {
-//    debugPrint("Print after 5 seconds");
-// });
-  // final flutterTts = FlutterTts();
 
   FlutterTts flutterTts;
   dynamic languages;
@@ -87,15 +105,16 @@ class _ChatScreenState extends State<ChatScreen> {
   bool speakingState = false;
   final GlobalKey _menuKey = new GlobalKey();
   String _newVoiceText;
-  int indexSpeaking = 0;
+  int indexSpeaking = -1;
   String _now;
   Timer _everySecond;
+  int readDone = -1;
 
   TtsState ttsState = TtsState.stopped;
+  LearningMode learningMode = LearningMode.botVsPlayer;
 
-  get isPlaying => ttsState == TtsState.playing;
-
-  get isStopped => ttsState == TtsState.stopped;
+  // get isPlaying => ttsState == TtsState.playing;
+  // get isStopped => ttsState == TtsState.stopped;
 
   @override
   initState() {
@@ -104,10 +123,11 @@ class _ChatScreenState extends State<ChatScreen> {
     _now = DateTime.now().second.toString();
 
     // defines a timer
-    _everySecond = Timer.periodic(Duration(seconds: 2), (Timer t) {
+    _everySecond = Timer.periodic(Duration(seconds: 3), (Timer t) {
       setState(() {
-        if (speakingState) {
+        if (speakingState && ttsState == TtsState.stopped) {
           // _now = DateTime.now().second.toString();
+          readDone = indexSpeaking;
           indexSpeaking++;
         }
       });
@@ -115,34 +135,52 @@ class _ChatScreenState extends State<ChatScreen> {
         _everySecond.cancel();
       }
     });
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsState = TtsState.stopped;
+      });
+    });
   }
 
   initTts() {
     flutterTts = FlutterTts();
   }
 
-  // Future _speak(String text) async {
-  //   if (text != null) {
-  //     if (text.isNotEmpty) {
-  //       var result = await flutterTts.speak(text);
-  //       if (result == 1) setState(() => ttsState = TtsState.playing);
-  //     }
-  //   }
-  // }
-
-  void _changeScreen() {
+  void _changeStatePlaying() {
+    if (ttsState == TtsState.playing) {
+      print("is Playing");
+      flutterTts.stop();
+    }
     setState(() {
-      // sets it to the opposite of the current screen
       speakingState = !speakingState;
+      ttsState = TtsState.stopped;
     });
   }
 
-  Future _read(String text) async {
-    /// Wenn noch am Reden, dann Klappe halten!
+  void autoSpeech() {}
+
+  void _read(String text) async {
     await flutterTts.stop();
+    new Future.delayed(const Duration(milliseconds: 5), () async {
+      if (text != null && text.isNotEmpty) {
+        await flutterTts.speak(text.toLowerCase());
+        setState(() {
+          readDone = indexSpeaking;
+        });
+      }
+    });
     if (text != null && text.isNotEmpty) {
-      /// Als Kleinbuchstaben aussprechen lassen, da sonst beispielsweise "Großbuchstabe X" statt nur "X" gesagt wird...
       await flutterTts.speak(text.toLowerCase());
+      setState(() {
+        readDone = indexSpeaking;
+      });
     }
   }
 
@@ -151,48 +189,70 @@ class _ChatScreenState extends State<ChatScreen> {
     if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
 
+  _showSnackBar() {
+    final snackBar = new SnackBar(
+      content: Text("Changed learning mode!"),
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.green,
+      action: SnackBarAction(
+        label: "OK",
+        onPressed: (){
+
+        },
+      ),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Widget viewBottom = new Container(
-    //   alignment: Alignment.bottomCenter,
-    //   child: Text("Play/Pause"),
-    // );
-
-    // Widget sectionBottom(String title) {
-    //   return Positioned(
-    //       child: new Align(
-    //     alignment: FractionalOffset.bottomCenter,
-    //     child: Text("Bottom"),
-    //   ));
-    // }
-
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
         // action button
-        IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {},
-        ),
+        // IconButton(
+        //   icon: Icon(Icons.settings),
+        //   onPressed: () {},
+        // ),
         PopupMenuButton(
-            key: _menuKey,
-            itemBuilder: (_) => <PopupMenuItem<String>>[
-                  new PopupMenuItem<String>(
-                      child: const Text('Luyện nghe'), value: 'listen'),
-                  new PopupMenuItem<String>(
-                      child: const Text('Luyện với Bot'), value: 'vsBot'),
-                  new PopupMenuItem<String>(
-                      child: const Text('Luyện nói 2 người'), value: 'twoBot'),
-                  // new PopupMenuItem<String>(
-                  //   child: Row(
-                  //     children: <Widget>[],
-                  //   ),
-                  // ),
-                ],
-            onSelected: (_) {})
+          onSelected: (String value) {
+            print(value);
+            switch (value) {
+              case 'botVsBot':
+                setState(() {
+                  learningMode = LearningMode.botVsBot;
+                });
+                _showSnackBar();
+                break;
+              case 'botVsPlayer':
+                setState(() {
+                  learningMode = LearningMode.botVsPlayer;
+                });
+                _showSnackBar();
+                break;
+              case 'playerVsPlayer':
+                setState(() {
+                  learningMode = LearningMode.playerVsPlayer;
+                });
+                _showSnackBar();
+                break;
+              default:
+            }
+          },
+          key: _menuKey,
+          itemBuilder: (_) => <PopupMenuItem<String>>[
+            new PopupMenuItem<String>(
+                value: 'botVsBot', child: Text('Luyện nghe')),
+            new PopupMenuItem<String>(
+                value: 'botVsPlayer', child: Text('Luyện với Bot')),
+            new PopupMenuItem<String>(
+                value: 'playerVsPlayer', child: Text('Luyện nói 2 người')),
+          ],
+        )
       ]),
       body: Container(
         child: ListView.builder(
-            padding: EdgeInsets.only(bottom: 50.0),
+            padding: EdgeInsets.only(bottom: 60.0),
             itemCount: listMessages.length,
             itemBuilder: (context, index) {
               return _buildRow(
@@ -202,7 +262,7 @@ class _ChatScreenState extends State<ChatScreen> {
               );
             }),
       ),
-      bottomSheet: bottomChat(),
+      bottomSheet: bottomControl(),
     );
   }
 
@@ -215,61 +275,45 @@ class _ChatScreenState extends State<ChatScreen> {
     final alignment = message.type == TYPE.ONE_HUMAN
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
-    indexSpeaking == index ? _read(textMessage) : null;
-    return GestureDetector(
-        onTap: () {},
-        child: Row(
-          mainAxisAlignment: alignment,
-          children: <Widget>[
-            GestureDetector(
-              onTap: () {
-                print(textMessage);
-                _read(textMessage);
-              },
-              child: Container(
-                margin:
-                    const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-                padding: EdgeInsets.all(10.0),
-                child: Text(textMessage),
-                // decoration: myBoxDecoration(),
-                decoration: BoxDecoration(
-                  color: backgroundMessageColor,
-                  border: Border.all(color: borderMessageColor),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                      bottomLeft: alignment == MainAxisAlignment.end
-                          ? Radius.circular(10.0)
-                          : Radius.circular(0.0),
-                      bottomRight: alignment == MainAxisAlignment.start
-                          ? Radius.circular(10.0)
-                          : Radius.circular(0.0)),
-                ),
-              ),
-            )
-          ],
-        ));
-  }
 
-  Widget message(String text, MainAxisAlignment alignment, int indexSpeaking) {
-    final Color tintColor =
-        (indexSpeaking == 0) ? Colors.red : Colors.blue[100];
+    if (speakingState && indexSpeaking == index && readDone != index) {
+      switch (learningMode) {
+        case LearningMode.botVsPlayer:
+          if (alignment == MainAxisAlignment.start) {
+            _read(textMessage);
+          }
+          break;
+        case LearningMode.botVsBot:
+          _read(textMessage);
+          break;
+        case LearningMode.playerVsPlayer:
+          break;
+        default:
+      }
+    }
+
+    final marginLeft = alignment == MainAxisAlignment.start ? 10.0 : 50.0;
+    final marginRight = alignment == MainAxisAlignment.start ? 50.0 : 10.0;
+
+    double widthRow = MediaQuery.of(context).size.width * 0.8;
     return Row(
       mainAxisAlignment: alignment,
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            print(text);
-            _read(text);
+            print(textMessage);
+            _read(textMessage);
           },
           child: Container(
-            margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
-            padding: EdgeInsets.all(10.0),
-            child: Text(text),
-            // decoration: myBoxDecoration(),
+            margin: EdgeInsets.only(
+                left: marginLeft, right: marginRight, top: 10.0),
+            padding: const EdgeInsets.all(10.0),
+            // width: c_width,
+            constraints: BoxConstraints(minWidth: 100, maxWidth: widthRow),
+            child: Text(textMessage),
             decoration: BoxDecoration(
-              color: tintColor,
-              // border: Border.all(color: Colors.blueAccent),
+              color: backgroundMessageColor,
+              border: Border.all(color: borderMessageColor),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.0),
                   topRight: Radius.circular(10.0),
@@ -286,19 +330,22 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget bottomChat() {
+  Widget bottomControl() {
     return Container(
       height: 50,
+      // padding: EdgeInsets.only(bottom: 10.0),
       color: Colors.blueGrey[200],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: _changeScreen,
+            onTap: _changeStatePlaying,
             child: Icon(
-              speakingState ? Icons.mic : Icons.pause_circle_filled,
+              speakingState
+                  ? Icons.pause_circle_filled
+                  : Icons.play_circle_filled,
               color: Colors.blue,
-              size: 32.0,
+              size: 40.0,
             ),
           )
         ],
