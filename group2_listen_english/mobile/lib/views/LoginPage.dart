@@ -345,7 +345,7 @@ class _LoginPageState extends State<LoginPage> {
                           Color(0xFF00aaf8),
                         ],
                         iconData: CustomIcons.facebook,
-                        onPressed: (){},
+                        onPressed: signinFB,
                       ),
                       SocialIcons(
                         colors: [
