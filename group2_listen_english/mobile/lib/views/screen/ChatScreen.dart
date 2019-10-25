@@ -12,7 +12,7 @@ enum TtsState { playing, stopped }
 enum LearningMode { botVsBot, playerVsPlayer, botVsPlayer }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey  = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final List<Message> listMessages = [
     Message(
@@ -196,19 +196,46 @@ class _ChatScreenState extends State<ChatScreen> {
       backgroundColor: Colors.green,
       action: SnackBarAction(
         label: "OK",
-        onPressed: (){
-
-        },
+        onPressed: () {},
       ),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
+
+  ValueNotifier<LearningMode> _selectedItem =
+      new ValueNotifier<LearningMode>(LearningMode.botVsPlayer);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
+        // PopupMenuButton<LearningMode>(
+        //   itemBuilder: (BuildContext context) {
+        //     return new List<PopupMenuEntry<LearningMode>>.generate(
+        //       LearningMode.values.length,
+        //       (int index) {
+        //         return new PopupMenuItem(
+        //           value: LearningMode.values[index],
+        //           child: new AnimatedBuilder(
+        //             child: new Text(LearningMode.values[index].toString()),
+        //             animation: _selectedItem,
+        //             builder: (BuildContext context, Widget child) {
+        //               return new RadioListTile<LearningMode>(
+        //                 value: LearningMode.values[index],
+        //                 groupValue: _selectedItem.value,
+        //                 title: child,
+        //                 onChanged: (LearningMode value) {
+        //                   _selectedItem.value = value;
+        //                 },
+        //               );
+        //             },
+        //           ),
+        //         );
+        //       },
+        //     );
+        //   },
+        // ),
         // action button
         // IconButton(
         //   icon: Icon(Icons.settings),
@@ -242,11 +269,28 @@ class _ChatScreenState extends State<ChatScreen> {
           key: _menuKey,
           itemBuilder: (_) => <PopupMenuItem<String>>[
             new PopupMenuItem<String>(
-                value: 'botVsBot', child: Text('Luyện nghe')),
+              value: 'botVsBot',
+              child: RadioListTile<LearningMode>(
+                title: Text("Luyện nghe"),
+                value: LearningMode.botVsBot,
+                groupValue: learningMode,
+              ),
+            ),
             new PopupMenuItem<String>(
-                value: 'botVsPlayer', child: Text('Luyện với Bot')),
+                value: 'botVsPlayer',
+                child: RadioListTile<LearningMode>(
+                  title: Text("Luyện với bot"),
+                  value: LearningMode.botVsPlayer,
+                groupValue: learningMode,
+                )),
             new PopupMenuItem<String>(
-                value: 'playerVsPlayer', child: Text('Luyện nói 2 người')),
+              value: 'playerVsPlayer',
+              child: RadioListTile<LearningMode>(
+                title: Text("Luyện nói 2 người"),
+                value: LearningMode.playerVsPlayer,
+                groupValue: learningMode,
+              ),
+            ),
           ],
         )
       ]),
