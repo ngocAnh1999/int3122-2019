@@ -152,7 +152,9 @@ class LoginViewState extends State<LoginView> {
       _authenticating = true;
       _loginStatus = 'Đang xác thực...';
     });
-    var user = await AuthService.instance.logInWithFacebook().timeout(Duration(seconds: 60), onTimeout: () {
+    var user = await AuthService.instance
+        .logInWithFacebook()
+        .timeout(Duration(seconds: 60), onTimeout: () {
       setState(() {
         _authenticating = false;
         _loginStatus = 'Đăng nhập không thành công';
