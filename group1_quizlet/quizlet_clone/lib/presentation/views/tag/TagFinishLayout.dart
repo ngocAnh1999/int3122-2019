@@ -63,8 +63,8 @@ class TagFinishLayout extends StatelessWidget {
                   child: ListTile(
                     title: Text(
                       flashCard.word,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     subtitle: Text(
                       flashCard.meaning,

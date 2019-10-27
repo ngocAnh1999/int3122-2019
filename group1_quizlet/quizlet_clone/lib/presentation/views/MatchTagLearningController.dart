@@ -4,8 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
-import 'package:quizlet_clone/presentation/layouts/FinishLearningLayout.dart';
-import 'package:quizlet_clone/presentation/layouts/TagLearningLayout.dart';
+import 'package:quizlet_clone/presentation/views/tag/TagLearningLayout.dart';
 import 'package:toast/toast.dart';
 
 final int LIST_TAG_LENGTH = 6;
@@ -158,10 +157,10 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
                     firstTag.onClicked = () {};
                     secondTag.onClicked = () {};
                     if (trueAnswers == widget.flashCards.length) {
-                      final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FinishLearningLayout()));
+//                      final result = await Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => FinishLearningLayout()));
                       setState(() {
                         listTagLearning.clear();
                         listPosition.clear();
@@ -240,10 +239,10 @@ class MatchTagLearningState extends State<MatchTagLearningController> {
                     firstTag.onClicked = () {};
                     secondTag.onClicked = () {};
                     if (trueAnswers == widget.flashCards.length) {
-                      final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FinishLearningLayout()));
+//                      final result = await Navigator.push(
+//                          context,
+//                          MaterialPageRoute(
+//                              builder: (context) => FinishLearningLayout()));
                       dispose();
                       initState();
 //                      generateListTagLearning();

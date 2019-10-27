@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardSecondTypeLayout.dart';
-import 'package:quizlet_clone/presentation/layouts/TagFinishLayout.dart';
+import 'package:quizlet_clone/presentation/views/tag/TagFinishLayout.dart';
 
 String APPBAR_TITLE = "Thẻ ghi nhớ";
 
@@ -37,8 +37,7 @@ class TagLearningState extends State<TagLearningController> {
         ),
         title: Text(
           APPBAR_TITLE,
-          style:
-              TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
       body: Center(
@@ -54,16 +53,17 @@ class TagLearningState extends State<TagLearningController> {
                   if (!learnt) {
                     wrong++;
                     relearnFlashCard.add(widget.flashCards[count]);
-                  };
+                  }
+                  ;
                   count++;
                   if (count == widget.flashCards.length) {
                     final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => new TagFinishLayout(
-                              wrong: wrong,
-                              relearnFlashCard: relearnFlashCard,
-                            )));
+                                  wrong: wrong,
+                                  relearnFlashCard: relearnFlashCard,
+                                )));
                     count = 0;
                     wrong = 0;
                     relearnFlashCard.clear();

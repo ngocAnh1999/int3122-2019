@@ -7,10 +7,11 @@ import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/FlashCardService.dart';
 import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLayout.dart';
-import 'package:quizlet_clone/presentation/layouts/FlashCardLearningLayout.dart';
+import 'package:quizlet_clone/presentation/views/lesson/FlashCardLearningLayout.dart';
+import 'package:quizlet_clone/presentation/views/exam/ExamController.dart';
 import 'package:quizlet_clone/presentation/views/MatchTagLearningController.dart';
-import 'package:quizlet_clone/presentation/views/TagLearningController.dart';
-import 'package:quizlet_clone/presentation/views/WritingController.dart';
+import 'package:quizlet_clone/presentation/views/tag/TagLearningController.dart';
+import 'package:quizlet_clone/presentation/views/writing/WritingController.dart';
 
 import 'FlashCardItem.dart';
 
@@ -152,7 +153,14 @@ class LessonViewState extends State<LessonView> {
                             FlashCardLearningLayout(
                               iconData: Icons.insert_drive_file,
                               title: "Kiểm tra",
-                              flashCardLearningEvent: null,
+                              flashCardLearningEvent: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ExamController(
+                                              flashCards: flashCards,
+                                            )));
+                              },
                             )
                           ],
                         )

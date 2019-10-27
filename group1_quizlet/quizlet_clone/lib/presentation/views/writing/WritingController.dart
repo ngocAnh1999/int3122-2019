@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
-import 'package:quizlet_clone/presentation/layouts/WritingFinishLayout.dart';
+import 'package:quizlet_clone/presentation/views/writing/WritingFinishLayout.dart';
 
 final String SUGGUEST_ANSWER_TITLE = "Đáp án đúng";
 final String YOUR_ANSWER_TITLE = "Đáp án của bạn";

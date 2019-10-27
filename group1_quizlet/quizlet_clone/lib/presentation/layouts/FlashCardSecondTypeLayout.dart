@@ -86,16 +86,34 @@ class _FlashCardSecondTypeLayoutState extends State<FlashCardSecondTypeLayout>
                 child: ListTile(
                   leading: Column(
                     children: <Widget>[
-                      Icon(Icons.arrow_back_ios, size: 25, color: Color(0xfff1c40f),),
-                      SizedBox(height: 10,),
-                      Text("Học lại", style: TextStyle(color: Color(0xfff1c40f)),)
+                      Icon(
+                        Icons.arrow_back_ios,
+                        size: 25,
+                        color: Color(0xfff1c40f),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "Học lại",
+                        style: TextStyle(color: Color(0xfff1c40f)),
+                      )
                     ],
                   ),
                   trailing: Column(
                     children: <Widget>[
-                      Icon(Icons.arrow_forward_ios, size: 25, color: Colors.green,),
-                      SizedBox(height: 10,),
-                      Text("Đã thuộc", style: TextStyle(color: Colors.green,))
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 25,
+                        color: Colors.green,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Đã thuộc",
+                          style: TextStyle(
+                            color: Colors.green,
+                          ))
                     ],
                   ),
                   title: Center(

@@ -135,6 +135,7 @@ class WritingFinishState extends State<WritingFinsishLayout> {
               widget.getComment(),
               style: TextStyle(
                 fontSize: 30,
+                fontWeight: FontWeight.bold
               ),
             ),
           )),
