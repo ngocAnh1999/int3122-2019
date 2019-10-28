@@ -25,7 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   cloud_firestore: ^0.12.9+5
   overlay_support: ^1.0.0
-
+  flutter_tts: ^0.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

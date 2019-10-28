@@ -59,7 +59,7 @@ class _FlashCardLayoutState extends State<FlashCardLayout>
       child: Card(
         elevation: 4,
         clipBehavior: Clip.hardEdge,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),

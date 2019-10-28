@@ -15,8 +15,7 @@ class AuthService {
 
   AuthService._();
 
-  Future<FirebaseUser> getCurrentUser() async =>
-      await _auth.currentUser();
+  Future<FirebaseUser> getCurrentUser() async => await _auth.currentUser();
 
   Future<User> logInWithFacebook() async {
     if (await _facebookLogin.isLoggedIn) _facebookLogin.logOut();
