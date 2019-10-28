@@ -15,4 +15,9 @@ class FlashCardRepositoryImpl implements FlashCardRepository {
             .toList());
     return fcs;
   }
+
+  @override
+  Future<int> countFlashCards({String lessonId}) async {
+    return (await getFlashCards(lessonId: lessonId)).length;
+  }
 }

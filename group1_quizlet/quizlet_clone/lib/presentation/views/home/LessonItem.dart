@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/core/models/User.dart';
+import 'package:quizlet_clone/core/services/FlashCardService.dart';
 import 'package:quizlet_clone/core/services/UserService.dart';
 import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/presentation/views/lesson/LessonView.dart';
@@ -9,6 +10,7 @@ import 'package:quizlet_clone/presentation/views/lesson/LessonView.dart';
 class LessonItem extends StatelessWidget {
   final Lesson lesson;
   static final UserService _userService = UserService.instance;
+  static final FlashCardService _flashCardService = FlashCardService.instance;
 
   LessonItem({@required this.lesson}) : super(key: ObjectKey(lesson));
 
@@ -17,7 +19,7 @@ class LessonItem extends StatelessWidget {
     return Container(
         height: 180,
         child: FutureBuilder(
-            future: _userService.getUser(id: lesson.userId),
+            future: Future.wait([_userService.getUser(id: lesson.userId), _flashCardService.countFlashCards(lessonId: lesson.id)]),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -29,7 +31,8 @@ class LessonItem extends StatelessWidget {
                     ),
                   );
                 case ConnectionState.done:
-                  User user = snapshot.data;
+                  User user = snapshot.data[0];
+                  int numberOfFlashCards = snapshot.data[1];
                   return GestureDetector(
                     child: Card(
                       child: Column(
@@ -43,7 +46,7 @@ class LessonItem extends StatelessWidget {
                           ),
                           ListTile(
                             title: Text(
-                              "${lesson.numberOfFlashCards} thuật ngữ",
+                              "$numberOfFlashCards thuật ngữ",
                             ),
                           ),
                           ListTile(

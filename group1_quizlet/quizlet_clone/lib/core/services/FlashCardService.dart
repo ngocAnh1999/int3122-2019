@@ -15,4 +15,8 @@ class FlashCardService {
 //    await Future.delayed(Duration(seconds: 3));
     return repository.getFlashCards(lessonId: lessonId);
   }
+
+  Future<int> countFlashCards({@required lessonId}) async {
+    return repository.countFlashCards(lessonId: lessonId);
+  }
 }

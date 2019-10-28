@@ -4,31 +4,30 @@ import 'package:quizlet_clone/core/models/FlashCard.dart';
 
 typedef void SwipedEventCallback(bool);
 
-class FlashCardSecondTypeLayout extends StatefulWidget {
+class SwipeableFlashCard extends StatefulWidget {
   final FlashCard flashCard;
   final double ratio;
   final SwipedEventCallback swipedEventCallback;
 
-  FlashCardSecondTypeLayout(
+  SwipeableFlashCard(
       {Key key, this.flashCard, this.ratio, this.swipedEventCallback})
       : super(key: key);
 
   @override
-  _FlashCardSecondTypeLayoutState createState() =>
-      _FlashCardSecondTypeLayoutState();
+  _SwipeableFlashCardState createState() =>
+      _SwipeableFlashCardState();
 }
 
-class _FlashCardSecondTypeLayoutState extends State<FlashCardSecondTypeLayout>
+class _SwipeableFlashCardState extends State<SwipeableFlashCard>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   Animation<double> _curvedAnimation;
-  String learning_type = "Học lại";
-  Color learning_color = Colors.yellow;
+  String learningType = "Học lại";
+  Color learningColor = Colors.yellow;
 
   @override
   void initState() {
     super.initState();
-
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _curvedAnimation =
@@ -141,7 +140,7 @@ class _FlashCardSecondTypeLayoutState extends State<FlashCardSecondTypeLayout>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Học lại ${title}",
+                        "Học lại $title",
                         style: TextStyle(fontSize: 18),
                       )
                     ],
@@ -160,7 +159,7 @@ class _FlashCardSecondTypeLayoutState extends State<FlashCardSecondTypeLayout>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Đã thuộc ${title}",
+                        "Đã thuộc $title",
                         style: TextStyle(fontSize: 18),
                       )
                     ],

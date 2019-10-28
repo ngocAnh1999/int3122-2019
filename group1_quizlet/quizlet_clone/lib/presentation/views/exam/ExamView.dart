@@ -3,36 +3,31 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
-import 'package:quizlet_clone/presentation/views/exam/ExamFinishLayout.dart';
+import 'package:quizlet_clone/core/models/Lesson.dart';
+import 'package:quizlet_clone/presentation/views/exam/ExamResultView.dart';
 import 'package:quizlet_clone/presentation/views/exam/AnswerLayout.dart';
-import 'package:quizlet_clone/presentation/views/exam/ChooseBestAnswerType.dart';
-import 'package:quizlet_clone/presentation/views/exam/EnterAnswerType.dart';
-import 'package:quizlet_clone/presentation/views/exam/TrueFalseType.dart';
+import 'package:quizlet_clone/presentation/views/exam/ChooseBestAnswerQuestion.dart';
+import 'package:quizlet_clone/presentation/views/exam/WritingQuestion.dart';
+import 'package:quizlet_clone/presentation/views/exam/TrueFalseQuestion.dart';
 
-class ExamController extends StatefulWidget {
+class ExamView extends StatefulWidget {
+  final Lesson lesson;
   final List<FlashCard> flashCards;
-
-  ExamController({Key key, this.flashCards}) : super(key: key);
+  ExamView({Key key, this.lesson, this.flashCards}) : super(key: key);
 
   @override
-  ExamControllerState createState() => new ExamControllerState();
+  ExamViewState createState() => new ExamViewState();
 }
 
-class ExamControllerState extends State<ExamController> {
+class ExamViewState extends State<ExamView> {
   int index = 0;
   int trueAnswers = 0;
-  List<Widget> exams = null;
-  List<AnswerLayout> answerlayouts = null;
+  List<Widget> exams;
+  List<AnswerLayout> answerLayouts;
 
   void increaseIndex() {
     setState(() {
       index++;
-    });
-  }
-
-  void resetIndex() {
-    setState(() {
-      index = 0;
     });
   }
 
@@ -80,13 +75,13 @@ class ExamControllerState extends State<ExamController> {
   }
 
   List<Widget> splitExamType() {
-    int ENTER_ANSWER_RANGE = (widget.flashCards.length * 0.4).floor();
-    int CHOOSE_BEST_ANSWER_RANGE = (widget.flashCards.length * 0.7).floor();
+    int WRITING_QUESTION_RANGE = (widget.flashCards.length * 0.4).floor();
+    int CHOOSE_BEST_ANSWER_QUESTION_RANGE = (widget.flashCards.length * 0.7).floor();
     var listWidgets = List<Widget>();
     List<FlashCard> newFlashCards = swapIndex();
     for (int index = 0; index < newFlashCards.length; index++) {
-      if (index <= ENTER_ANSWER_RANGE) {
-        var widget = new EnterAnswerType(
+      if (index <= WRITING_QUESTION_RANGE) {
+        var widget = new WritingQuestion(
           flashCard: newFlashCards[index],
           answerCallback: (answer, isTrue) async {
             if (isTrue) trueAnswers++;
@@ -94,72 +89,64 @@ class ExamControllerState extends State<ExamController> {
               examType: ExamType.ENTER_ANSWER,
               word: newFlashCards[index].word,
               meaning: newFlashCards[index].meaning,
-              true_answer: newFlashCards[index].meaning,
-              user_answer: answer,
+              correctAnswer: newFlashCards[index].meaning,
+              userAnswer: answer,
             );
-            answerlayouts.add(userAnswer);
+            answerLayouts.add(userAnswer);
             if (index < exams.length - 1) {
               increaseIndex();
             } else {
-              final result = await Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => new ExamFinishLayout(
+                      builder: (context) => new ExamResultView(
                         trueAnswers: trueAnswers,
                         count: exams.length,
-                        answerLayouts: answerlayouts,
+                        answerLayouts: answerLayouts,
                       )));
-              exams = splitExamType();
-              trueAnswers = 0;
-              answerlayouts.clear();
-              resetIndex();
             }
           },
         );
         listWidgets.add(widget);
-      } else if (index > ENTER_ANSWER_RANGE &&
-          index <= CHOOSE_BEST_ANSWER_RANGE) {
-        var widget = new ChooseBestAnswerType(
+      } else if (index > WRITING_QUESTION_RANGE &&
+          index <= CHOOSE_BEST_ANSWER_QUESTION_RANGE) {
+        var widget = new ChooseBestAnswerQuestion(
           meaning: newFlashCards[index].meaning,
           words: getAnswerOutlineButton(index, newFlashCards),
-          anwers: newFlashCards[index].word,
+          answer: newFlashCards[index].word,
           answerCallback: (answer, isTrue) async {
             if (isTrue) trueAnswers++;
             var userAnswer = new AnswerLayout(
               examType: ExamType.CHOOSE_BEST_ANSWER,
               word: newFlashCards[index].meaning,
               meaning: newFlashCards[index].word,
-              true_answer: newFlashCards[index].word,
-              user_answer: answer,
+              correctAnswer: newFlashCards[index].word,
+              userAnswer: answer,
             );
-            answerlayouts.add(userAnswer);
+            answerLayouts.add(userAnswer);
             if (index < exams.length - 1) {
               increaseIndex();
             } else {
-              final result = await Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => new ExamFinishLayout(
+                      builder: (context) => new ExamResultView(
                         trueAnswers: trueAnswers,
                         count: exams.length,
-                        answerLayouts: answerlayouts,
+                        answerLayouts: answerLayouts,
                       )));
-              exams = splitExamType();
-              trueAnswers = 0;
-              answerlayouts.clear();
-              resetIndex();
             }
           },
         );
         listWidgets.add(widget);
-      } else if (index > CHOOSE_BEST_ANSWER_RANGE &&
+      } else if (index > CHOOSE_BEST_ANSWER_QUESTION_RANGE &&
           index < widget.flashCards.length) {
         int key = Random().nextInt(newFlashCards.length);
         bool meaningTrue = Random().nextBool();
         String meaning = (meaningTrue)
             ? newFlashCards[index].meaning
             : newFlashCards[key].meaning;
-        var widget = new TrueFalseType(
+        var widget = new TrueFalseQuestion(
           word: newFlashCards[index].word,
           meaning: meaning,
           answer: meaning == newFlashCards[index].meaning,
@@ -169,25 +156,21 @@ class ExamControllerState extends State<ExamController> {
               examType: ExamType.TRUE_FALSE,
               word: newFlashCards[index].word,
               meaning: meaning,
-              true_answer: (meaning == newFlashCards[index].meaning) ? "Đúng" : "Sai",
-              user_answer: answer,
+              correctAnswer: (meaning == newFlashCards[index].meaning) ? "Đúng" : "Sai",
+              userAnswer: answer,
             );
-            answerlayouts.add(userAnswer);
+            answerLayouts.add(userAnswer);
             if (index < exams.length - 1) {
               increaseIndex();
             } else {
-              final result = await Navigator.push(
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => new ExamFinishLayout(
+                      builder: (context) => new ExamResultView(
                         trueAnswers: trueAnswers,
                         count: exams.length,
-                        answerLayouts: answerlayouts,
+                        answerLayouts: answerLayouts,
                       )));
-              exams = splitExamType();
-              trueAnswers = 0;
-              answerlayouts.clear();
-              resetIndex();
             }
           },
         );
@@ -200,7 +183,7 @@ class ExamControllerState extends State<ExamController> {
   @override
   void initState() {
     exams = splitExamType();
-    answerlayouts = new List<AnswerLayout>();
+    answerLayouts = new List<AnswerLayout>();
     super.initState();
   }
 

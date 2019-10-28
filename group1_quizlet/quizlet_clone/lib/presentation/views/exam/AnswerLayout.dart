@@ -6,15 +6,15 @@ class AnswerLayout extends StatelessWidget {
   final ExamType examType;
   final String word;
   final String meaning;
-  final String true_answer;
-  final String user_answer;
+  final String correctAnswer;
+  final String userAnswer;
 
   AnswerLayout(
       {this.examType,
       this.word,
       this.meaning,
-      this.true_answer,
-      this.user_answer});
+      this.correctAnswer,
+      this.userAnswer});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class AnswerLayout extends StatelessWidget {
               : Container(
                   height: 132,
                 ),
-          (true_answer == user_answer)
+          (correctAnswer == userAnswer)
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -63,7 +63,7 @@ class AnswerLayout extends StatelessWidget {
                           color: Colors.green,
                         ),
                         Text(
-                          user_answer,
+                          userAnswer,
                           style: TextStyle(color: Colors.green),
                         )
                       ],
@@ -81,7 +81,7 @@ class AnswerLayout extends StatelessWidget {
                           color: Colors.green,
                         ),
                         Text(
-                          true_answer,
+                          correctAnswer,
                           style: TextStyle(color: Colors.green),
                         )
                       ],
@@ -94,9 +94,9 @@ class AnswerLayout extends StatelessWidget {
                           color: Colors.red,
                         ),
                         Text(
-                          (user_answer.length > 25)
-                              ? "${user_answer.substring(0, 25)}..."
-                              : user_answer,
+                          (userAnswer.length > 25)
+                              ? "${userAnswer.substring(0, 25)}..."
+                              : userAnswer,
                           style: TextStyle(color: Colors.red),
                         )
                       ],
@@ -106,7 +106,7 @@ class AnswerLayout extends StatelessWidget {
           Container(
             height: 12,
           ),
-          (true_answer == user_answer)
+          (correctAnswer == userAnswer)
               ? Container(
                   decoration: BoxDecoration(color: Colors.green),
                   child: ListTile(

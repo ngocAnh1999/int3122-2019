@@ -79,7 +79,7 @@ class MatchingCardState extends State<MatchingCard> {
         child: AnimatedContainer(
             width: (_fade) ? 0 : 300,
             height: (_fade) ? 0 : 300,
-            duration: Duration(milliseconds: 500),
+            duration: (_fade) ? Duration(milliseconds: 500) : Duration(milliseconds: 200),
             decoration: BoxDecoration(
                 color: _background,
                 border:

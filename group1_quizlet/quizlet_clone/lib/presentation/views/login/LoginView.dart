@@ -128,15 +128,6 @@ class LoginViewState extends State<LoginView> {
           ),
         ),
       )),
-//        bottomSheet: Container(
-//            height: 50,
-//            child: Center(
-//                child: Text('Status: $_loginResult',
-//                    style: TextStyle(
-//                        fontSize: 20,
-//                        fontFamily: 'Open Sans',
-//                        color: Colors.redAccent,
-//                        fontWeight: FontWeight.w100))))
       bottomSheet: Container(
         height: 50,
         child: Center(

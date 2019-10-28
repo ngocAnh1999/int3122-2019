@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:quizlet_clone/presentation/views/exam/AnswerLayout.dart';
 
-final EXCELLENT_TITLE = "Tốt lắm";
-final GOOD_TITLE = "Khá tốt rồi";
-final NORMAL_TITLE = "Tàm tạm";
-final POOR_TITLE = "Kém quá";
+const EXCELLENT_TITLE = "Tốt lắm";
+const GOOD_TITLE = "Khá tốt rồi";
+const NORMAL_TITLE = "Tàm tạm";
+const POOR_TITLE = "Kém quá";
 
-class ExamFinishLayout extends StatefulWidget {
+class ExamResultView extends StatefulWidget {
   final int trueAnswers;
   final int count;
   final List<AnswerLayout> answerLayouts;
-  ExamFinishLayout({Key key, this.trueAnswers, this.count, this.answerLayouts})
+  ExamResultView({Key key, this.trueAnswers, this.count, this.answerLayouts})
       : super(key: key);
 
   double getPercentPoint() {
@@ -45,10 +45,10 @@ class ExamFinishLayout extends StatefulWidget {
   }
 
   @override
-  ExamFinishLayoutState createState() => new ExamFinishLayoutState();
+  ExamResultViewState createState() => new ExamResultViewState();
 }
 
-class ExamFinishLayoutState extends State<ExamFinishLayout> {
+class ExamResultViewState extends State<ExamResultView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

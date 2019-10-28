@@ -2,35 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 
-final EXCELLENT_TITLE = "Tốt lắm";
-final GOOD_TITLE = "Khá tốt rồi";
-final NORMAL_TITLE = "Tàm tạm";
-final POOR_TITLE = "Kém quá";
+const EXCELLENT_TITLE = "Tốt lắm";
+const GOOD_TITLE = "Khá tốt rồi";
+const NORMAL_TITLE = "Tàm tạm";
+const POOR_TITLE = "Kém quá";
 
 class ResultBox {
   int wrongTimes = 0;
   List<FlashCard> flashCards = new List<FlashCard>();
 }
 
-class WritingFinsishLayout extends StatefulWidget {
-  final int answerTimes;
-  final List<int> wrongTimes;
+class WritingActivityResult extends StatefulWidget {
+  final int numberOfAttempts;
+  final List<int> numberOfIncorrectAttempts;
   final List<FlashCard> flashCards;
 
-  WritingFinsishLayout(
-      {Key key, this.answerTimes, this.wrongTimes, this.flashCards});
+  WritingActivityResult(
+      {Key key, this.numberOfAttempts, this.numberOfIncorrectAttempts, this.flashCards});
 
   int sumOfWrongTimes() {
     int sum = 0;
-    for (int index = 0; index < wrongTimes.length; index++) {
-      sum += wrongTimes[index];
+    for (int index = 0; index < numberOfIncorrectAttempts.length; index++) {
+      sum += numberOfIncorrectAttempts[index];
     }
     return sum;
   }
 
   double getPercentPoint() {
-    int trueTimes = answerTimes - sumOfWrongTimes();
-    return double.parse((trueTimes / answerTimes).toStringAsFixed(2));
+    int trueTimes = numberOfAttempts - sumOfWrongTimes();
+    return double.parse((trueTimes / numberOfAttempts).toStringAsFixed(2));
   }
 
   String getComment() {
@@ -59,16 +59,16 @@ class WritingFinsishLayout extends StatefulWidget {
     }
   }
 
-  List<ResultBox> spilitWrongTimes() {
+  List<ResultBox> splitWrongTimes() {
     List<ResultBox> listResultBox = new List<ResultBox>();
-    var visited = List.filled(wrongTimes.length, false);
-    for (int index = 0; index < wrongTimes.length; index++) {
+    var visited = List.filled(numberOfIncorrectAttempts.length, false);
+    for (int index = 0; index < numberOfIncorrectAttempts.length; index++) {
       if (!visited[index]) {
         visited[index] = true;
         var resultBox = new ResultBox();
-        resultBox.wrongTimes = wrongTimes[index];
-        for (int index1 = 0; index1 < wrongTimes.length; index1++) {
-          if (resultBox.wrongTimes == wrongTimes[index1]) {
+        resultBox.wrongTimes = numberOfIncorrectAttempts[index];
+        for (int index1 = 0; index1 < numberOfIncorrectAttempts.length; index1++) {
+          if (resultBox.wrongTimes == numberOfIncorrectAttempts[index1]) {
             visited[index1] = true;
             resultBox.flashCards.add(flashCards[index1]);
           }
@@ -83,7 +83,7 @@ class WritingFinsishLayout extends StatefulWidget {
   WritingFinishState createState() => new WritingFinishState();
 }
 
-class WritingFinishState extends State<WritingFinsishLayout> {
+class WritingFinishState extends State<WritingActivityResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,7 +140,7 @@ class WritingFinishState extends State<WritingFinsishLayout> {
             ),
           )),
           Column(
-              children: widget.spilitWrongTimes().map((ResultBox resultBox) {
+              children: widget.splitWrongTimes().map((ResultBox resultBox) {
             return Column(
               children: <Widget>[
                 (resultBox.wrongTimes == 0)

@@ -34,11 +34,11 @@ class MatchingCardViewState extends State<MatchingCardView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.white,
           leading: IconButton(
             icon: Icon(
               Icons.close,
-              color: Colors.white,
+              color: Colors.black54,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -46,7 +46,7 @@ class MatchingCardViewState extends State<MatchingCardView> {
           ),
           title: Text(
             "Ghép thẻ",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
           ),
         ),
         body: FutureBuilder(
@@ -103,6 +103,7 @@ class MatchingCardViewState extends State<MatchingCardView> {
           onClicked: _checkMatchedCards);
 
       newCards.addAll([wordCard, meaningCard]);
+      chosenCards.add(chosenCard);
     }
 
     _matchingCards = ListShuffler.shuffle(items: newCards);
@@ -113,11 +114,14 @@ class MatchingCardViewState extends State<MatchingCardView> {
       _currentCard = newCard;
       newCard.click();
     } else if (_currentCard != newCard) {
-      if (_currentCard.term == newCard.matchingTerm) {
+      var _oldCard = _currentCard;
+      _currentCard = null;
+      if (_oldCard.term == newCard.matchingTerm) {
         await Future.wait(
-            [_currentCard.highlightThenFade(), newCard.highlightThenFade()]);
+            [_oldCard.highlightThenFade(), newCard.highlightThenFade()]);
         _numberOfRemainingCards -= 2;
         if (_numberOfRemainingCards == 0) {
+          await Future.delayed(Duration(milliseconds: 500));
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -125,10 +129,9 @@ class MatchingCardViewState extends State<MatchingCardView> {
                       MatchingCardWinnerView(falseAttempts: _falseAttempts, lesson: widget.lesson)));
         }
       } else {
-        await Future.wait([_currentCard.warn(), newCard.warn()]);
+        await Future.wait([_oldCard.warn(), newCard.warn()]);
         _falseAttempts += 1;
       }
-      _currentCard = null;
     }
   }
 }

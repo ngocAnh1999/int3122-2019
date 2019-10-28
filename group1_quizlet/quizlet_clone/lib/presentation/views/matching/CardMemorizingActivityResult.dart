@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
+import 'package:quizlet_clone/core/models/Lesson.dart';
+import 'package:quizlet_clone/presentation/views/matching/CardMemorizingActivity.dart';
 
-class TagFinishLayout extends StatelessWidget {
-  final int wrong;
-  final List<FlashCard> relearnFlashCard;
-  TagFinishLayout({this.wrong, this.relearnFlashCard});
+class CardMemorizingActivityResult extends StatelessWidget {
+  final List<FlashCard> needReviewFlashCards;
+  final Lesson lesson;
+
+  CardMemorizingActivityResult(
+      {@required this.lesson, @required this.needReviewFlashCards});
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +56,13 @@ class TagFinishLayout extends StatelessWidget {
             ListTile(
               title: Center(
                 child: Text(
-                  "Tiếp tục luyện tập để nắm vững ${wrong} từ còn lại",
+                  "Tiếp tục luyện tập để nắm vững ${needReviewFlashCards.length} từ còn lại",
                   style: TextStyle(fontSize: 18),
                 ),
               ),
             ),
             Column(
-              children: relearnFlashCard.map((FlashCard flashCard) {
+              children: needReviewFlashCards.map((FlashCard flashCard) {
                 return Card(
                   child: ListTile(
                     title: Text(
@@ -87,7 +91,11 @@ class TagFinishLayout extends StatelessWidget {
                 color: Colors.cyan,
                 textColor: Colors.white,
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CardMemorizingActivity(lesson: this.lesson)));
                 },
               ),
             )

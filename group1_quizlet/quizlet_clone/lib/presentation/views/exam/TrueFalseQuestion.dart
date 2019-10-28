@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/presentation/views/exam/AnswerCallback.dart';
 
-class TrueFalseType extends StatefulWidget {
+class TrueFalseQuestion extends StatefulWidget {
   final String word;
   final String meaning;
   final bool answer;
   final AnswerCallback answerCallback;
 
-  TrueFalseType(
+  TrueFalseQuestion(
       {Key key, this.word, this.meaning, this.answer, this.answerCallback})
       : super(key: key);
 
@@ -15,7 +15,7 @@ class TrueFalseType extends StatefulWidget {
   TrueFalseState createState() => new TrueFalseState();
 }
 
-class TrueFalseState extends State<TrueFalseType> {
+class TrueFalseState extends State<TrueFalseQuestion> {
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/presentation/views/exam/AnswerCallback.dart';
 
-class ChooseBestAnswerType extends StatefulWidget {
+class ChooseBestAnswerQuestion extends StatefulWidget {
   final String meaning;
   final List<String> words;
-  final String anwers;
+  final String answer;
   final AnswerCallback answerCallback;
 
-  ChooseBestAnswerType(
-      {Key key, this.meaning, this.words, this.anwers, this.answerCallback})
+  ChooseBestAnswerQuestion(
+      {Key key, this.meaning, this.words, this.answer, this.answerCallback})
       : super(key: key);
 
   @override
-  ChooseBestAnswerTypeState createState() => new ChooseBestAnswerTypeState();
+  ChooseBestAnswerQuestionState createState() => new ChooseBestAnswerQuestionState();
 }
 
-class ChooseBestAnswerTypeState extends State<ChooseBestAnswerType> {
+class ChooseBestAnswerQuestionState extends State<ChooseBestAnswerQuestion> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +43,7 @@ class ChooseBestAnswerTypeState extends State<ChooseBestAnswerType> {
                             child: Text(word, style: TextStyle(color: Colors.cyan, fontSize: 16),),
                           ),
                           onPressed: () {
-                            widget.answerCallback(word, word == widget.anwers);
+                            widget.answerCallback(word, word == widget.answer);
                           },
                         ),
                       )

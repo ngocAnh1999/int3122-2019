@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/presentation/views/exam/AnswerCallback.dart';
 
-class EnterAnswerType extends StatefulWidget {
+class WritingQuestion extends StatefulWidget {
   final FlashCard flashCard;
   final AnswerCallback answerCallback;
 
-  EnterAnswerType({Key key, this.flashCard, this.answerCallback})
+  WritingQuestion({Key key, this.flashCard, this.answerCallback})
       : super(key: key);
 
   @override
-  EnterAnswerTypeState createState() => new EnterAnswerTypeState();
+  WritingQuestionState createState() => new WritingQuestionState();
 }
 
-class EnterAnswerTypeState extends State<EnterAnswerType> {
+class WritingQuestionState extends State<WritingQuestion> {
   final myEditingController = TextEditingController();
 
   @override
