@@ -8,7 +8,7 @@ import 'package:quizlet_clone/core/services/FlashCardService.dart';
 import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLayout.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLearningLayout.dart';
-import 'package:quizlet_clone/presentation/views/MatchTagLearningController.dart';
+import 'package:quizlet_clone/presentation/views/lesson/MatchingCardView.dart';
 import 'package:quizlet_clone/presentation/views/TagLearningController.dart';
 import 'package:quizlet_clone/presentation/views/WritingController.dart';
 
@@ -143,9 +143,8 @@ class LessonViewState extends State<LessonView> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            MatchTagLearningController(
-                                              lesson: widget.lesson,
-                                              flashCards: flashCards,
+                                            MatchingCardView(
+                                              lesson: widget.lesson
                                             )));
                               },
                             ),
