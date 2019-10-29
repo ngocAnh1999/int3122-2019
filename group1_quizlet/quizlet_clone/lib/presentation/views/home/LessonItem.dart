@@ -19,7 +19,10 @@ class LessonItem extends StatelessWidget {
     return Container(
         height: 180,
         child: FutureBuilder(
-            future: Future.wait([_userService.getUser(id: lesson.userId), _flashCardService.countFlashCards(lessonId: lesson.id)]),
+            future: Future.wait([
+              _userService.getUser(id: lesson.userId),
+              _flashCardService.countFlashCards(lessonId: lesson.id)
+            ]),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:

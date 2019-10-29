@@ -4,11 +4,7 @@ class Lesson {
   String description;
   String userId;
 
-  Lesson(
-      {this.id,
-      this.title,
-      this.description,
-      this.userId});
+  Lesson({this.id, this.title, this.description, this.userId});
 
   Lesson.fromMap(Map snapshot, String id) {
     this.id = id ?? '';
@@ -18,10 +14,6 @@ class Lesson {
   }
 
   toJson() {
-    return {
-      'title': title,
-      'description': description,
-      'userId': userId
-    };
+    return {'title': title, 'description': description, 'userId': userId};
   }
 }

@@ -12,12 +12,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  static const _TAB_NAMES = [
-    'Trang chủ',
-    'Tìm kiếm',
-    'Chỉnh sửa',
-    'Người dùng'
-  ];
+  static const _TAB_NAMES = ['Trang chủ', 'Tìm kiếm', 'Người dùng'];
   int _selectedIndex = 0;
 
   static final LessonService lessonService = LessonService.instance;
@@ -25,9 +20,6 @@ class _HomeViewState extends State<HomeView> {
     LessonList(),
     Center(
       child: Text("Đây là màn hình tìm kiếm"),
-    ),
-    Center(
-      child: Text("Đây là màn hình chỉnh sửa"),
     ),
     Center(child: UserView())
   ];
@@ -56,10 +48,6 @@ class _HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             title: Text('Tìm kiếm'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.edit),
-            title: Text('Chỉnh sửa'),
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.person), title: Text('Người dùng'))

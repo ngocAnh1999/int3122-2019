@@ -14,8 +14,7 @@ class SwipeableFlashCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SwipeableFlashCardState createState() =>
-      _SwipeableFlashCardState();
+  _SwipeableFlashCardState createState() => _SwipeableFlashCardState();
 }
 
 class _SwipeableFlashCardState extends State<SwipeableFlashCard>
@@ -149,6 +148,8 @@ class _SwipeableFlashCardState extends State<SwipeableFlashCard>
                 .closed
                 .then((reason) {
               widget.swipedEventCallback(false);
+              Scaffold.of(context)
+                  .removeCurrentSnackBar(reason: SnackBarClosedReason.remove);
             });
           } else if (direction == DismissDirection.startToEnd) {
             Scaffold.of(context)
@@ -168,6 +169,8 @@ class _SwipeableFlashCardState extends State<SwipeableFlashCard>
                 .closed
                 .then((reason) {
               widget.swipedEventCallback(true);
+              Scaffold.of(context)
+                  .removeCurrentSnackBar(reason: SnackBarClosedReason.remove);
             });
           }
         },

@@ -54,7 +54,8 @@ class TrueFalseState extends State<TrueFalseQuestion> {
                   "Đúng",
                   style: TextStyle(fontSize: 16),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
                 onPressed: () {
                   widget.answerCallback("Đúng", true == widget.answer);
                 },
@@ -66,7 +67,8 @@ class TrueFalseState extends State<TrueFalseQuestion> {
                   "Sai",
                   style: TextStyle(fontSize: 16),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 60, vertical: 15),
                 onPressed: () {
                   widget.answerCallback("Sai", false == widget.answer);
                 },

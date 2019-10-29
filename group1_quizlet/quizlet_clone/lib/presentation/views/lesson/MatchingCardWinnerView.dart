@@ -7,47 +7,67 @@ import 'MatchingCardView.dart';
 class MatchingCardWinnerView extends StatelessWidget {
   final int falseAttempts;
   final Lesson lesson;
+  final int time;
 
-  MatchingCardWinnerView({@required this.falseAttempts, @required this.lesson})
+  MatchingCardWinnerView(
+      {@required this.falseAttempts,
+      @required this.lesson,
+      @required this.time})
       : super();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kết quả'),
-      ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text('Chúc mừng'),
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Text('Số lần ghép sai: $falseAttempts'),
-            ),
-            Container(
-                width: 150,
-                height: 60,
-                child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    color: Colors.blueAccent,
-                    highlightColor: Colors.deepPurple,
-                    child: Center(
-                      child: Text('Chơi lại',
-                          style: TextStyle(color: Colors.white, fontSize: 18)),
-                    ),
-                    onPressed: () => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MatchingCardView(lesson: this.lesson))))),
-          ],
+        leading: IconButton(
+          icon: Icon(Icons.close, color: Colors.black54),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
+        backgroundColor: Colors.white,
+        title: Text('Kết quả',
+            style:
+                TextStyle(color: Colors.black54, fontWeight: FontWeight.bold)),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          ListTile(
+            title: Center(
+              child: Text(
+                "${time} giây",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          ListTile(
+            title: Center(
+              child: Text(
+                'Số lần ghép sai: $falseAttempts',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+          ListTile(
+            title: Center(
+              child: Text(
+                '💪💪💪',
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+          ),
+          RaisedButton(
+              padding: const EdgeInsets.symmetric(horizontal: 100),
+              color: Colors.cyan,
+              textColor: Colors.white,
+              child: Text('Chơi lại', style: TextStyle(fontSize: 18)),
+              onPressed: () => Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          MatchingCardView(lesson: this.lesson)))),
+        ],
       ),
     );
   }

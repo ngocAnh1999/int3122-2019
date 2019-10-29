@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -8,11 +9,13 @@ import 'package:quizlet_clone/core/services/FlashCardService.dart';
 import 'package:quizlet_clone/core/utilities/ListShuffler.dart';
 import 'package:quizlet_clone/presentation/views/lesson/MatchingCard.dart';
 import 'package:quizlet_clone/presentation/views/lesson/MatchingCardWinnerView.dart';
+import 'package:timer_builder/timer_builder.dart';
 
 const int MAXIMUM_NUMBER_OF_FLASH_CARDS = 6;
 const int MAXIMUM_NUMBER_OF_MATCHING_CARDS = 12;
 const int GRID_HEIGHT = 4;
 const int GRID_WIDTH = 3;
+const int TIME_TO_LEARN_A_FLASHCARD = 3;
 
 class MatchingCardView extends StatefulWidget {
   final Lesson lesson;
@@ -29,6 +32,23 @@ class MatchingCardViewState extends State<MatchingCardView> {
   List<MatchingCard> _matchingCards = List();
   int _numberOfRemainingCards;
   int _falseAttempts = 0;
+  var _timer;
+  int _start = 0;
+
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _timer = TimerBuilder.periodic(oneSec, builder: (context) {
+      _start += 1;
+      return Text("Thời gian: $_start giây",
+          style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold));
+    });
+  }
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +64,7 @@ class MatchingCardViewState extends State<MatchingCardView> {
               Navigator.pop(context);
             },
           ),
-          title: Text(
-            "Ghép thẻ",
-            style: TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
-          ),
+          title: _timer,
         ),
         body: FutureBuilder(
           future: widget._flashCardService
@@ -125,8 +142,11 @@ class MatchingCardViewState extends State<MatchingCardView> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      MatchingCardWinnerView(falseAttempts: _falseAttempts, lesson: widget.lesson)));
+                  builder: (context) => MatchingCardWinnerView(
+                        falseAttempts: _falseAttempts,
+                        lesson: widget.lesson,
+                        time: _start,
+                      )));
         }
       } else {
         await Future.wait([_oldCard.warn(), newCard.warn()]);

@@ -12,7 +12,8 @@ class ChooseBestAnswerQuestion extends StatefulWidget {
       : super(key: key);
 
   @override
-  ChooseBestAnswerQuestionState createState() => new ChooseBestAnswerQuestionState();
+  ChooseBestAnswerQuestionState createState() =>
+      new ChooseBestAnswerQuestionState();
 }
 
 class ChooseBestAnswerQuestionState extends State<ChooseBestAnswerQuestion> {
@@ -40,7 +41,11 @@ class ChooseBestAnswerQuestionState extends State<ChooseBestAnswerQuestion> {
                           textColor: Colors.cyan,
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(word, style: TextStyle(color: Colors.cyan, fontSize: 16),),
+                            child: Text(
+                              word,
+                              style:
+                                  TextStyle(color: Colors.cyan, fontSize: 16),
+                            ),
                           ),
                           onPressed: () {
                             widget.answerCallback(word, word == widget.answer);

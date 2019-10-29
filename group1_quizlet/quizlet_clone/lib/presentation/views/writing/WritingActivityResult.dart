@@ -18,7 +18,10 @@ class WritingActivityResult extends StatefulWidget {
   final List<FlashCard> flashCards;
 
   WritingActivityResult(
-      {Key key, this.numberOfAttempts, this.numberOfIncorrectAttempts, this.flashCards});
+      {Key key,
+      this.numberOfAttempts,
+      this.numberOfIncorrectAttempts,
+      this.flashCards});
 
   int sumOfWrongTimes() {
     int sum = 0;
@@ -67,7 +70,9 @@ class WritingActivityResult extends StatefulWidget {
         visited[index] = true;
         var resultBox = new ResultBox();
         resultBox.wrongTimes = numberOfIncorrectAttempts[index];
-        for (int index1 = 0; index1 < numberOfIncorrectAttempts.length; index1++) {
+        for (int index1 = 0;
+            index1 < numberOfIncorrectAttempts.length;
+            index1++) {
           if (resultBox.wrongTimes == numberOfIncorrectAttempts[index1]) {
             visited[index1] = true;
             resultBox.flashCards.add(flashCards[index1]);
@@ -133,10 +138,7 @@ class WritingFinishState extends State<WritingActivityResult> {
               title: Center(
             child: Text(
               widget.getComment(),
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold
-              ),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           )),
           Column(

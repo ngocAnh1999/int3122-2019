@@ -76,7 +76,8 @@ class ExamViewState extends State<ExamView> {
 
   List<Widget> splitExamType() {
     int WRITING_QUESTION_RANGE = (widget.flashCards.length * 0.4).floor();
-    int CHOOSE_BEST_ANSWER_QUESTION_RANGE = (widget.flashCards.length * 0.7).floor();
+    int CHOOSE_BEST_ANSWER_QUESTION_RANGE =
+        (widget.flashCards.length * 0.7).floor();
     var listWidgets = List<Widget>();
     List<FlashCard> newFlashCards = swapIndex();
     for (int index = 0; index < newFlashCards.length; index++) {
@@ -100,10 +101,10 @@ class ExamViewState extends State<ExamView> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => new ExamResultView(
-                        trueAnswers: trueAnswers,
-                        count: exams.length,
-                        answerLayouts: answerLayouts,
-                      )));
+                            trueAnswers: trueAnswers,
+                            count: exams.length,
+                            answerLayouts: answerLayouts,
+                          )));
             }
           },
         );
@@ -131,10 +132,10 @@ class ExamViewState extends State<ExamView> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => new ExamResultView(
-                        trueAnswers: trueAnswers,
-                        count: exams.length,
-                        answerLayouts: answerLayouts,
-                      )));
+                            trueAnswers: trueAnswers,
+                            count: exams.length,
+                            answerLayouts: answerLayouts,
+                          )));
             }
           },
         );
@@ -156,7 +157,8 @@ class ExamViewState extends State<ExamView> {
               examType: ExamType.TRUE_FALSE,
               word: newFlashCards[index].word,
               meaning: meaning,
-              correctAnswer: (meaning == newFlashCards[index].meaning) ? "Đúng" : "Sai",
+              correctAnswer:
+                  (meaning == newFlashCards[index].meaning) ? "Đúng" : "Sai",
               userAnswer: answer,
             );
             answerLayouts.add(userAnswer);
@@ -167,10 +169,10 @@ class ExamViewState extends State<ExamView> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => new ExamResultView(
-                        trueAnswers: trueAnswers,
-                        count: exams.length,
-                        answerLayouts: answerLayouts,
-                      )));
+                            trueAnswers: trueAnswers,
+                            count: exams.length,
+                            answerLayouts: answerLayouts,
+                          )));
             }
           },
         );

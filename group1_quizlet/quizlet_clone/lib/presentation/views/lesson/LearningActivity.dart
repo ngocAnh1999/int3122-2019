@@ -33,8 +33,7 @@ class LearningActivity extends StatelessWidget {
                   ),
                   Text(title,
                       style: TextStyle(
-                          color: Colors.lightBlueAccent,
-                          fontSize: 12)),
+                          color: Colors.lightBlueAccent, fontSize: 12)),
                 ],
               ),
             ),
