@@ -10,7 +10,6 @@ class Word {
   String pronunciation;
   String sentence;
   String type;
-  String imageSource;
 
   Word({
     this.bookId, 
@@ -22,7 +21,6 @@ class Word {
     this.pronunciation, 
     this.sentence, 
     this.type,
-    this.imageSource
   });
 
   factory Word.fromSnapshot(DocumentSnapshot snapshot){
@@ -38,9 +36,4 @@ class Word {
       type: snapshot['type'],
     );
   } 
-
-  void setImageSource(String imageSource){
-    this.imageSource = imageSource;
-  }
-
 }

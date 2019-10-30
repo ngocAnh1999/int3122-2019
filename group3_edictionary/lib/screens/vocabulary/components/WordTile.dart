@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../models/Word.dart';
 import '../../../helpers/Speaker.dart';
+import '../../../helpers/WordHelper.dart';
 
 class WordTile extends StatefulWidget{
 
@@ -14,6 +15,7 @@ class WordTile extends StatefulWidget{
 
 class WordTileState extends State<WordTile> { 
   Speaker _speaker = new Speaker();
+  WordHelper _wordHelper = new WordHelper(); 
   Word get word => widget.word;
 
   Map pickedMethods = {
@@ -39,7 +41,7 @@ class WordTileState extends State<WordTile> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(word.imageSource)
+                    image: NetworkImage(_wordHelper.getImageSource(word))
                   ),
                   color: Colors.blue
                 ),
