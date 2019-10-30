@@ -128,15 +128,6 @@ class LoginViewState extends State<LoginView> {
           ),
         ),
       )),
-//        bottomSheet: Container(
-//            height: 50,
-//            child: Center(
-//                child: Text('Status: $_loginResult',
-//                    style: TextStyle(
-//                        fontSize: 20,
-//                        fontFamily: 'Open Sans',
-//                        color: Colors.redAccent,
-//                        fontWeight: FontWeight.w100))))
       bottomSheet: Container(
         height: 50,
         child: Center(
@@ -152,11 +143,14 @@ class LoginViewState extends State<LoginView> {
       _authenticating = true;
       _loginStatus = 'Đang xác thực...';
     });
-    var user = await AuthService.instance.logInWithFacebook().timeout(Duration(seconds: 60), onTimeout: () {
+    var user = await AuthService.instance
+        .logInWithFacebook()
+        .timeout(Duration(seconds: 60), onTimeout: () {
       setState(() {
         _authenticating = false;
         _loginStatus = 'Đăng nhập không thành công';
       });
+      return;
     });
     if (user != null) {
       Navigator.pushReplacement(
