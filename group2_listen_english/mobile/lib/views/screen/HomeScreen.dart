@@ -6,6 +6,7 @@ import 'package:mobile/views/screen/AboutScreen.dart';
 import 'package:mobile/views/screen/ResultUserScreen.dart';
 import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key, this.auth, this.userId, this.onSignedOut})
@@ -115,9 +116,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // This container holds the align
             Container(
-                // This align moves the children to the bottom
                 child: Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Container(

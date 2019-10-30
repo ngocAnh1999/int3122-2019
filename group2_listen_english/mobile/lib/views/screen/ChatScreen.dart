@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile/core/models/Message.dart';
 import 'dart:async';
+import 'package:speech_recognition/speech_recognition.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -10,6 +11,21 @@ class ChatScreen extends StatefulWidget {
 
 enum TtsState { playing, stopped }
 enum LearningMode { botVsBot, playerVsPlayer, botVsPlayer }
+
+class Language {
+  final String name;
+  final String code;
+
+  const Language(this.name, this.code);
+}
+
+const languagesType = const [
+  const Language('English', 'en_US'),
+  const Language('Francais', 'fr_FR'),
+  const Language('Pусский', 'ru_RU'),
+  const Language('Italiano', 'it_IT'),
+  const Language('Español', 'es_ES'),
+];
 
 class _ChatScreenState extends State<ChatScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -102,7 +118,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String language;
   String voice;
   int silencems;
-  bool speakingState = false;
+  bool _isSpeaking = false;
   final GlobalKey _menuKey = new GlobalKey();
   String _newVoiceText;
   int indexSpeaking = -1;
@@ -112,6 +128,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
   TtsState ttsState = TtsState.stopped;
   LearningMode learningMode = LearningMode.botVsPlayer;
+
+  SpeechRecognition _speech;
+  bool _speechRecognitionAvailable = false;
+  bool _isListening = false;
+  String transcription = '';
+
+  //String _currentLocale = 'en_US';
+  Language selectedLang = languagesType.first;
 
   // get isPlaying => ttsState == TtsState.playing;
   // get isStopped => ttsState == TtsState.stopped;
@@ -125,7 +149,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // defines a timer
     _everySecond = Timer.periodic(Duration(seconds: 3), (Timer t) {
       setState(() {
-        if (speakingState && ttsState == TtsState.stopped) {
+        if (_isSpeaking && ttsState == TtsState.stopped) {
           // _now = DateTime.now().second.toString();
           readDone = indexSpeaking;
           indexSpeaking++;
@@ -147,24 +171,101 @@ class _ChatScreenState extends State<ChatScreen> {
         ttsState = TtsState.stopped;
       });
     });
+    activateSpeechRecognizer();
+  }
+
+  void activateSpeechRecognizer() {
+    print('_MyAppState.activateSpeechRecognizer... ');
+    _speech = new SpeechRecognition();
+    _speech.setAvailabilityHandler(onSpeechAvailability);
+    _speech.setCurrentLocaleHandler(onCurrentLocale);
+    _speech.setRecognitionStartedHandler(onRecognitionStarted);
+    _speech.setRecognitionResultHandler(onRecognitionResult);
+    _speech.setRecognitionCompleteHandler(onRecognitionComplete);
+    // _speech.setErrorHandler(errorHandler);
+    _speech
+        .activate()
+        .then((res) => setState(() => _speechRecognitionAvailable = res));
+  }
+
+  void start() => _speech
+      .listen(locale: selectedLang.code)
+      .then((result) => print('_MyAppState.start => result $result'));
+
+  void cancel() =>
+      _speech.cancel().then((result) => setState(() => _isListening = result));
+
+  void stop() => _speech.stop().then((result) {
+        setState(() => _isListening = result);
+      });
+
+  void onSpeechAvailability(bool result) =>
+      setState(() => _speechRecognitionAvailable = result);
+
+  void onCurrentLocale(String locale) {
+    print('_MyAppState.onCurrentLocale... $locale');
+    setState(
+        () => selectedLang = languages.firstWhere((l) => l.code == locale));
+  }
+
+  void onRecognitionStarted() => setState(() => _isListening = true);
+
+  void onRecognitionResult(String text) =>
+      {setState(() => transcription = text)};
+
+  void onRecognitionComplete() => setState(() => _isListening = false);
+
+  void errorHandler() => activateSpeechRecognizer();
+
+  void _selectLangHandler(Language lang) {
+    setState(() => selectedLang = lang);
   }
 
   initTts() {
     flutterTts = FlutterTts();
   }
 
-  void _changeStatePlaying() {
-    if (ttsState == TtsState.playing) {
-      print("is Playing");
-      flutterTts.stop();
+  void _onTapBottomControl() {
+    switch (learningMode) {
+      case LearningMode.botVsBot:
+        if (ttsState == TtsState.playing) {
+          print("is Playing");
+          flutterTts.stop();
+        }
+        setState(() {
+          _isSpeaking = !_isSpeaking;
+          ttsState = TtsState.stopped;
+        });
+        break;
+      case LearningMode.botVsPlayer:
+        // _speechRecognitionAvailable && !_isListening ? start() : stop();
+        setState(() {
+          _isListening = !_isListening;
+        });
+        break;
+      case LearningMode.playerVsPlayer:
+        // _speechRecognitionAvailable && !_isListening ? start() : stop();
+        setState(() {
+          _isListening = !_isListening;
+        });
+        break;
+      default:
     }
-    setState(() {
-      speakingState = !speakingState;
-      ttsState = TtsState.stopped;
-    });
   }
 
-  void autoSpeech() {}
+  similarityChecker (String origin, String record) {
+    List<String> arrayOrigin = origin.split(' ').toList();
+    List<String> arrayRecord = record.split(' ').toList();
+    int score = 0;
+    for(int i=0;i<arrayRecord.length;i++){
+      for(int j=0;j<arrayOrigin.length;j++){
+        if(arrayRecord[i] == arrayOrigin[j]){
+          score++;
+        }
+      }
+    }
+    return score/arrayOrigin.length;
+  }
 
   void _read(String text) async {
     await flutterTts.stop();
@@ -210,37 +311,6 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
-        // PopupMenuButton<LearningMode>(
-        //   itemBuilder: (BuildContext context) {
-        //     return new List<PopupMenuEntry<LearningMode>>.generate(
-        //       LearningMode.values.length,
-        //       (int index) {
-        //         return new PopupMenuItem(
-        //           value: LearningMode.values[index],
-        //           child: new AnimatedBuilder(
-        //             child: new Text(LearningMode.values[index].toString()),
-        //             animation: _selectedItem,
-        //             builder: (BuildContext context, Widget child) {
-        //               return new RadioListTile<LearningMode>(
-        //                 value: LearningMode.values[index],
-        //                 groupValue: _selectedItem.value,
-        //                 title: child,
-        //                 onChanged: (LearningMode value) {
-        //                   _selectedItem.value = value;
-        //                 },
-        //               );
-        //             },
-        //           ),
-        //         );
-        //       },
-        //     );
-        //   },
-        // ),
-        // action button
-        // IconButton(
-        //   icon: Icon(Icons.settings),
-        //   onPressed: () {},
-        // ),
         PopupMenuButton(
           onSelected: (String value) {
             print(value);
@@ -281,7 +351,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: RadioListTile<LearningMode>(
                   title: Text("Luyện với bot"),
                   value: LearningMode.botVsPlayer,
-                groupValue: learningMode,
+                  groupValue: learningMode,
                 )),
             new PopupMenuItem<String>(
               value: 'playerVsPlayer',
@@ -320,7 +390,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
 
-    if (speakingState && indexSpeaking == index && readDone != index) {
+    if (_isSpeaking && indexSpeaking == index && readDone != index) {
       switch (learningMode) {
         case LearningMode.botVsPlayer:
           if (alignment == MainAxisAlignment.start) {
@@ -375,6 +445,22 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget bottomControl() {
+    IconData iconBottom;
+    Color iconColor = Colors.blue;
+    switch (learningMode) {
+      case LearningMode.botVsBot:
+        iconBottom =  _isSpeaking ? Icons.pause_circle_filled : Icons.play_circle_filled;
+        break;
+      case LearningMode.botVsPlayer:
+        iconBottom = _isListening ? Icons.mic : Icons.play_circle_filled;
+        iconColor = _isListening ? Colors.red : Colors.blue;
+        break;
+      case LearningMode.playerVsPlayer:
+        iconBottom = _isListening ? Icons.mic_none : Icons.mic_off;
+        iconColor = _isListening ? Colors.red : Colors.blue;
+        break;
+      default:
+    }
     return Container(
       height: 50,
       // padding: EdgeInsets.only(bottom: 10.0),
@@ -383,12 +469,15 @@ class _ChatScreenState extends State<ChatScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           GestureDetector(
-            onTap: _changeStatePlaying,
+            onTap: _onTapBottomControl,
+            // onTap: learningMode == LearningMode.botVsPlayer
+            //     ? (_speechRecognitionAvailable && !_isListening
+            //         ? () => start()
+            //         : stop)
+            //     : (_changeStatePlaying),
             child: Icon(
-              speakingState
-                  ? Icons.pause_circle_filled
-                  : Icons.play_circle_filled,
-              color: Colors.blue,
+              iconBottom,
+              color: iconColor,
               size: 40.0,
             ),
           )
@@ -396,13 +485,4 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-}
-
-BoxDecoration myBoxDecoration() {
-  return BoxDecoration(
-    border: Border.all(
-      // color: Colors.red,
-      width: 5.0,
-    ),
-  );
 }
