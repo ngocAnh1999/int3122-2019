@@ -25,7 +25,7 @@ class _UserProfileState extends State<UserProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       ClipRRect(
-                        borderRadius: new BorderRadius.circular(12.0),
+                        borderRadius: new BorderRadius.circular(50.0),
                         child: Image.network(
                           'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cq5dam-web-1200-675-1552905198.jpeg?crop=0.5625xw:1xh;center,top&resize=980:*',
                           fit: BoxFit.fill,

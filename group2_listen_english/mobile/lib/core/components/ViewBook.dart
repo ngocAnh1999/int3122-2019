@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/components/GetRatings.dart';
-import 'package:mobile/core/models/Item.dart';
+import 'package:mobile/core/models/Book.dart';
 import 'package:mobile/views/screen/DetailBookScreen.dart';
 
-class ItemList extends StatelessWidget {
-  final Item item;
+class ViewBook extends StatelessWidget {
+  final Book item;
 
-  const ItemList({@required this.item});
+  const ViewBook({@required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class ItemList extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: new BorderRadius.circular(12.0),
                 child: Image.asset(
-                  item.trailerImg1,
+                  item.image,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -55,7 +55,7 @@ class ItemList extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    item.category,
+                    item.description,
                     style: TextStyle(
                       color: Colors.black54,
                       fontSize: 12.0,
@@ -75,7 +75,7 @@ class ItemList extends StatelessWidget {
 }
 
 class HeaderContent extends StatelessWidget {
-  final Item item;
+  final Book item;
 
   HeaderContent(this.item);
 
@@ -101,7 +101,7 @@ class HeaderContent extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    item.category,
+                    item.description,
                     style: TextStyle(
                       color: Colors.black54,
                       fontSize: 9.0,
@@ -120,7 +120,7 @@ class HeaderContent extends StatelessWidget {
 }
 
 class MovieDesc extends StatelessWidget {
-  final Item item;
+  final Book item;
 
   MovieDesc(this.item);
 
@@ -142,14 +142,14 @@ class MovieDesc extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  item.releaseDate,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 9.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // Text(
+                //   item.releaseDate,
+                //   style: TextStyle(
+                //     color: Colors.black,
+                //     fontSize: 9.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -165,14 +165,14 @@ class MovieDesc extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  item.runtime,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 9.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // Text(
+                //   item.runtime,
+                //   style: TextStyle(
+                //     color: Colors.black,
+                //     fontSize: 9.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
               ],
             ),
           ),

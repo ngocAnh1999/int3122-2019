@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/components/root_page.dart';
 import 'package:mobile/core/services/authentication.dart';
-import 'package:mobile/views/LoginPage.dart';
+// import 'package:mobile/views/LoginPage.dart';
 import 'package:mobile/views/screen/HomeScreen.dart';
 // import 'package:mobile/views/screen/LoginScreen.dart';
 import 'package:mobile/views/screen/SplashScreen.dart';

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile/core/models/Message.dart';
+import 'package:mobile/views/screen/RecordScreen.dart';
 import 'dart:async';
+import 'package:speech_recognition/speech_recognition.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -12,7 +14,7 @@ enum TtsState { playing, stopped }
 enum LearningMode { botVsBot, playerVsPlayer, botVsPlayer }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey  = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final List<Message> listMessages = [
     Message(
@@ -102,9 +104,9 @@ class _ChatScreenState extends State<ChatScreen> {
   String language;
   String voice;
   int silencems;
-  bool speakingState = false;
+  bool _isSpeaking = false;
   final GlobalKey _menuKey = new GlobalKey();
-  String _newVoiceText;
+
   int indexSpeaking = -1;
   String _now;
   Timer _everySecond;
@@ -113,19 +115,26 @@ class _ChatScreenState extends State<ChatScreen> {
   TtsState ttsState = TtsState.stopped;
   LearningMode learningMode = LearningMode.botVsPlayer;
 
-  // get isPlaying => ttsState == TtsState.playing;
-  // get isStopped => ttsState == TtsState.stopped;
+  SpeechRecognition _speech;
+  bool _speechRecognitionAvailable = false;
+
+  SpeechRecognition _speechRecognition;
+  bool _isAvailable = false;
+  bool _isListening = false;
+
+  String resultText = "";
 
   @override
   initState() {
     super.initState();
+    initSpeechRecognizer();
     initTts();
     _now = DateTime.now().second.toString();
 
     // defines a timer
     _everySecond = Timer.periodic(Duration(seconds: 3), (Timer t) {
       setState(() {
-        if (speakingState && ttsState == TtsState.stopped) {
+        if (_isSpeaking && ttsState == TtsState.stopped) {
           // _now = DateTime.now().second.toString();
           readDone = indexSpeaking;
           indexSpeaking++;
@@ -153,18 +162,76 @@ class _ChatScreenState extends State<ChatScreen> {
     flutterTts = FlutterTts();
   }
 
-  void _changeStatePlaying() {
-    if (ttsState == TtsState.playing) {
-      print("is Playing");
-      flutterTts.stop();
-    }
-    setState(() {
-      speakingState = !speakingState;
-      ttsState = TtsState.stopped;
-    });
+  void initSpeechRecognizer() {
+    _speechRecognition = SpeechRecognition();
+
+    _speechRecognition.setAvailabilityHandler(
+      (bool result) => setState(() => _isAvailable = result),
+    );
+
+    _speechRecognition.setRecognitionStartedHandler(
+      () => setState(() => _isListening = true),
+    );
+
+    _speechRecognition.setRecognitionResultHandler(
+      (String speech) => setState(() => resultText = speech),
+    );
+
+    _speechRecognition.setRecognitionCompleteHandler(
+      () => setState(() => _isListening = false),
+    );
+
+    _speechRecognition.activate().then(
+          (result) => setState(() => _isAvailable = result),
+        );
   }
 
-  void autoSpeech() {}
+  void _onTapBottomControl() {
+    switch (learningMode) {
+      case LearningMode.botVsBot:
+        if (ttsState == TtsState.playing) {
+          print("is Playing");
+          flutterTts.stop();
+        }
+        setState(() {
+          _isSpeaking = !_isSpeaking;
+          ttsState = TtsState.stopped;
+        });
+        break;
+      case LearningMode.botVsPlayer:
+        if (_isAvailable && !_isListening)
+          _speechRecognition
+              .listen(locale: "en_US")
+              .then((result) => print('$result'));
+        print("Run onTap bottom");
+        // _speechRecognitionAvailable && !_isListening ? start() : stop();
+        setState(() {
+          _isListening = !_isListening;
+        });
+        break;
+      case LearningMode.playerVsPlayer:
+        // _speechRecognitionAvailable && !_isListening ? start() : stop();
+        setState(() {
+          _isListening = !_isListening;
+        });
+        break;
+      default:
+    }
+  }
+
+  similarityChecker(String origin, String record) {
+    List<String> arrayOrigin = origin.split(' ').toList();
+    List<String> arrayRecord = record.split(' ').toList();
+    int score = 0;
+    for (int i = 0; i < arrayRecord.length; i++) {
+      for (int j = 0; j < arrayOrigin.length; j++) {
+        if (arrayRecord[i] == arrayOrigin[j]) {
+          score++;
+        }
+      }
+    }
+    return score / arrayOrigin.length;
+  }
 
   void _read(String text) async {
     await flutterTts.stop();
@@ -196,24 +263,29 @@ class _ChatScreenState extends State<ChatScreen> {
       backgroundColor: Colors.green,
       action: SnackBarAction(
         label: "OK",
-        onPressed: (){
-
-        },
+        onPressed: () {},
       ),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
+
+  ValueNotifier<LearningMode> _selectedItem =
+      new ValueNotifier<LearningMode>(LearningMode.botVsPlayer);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
-        // action button
-        // IconButton(
-        //   icon: Icon(Icons.settings),
-        //   onPressed: () {},
-        // ),
+        IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecordScreen()),
+            );
+          },
+        ),
         PopupMenuButton(
           onSelected: (String value) {
             print(value);
@@ -242,11 +314,28 @@ class _ChatScreenState extends State<ChatScreen> {
           key: _menuKey,
           itemBuilder: (_) => <PopupMenuItem<String>>[
             new PopupMenuItem<String>(
-                value: 'botVsBot', child: Text('Luyện nghe')),
+              value: 'botVsBot',
+              child: RadioListTile<LearningMode>(
+                title: Text("Luyện nghe"),
+                value: LearningMode.botVsBot,
+                groupValue: learningMode,
+              ),
+            ),
             new PopupMenuItem<String>(
-                value: 'botVsPlayer', child: Text('Luyện với Bot')),
+                value: 'botVsPlayer',
+                child: RadioListTile<LearningMode>(
+                  title: Text("Luyện với bot"),
+                  value: LearningMode.botVsPlayer,
+                  groupValue: learningMode,
+                )),
             new PopupMenuItem<String>(
-                value: 'playerVsPlayer', child: Text('Luyện nói 2 người')),
+              value: 'playerVsPlayer',
+              child: RadioListTile<LearningMode>(
+                title: Text("Luyện nói 2 người"),
+                value: LearningMode.playerVsPlayer,
+                groupValue: learningMode,
+              ),
+            ),
           ],
         )
       ]),
@@ -276,7 +365,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
 
-    if (speakingState && indexSpeaking == index && readDone != index) {
+    if (_isSpeaking && indexSpeaking == index && readDone != index) {
       switch (learningMode) {
         case LearningMode.botVsPlayer:
           if (alignment == MainAxisAlignment.start) {
@@ -331,34 +420,86 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget bottomControl() {
+    IconData iconBottom;
+    Color iconColor = Colors.blue;
+    switch (learningMode) {
+      case LearningMode.botVsBot:
+        iconBottom =
+            _isSpeaking ? Icons.pause_circle_filled : Icons.play_circle_filled;
+        break;
+      case LearningMode.botVsPlayer:
+        iconBottom = _isListening ? Icons.mic_none : Icons.mic_off;
+        // iconBottom = Icons.mic;
+        iconColor = _isListening ? Colors.red : Colors.blue;
+        break;
+      case LearningMode.playerVsPlayer:
+        iconBottom = _isListening ? Icons.mic_none : Icons.mic_off;
+        iconColor = _isListening ? Colors.red : Colors.blue;
+        break;
+      default:
+    }
     return Container(
-      height: 50,
+      height: learningMode != LearningMode.botVsBot ? 100 : 50,
       // padding: EdgeInsets.only(bottom: 10.0),
-      color: Colors.blueGrey[200],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//       color: Colors.blueGrey[200],
+      child: Column(
         children: <Widget>[
-          GestureDetector(
-            onTap: _changeStatePlaying,
-            child: Icon(
-              speakingState
-                  ? Icons.pause_circle_filled
-                  : Icons.play_circle_filled,
-              color: Colors.blue,
-              size: 40.0,
+          learningMode != LearningMode.botVsBot ? Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+//            color: Colors.transparent,
+            decoration: BoxDecoration(
+              color: Colors.cyanAccent[100],
+//               borderRadius: BorderRadius.circular(6.0),
             ),
-          )
+            padding: EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 12.0,
+            ),
+            child: Text(
+              resultText,
+              style: TextStyle(fontSize: 24.0),
+            ),
+          ) : Container(
+            height: 0,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.transparent,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              // onTap: _onTapBottomControl,
+              // onTap: learningMode == LearningMode.botVsPlayer
+              //     ? (_speechRecognitionAvailable && !_isListening
+              //         ? () => start()
+              //         : stop)
+              //     : (_changeStatePlaying),
+              // child: Icon(
+              //   iconBottom,
+              //   color: iconColor,
+              //   size: 40.0,
+              // ),
+              FloatingActionButton(
+                mini: true,
+                child: Icon(iconBottom),
+                onPressed: _onTapBottomControl,
+                backgroundColor: iconColor,
+              ),
+              // FloatingActionButton(
+              //   child: Icon(Icons.stop),
+              //   mini: true,
+              //   backgroundColor: Colors.deepPurple,
+              //   onPressed: () {
+              //     if (_isListening)
+              //       _speechRecognition.stop().then(
+              //             (result) => setState(() => _isListening = result),
+              //           );
+              //   },
+              // ),
+            ],
+          ),
         ],
       ),
     );
   }
-}
-
-BoxDecoration myBoxDecoration() {
-  return BoxDecoration(
-    border: Border.all(
-      // color: Colors.red,
-      width: 5.0,
-    ),
-  );
 }
