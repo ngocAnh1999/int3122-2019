@@ -22,4 +22,9 @@ class Book{
     'image': image,
   };
 
+  Book.fromMappedJson(Map<String,dynamic> json):
+      id = json['id'],
+      name = json['name'],
+      image = json['image'];
+
 }
