@@ -7,6 +7,7 @@ import 'package:mobile/views/screen/ResultUserScreen.dart';
 import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key key, this.auth, this.userId, this.onSignedOut})
@@ -51,10 +52,31 @@ class HomeScreen extends StatelessWidget {
       // body: _gridView(),
       body: StreamBuilder(
         stream: Firestore.instance.collection("EnglishBook").snapshots(),
-        builder: (context, snapshot){
-          if(!snapshot.hasData) return const Center(child: Text("Loading"),);
-        
-          return _gridView(snapshot.data.documents);
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return const Center(
+              child: Text("Loading"),
+            );
+
+          // List<Book> listBooks;
+          // for (int i = 0; i < snapshot.data.documents.length; i++) {
+          //   var parsedJson = json.decode(snapshot.data.documents[i].toString());
+          //   var book = Book.fromJson(parsedJson);
+          //   listBooks.add(book);
+          // }
+
+          // Todo
+
+          return GridView.count(
+            crossAxisCount: 2,
+            padding: EdgeInsets.all(4.0),
+            childAspectRatio: 7.2 / 12.0,
+            children: itemList
+                .map(
+                  (Book) => ViewBook(item: Book),
+                )
+                .toList(),
+          );
         },
       ),
       drawer: Drawer(
@@ -162,19 +184,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _gridView(Book books){
-    return GridView.count(
-      crossAxisCount: 2,
-      padding: EdgeInsets.all(4.0),
-      childAspectRatio: 7.2 / 12.0,
-      children: itemList
-          .map(
-            (Book) => ViewBook(item: Book),
-          )
-          .toList(),
-    );
-  }
-
   List<Book> _itemList() {
     return [
       Book(
@@ -202,25 +211,25 @@ class HomeScreen extends StatelessWidget {
         image: 'assets/images/book4.jpg',
       ),
       Book(
-        id: "3",
+        id: "4",
         name: 'Speak English Level 4',
         description: 'Action, Adventure, Comedy',
         image: 'assets/images/book4.jpg',
       ),
       Book(
-        id: "3",
+        id: "5",
         name: 'Speak English Level 4',
         description: 'Action, Adventure, Comedy',
         image: 'assets/images/book4.jpg',
       ),
       Book(
-        id: "3",
+        id: "6",
         name: 'Speak English Level 4',
         description: 'Action, Adventure, Comedy',
         image: 'assets/images/book4.jpg',
       ),
       Book(
-        id: "3",
+        id: "7",
         name: 'Speak English Level 4',
         description: 'Action, Adventure, Comedy',
         image: 'assets/images/book4.jpg',
