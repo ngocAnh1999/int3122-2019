@@ -50,6 +50,8 @@ class _ChatScreenState extends State<ChatScreen> {
     initTts();
     _now = DateTime.now().second.toString();
 
+    // TODO
+
     _everySecond = Timer.periodic(Duration(seconds: 3), (Timer t) {
       switch (learningMode) {
         case LearningMode.botVsBot:
@@ -62,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
           break;
         case LearningMode.botVsPlayer:
           if (!_isListening &&
-              listMessages[indexSpeaking].type == TYPE.ONE_HUMAN &&
+              listMessages[indexSpeaking].type == TYPE.TWO_HUMAN &&
               _isAvailableRecognition) {
             _speechRecognition
                 .listen(locale: "en_US")
@@ -70,9 +72,25 @@ class _ChatScreenState extends State<ChatScreen> {
             setState(() {
               _isListening = !_isListening;
             });
+          } else if (!_isSpeaking &&
+              listMessages[indexSpeaking].type == TYPE.ONE_HUMAN) {
+            _read(listMessages[indexSpeaking].text);
+            Future.delayed(const Duration(milliseconds: 3000), () {
+              setState(() {
+                indexSpeaking++;
+              });
+            });
           }
           break;
         case LearningMode.playerVsPlayer:
+          if (!_isListening && _isAvailableRecognition) {
+            _speechRecognition
+                .listen(locale: "en_US")
+                .then((result) => print('$result'));
+            setState(() {
+              _isListening = !_isListening;
+            });
+          }
           break;
         default:
       }
@@ -120,7 +138,7 @@ class _ChatScreenState extends State<ChatScreen> {
     _speechRecognition.setRecognitionCompleteHandler(
       () => setState(() {
         _isListening = false;
-        indexSpeaking++;
+        // indexSpeaking++;
       }),
     );
 
@@ -128,6 +146,8 @@ class _ChatScreenState extends State<ChatScreen> {
           (result) => setState(() => _isAvailableRecognition = result),
         );
   }
+
+  // TODO
 
   void _onTapBottomControl() {
     if ((learningMode == LearningMode.botVsPlayer ||
@@ -159,6 +179,11 @@ class _ChatScreenState extends State<ChatScreen> {
         });
         break;
       case LearningMode.playerVsPlayer:
+        if (_isAvailableRecognition && !_isListening) {
+          _speechRecognition
+              .listen(locale: "en_US")
+              .then((result) => print('$result'));
+        }
         setState(() {
           _isListening = !_isListening;
         });
@@ -307,7 +332,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_isSpeaking && indexSpeaking == index && readDone != index) {
       switch (learningMode) {
         case LearningMode.botVsPlayer:
-          if (alignment == MainAxisAlignment.start) {
+          if (alignment == MainAxisAlignment.end) {
             _read(textMessage);
           }
           break;
