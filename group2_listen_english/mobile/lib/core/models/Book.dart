@@ -16,6 +16,12 @@ class Book{
     @required this.description,
   });
 
+  Book.fromJson(Map<String, dynamic> data)
+      : id = data['id'],
+        name = data['name'],
+        image = data['image'],
+        description = data['description'];
+
   Map<String,String> toJson() => {
     'id': id,
     'name': name,
