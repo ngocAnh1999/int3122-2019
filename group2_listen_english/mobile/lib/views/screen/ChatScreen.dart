@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mobile/core/models/Message.dart';
@@ -43,6 +44,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   String resultText = "";
 
+  AudioPlayer audioPlayer = AudioPlayer();
+
   @override
   initState() {
     super.initState();
@@ -74,8 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
             });
           } else if (!_isSpeaking &&
               listMessages[indexSpeaking].type == TYPE.ONE_HUMAN) {
-            _read(listMessages[indexSpeaking].text);
-            Future.delayed(const Duration(milliseconds: 3000), () {
+            // _read(listMessages[indexSpeaking].text);
+            Future.delayed(const Duration(milliseconds: 5000), () {
               setState(() {
                 indexSpeaking++;
               });
@@ -147,9 +150,15 @@ class _ChatScreenState extends State<ChatScreen> {
         );
   }
 
-  // TODO
-
   void _onTapBottomControl() {
+    play() async {
+      int result = await audioPlayer.play(
+          "https://c1-ex-swe.nixcdn.com/Sony_Audio50/Mua-MinhVuongM4U-5706602.mp3?st=O-cv5MIyjj29tEJ4K4Ivvg&e=1573051891");
+      if (result == 1) {
+        print("Check result = " + result.toString());
+      }
+    }
+
     if ((learningMode == LearningMode.botVsPlayer ||
             learningMode == LearningMode.playerVsPlayer) &&
         indexSpeaking == -1) {
@@ -329,11 +338,11 @@ class _ChatScreenState extends State<ChatScreen> {
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
 
-    if (_isSpeaking && indexSpeaking == index && readDone != index) {
+    if (!_isSpeaking && indexSpeaking == index && readDone != index) {
       switch (learningMode) {
         case LearningMode.botVsPlayer:
-          if (alignment == MainAxisAlignment.end) {
-            _read(textMessage);
+          if (message.type == TYPE.ONE_HUMAN) {
+            // _read(textMessage);
           }
           break;
         case LearningMode.botVsBot:
