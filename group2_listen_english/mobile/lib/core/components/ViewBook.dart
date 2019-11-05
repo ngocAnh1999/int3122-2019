@@ -1,12 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/core/components/GetRatings.dart';
+import 'package:mobile/core/constant/Constant.dart';
 import 'package:mobile/core/models/Book.dart';
-import 'package:mobile/views/screen/DetailBookScreen.dart';
+import 'package:mobile/views/widgets/UnitList.dart';
 
 class ViewBook extends StatelessWidget {
   final Book item;
 
   const ViewBook({@required this.item});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class ViewBook extends StatelessWidget {
           context,
           MaterialPageRoute(
             // builder: (context) => GridItemDetails(this.item),
-            builder: (context) => DetailBookScreen(),
+            builder: (context) => UnitList(book: item),
           ),
         );
       },
@@ -33,9 +37,9 @@ class ViewBook extends StatelessWidget {
               aspectRatio: 10.0 / 12.0,
               child: ClipRRect(
                 borderRadius: new BorderRadius.circular(12.0),
-                child: Image.asset(
-                  item.image,
-                  fit: BoxFit.fill,
+                child: CachedNetworkImage(
+                  imageUrl: URL_IMG + this.item.image,
+                  errorWidget: (context, url, error) => new Icon(Icons.error),
                 ),
               ),
             ),

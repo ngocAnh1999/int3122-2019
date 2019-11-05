@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/core/models/Unit.dart';
 
 class Book{
-  String id;
+  String docId;
+  int id;
   String name;
   String image;
   String description;
@@ -10,6 +12,7 @@ class Book{
   List<Unit> lessons;
 
   Book({
+    @required this.docId,
     @required this.id,
     @required this.name,
     @required this.image,
@@ -22,8 +25,8 @@ class Book{
         image = data['image'],
         description = data['description'];
 
-  Map<String,String> toJson() => {
-    'id': id,
+  Map<String,dynamic> toJson() => {
+    'book_id': id,
     'name': name,
     'image': image,
     'description': description,
@@ -33,5 +36,25 @@ class Book{
       id = json['id'],
       name = json['name'],
       image = json['image'];
+
+  factory Book.fromSnapshot(DocumentSnapshot snapshot) {
+    return Book(
+      docId: snapshot.documentID,
+      id: snapshot.data['book_id'],
+      name: snapshot.data['name'],
+      image: snapshot.data['img_name'],
+      description: "An English Book"
+    );
+  }
+
+  factory Book.fromESnapshot(DocumentSnapshot snapshot) {
+    return Book(
+        docId: snapshot.documentID,
+        id: snapshot.data['book_id'],
+        name: snapshot.data['name'],
+        image: snapshot.data['image'],
+        description: snapshot.data['description']
+    );
+  }
 
 }

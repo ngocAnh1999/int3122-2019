@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: <Widget>[
             TextFormField(
+              // ignore: missing_return
               validator: (input){
                 if (input.isEmpty){
                   return 'Please type an email';
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             TextFormField(
+              // ignore: missing_return
               validator: (input){
                 if (input.length < 6){
                   return 'Your password needs to be at least 6 characters';
