@@ -1,13 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Unit.dart';
+import '../helpers/RequestHelper.dart';
+import 'dart:convert';
 
 class UnitService {
+
+  final RequestHelper _requestHelper = RequestHelper();
+
   Future<List<Unit>> findUnitsByBookId(int bookId) async {
-    QuerySnapshot result = await Firestore.instance
-      .collection('units')
-      .where('book_id', isEqualTo: bookId)
-      .orderBy('number')
-      .getDocuments();
-    return result.documents.map((snapshot) => Unit.fromSnapshot(snapshot)).toList();
+    final response = await _requestHelper.request('units?book_id=$bookId', method: 'GET');
+    if (response.statusCode == 200){
+      List<dynamic> result = json.decode(response.body);
+      print(result);
+      return result.map((data) => Unit.fromJson(data)).toList();
+    } 
+    else throw Exception('Unable to fetch units.');
   }
 }

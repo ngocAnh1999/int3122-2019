@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Word {
   int bookId;
   int unitId;
-  String docId;
+  dynamic docId;
   String content;
   String imageName;
   String meaning;
@@ -34,6 +34,21 @@ class Word {
       pronunciation: snapshot['pronunciation'],
       sentence: snapshot['sentence'],
       type: snapshot['type'],
+    );
+  } 
+
+
+  factory Word.fromJson(Map<String, dynamic> data){
+    return new Word(
+      bookId: data['book_id'],
+      unitId : data['unit_id'],
+      docId : data['id'],
+      content : data['content'],
+      imageName: data['image_name'],
+      meaning : data['meaning'],
+      pronunciation: data['pronunciation'],
+      sentence: data['sentence'],
+      type: data['type'],
     );
   } 
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../../models/Word.dart';
 import '../../../helpers/RandomHelper.dart';
 import '../../../helpers/Speaker.dart';
+import 'package:provider/provider.dart';
+import '../../../models/GameplayState.dart';
 
 class ListeningGame extends StatefulWidget{
   List<Word> words;
@@ -43,36 +45,40 @@ class ListeningGameState extends State<ListeningGame>{
     double screenWidth = MediaQuery.of(context).size.width;
     var appBar = new AppBar();
 
-    return Stack(
-      children : <Widget>[
-        Container(
-          height: screenHeight - appBar.preferredSize.height,
-          width: screenWidth,
-          decoration: BoxDecoration(color:  Colors.red[100]),
-          padding: EdgeInsets.fromLTRB(0, 0 , 0, 0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-            
-              IconButton(
-                icon: Icon(Icons.volume_up),
-                color: Colors.black,
-                iconSize: 60,
-                onPressed: _handleOnContentPressPlay(correctAnswer.content),
-                highlightColor: Colors.white,
-                splashColor: Colors.white,
-              ),
-              _buildAnswers(context),
-              
-            ],
+    return Consumer<GameplayState> (
+      builder : (context, gamestate, child){
+        return Stack(
+          children : <Widget>[
+            Container(
+              height: screenHeight - appBar.preferredSize.height,
+              width: screenWidth,
+              decoration: BoxDecoration(color:  Colors.red[100]),
+              padding: EdgeInsets.fromLTRB(0, 0 , 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                
+                  IconButton(
+                    icon: Icon(Icons.volume_up),
+                    color: Colors.black,
+                    iconSize: 60,
+                    onPressed: _handleOnContentPressPlay(correctAnswer.content),
+                    highlightColor: Colors.white,
+                    splashColor: Colors.white,
+                  ),
+                  _buildAnswers(context),
+                  
+                ],
 
-          ),
-        ),
-        _buildNavBar(context)
-      ]
-    );  
+              ),
+            ),
+            _buildNavBar(context)
+          ]
+        ); 
+      } 
+    );
   }
 
   Function _handleOnContentPressPlay(content){
@@ -84,30 +90,21 @@ class ListeningGameState extends State<ListeningGame>{
   }
   Widget _buildNavBar(context){
     Widget navButton;
+    
     if (submitted == false) 
       navButton = FlatButton(
         child: Text('CHÔT', style: TextStyle(color: Colors.white),),
         color: Colors.green,
-        onPressed: (){
-          if (userAnswer == null)
-            return;
-          this.setState((){
-            submitted = true;
-          });
-        },
+        onPressed: _handleAnswer
       );
-    else 
+    else if (submitted == true && Provider.of<GameplayState>(context).finished == false)
       navButton = FlatButton(
         child: Text('TIẾP', style: TextStyle(color: Colors.white),),
         color: Colors.blue,
-        onPressed: (){
-          print('Next');
-          widget.pageController.nextPage(
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeIn
-          );
-        },
+        onPressed: _handleNext
       );
+    else 
+      navButton = Container();
     
     Widget markIcon;
     if (submitted){
@@ -139,6 +136,31 @@ class ListeningGameState extends State<ListeningGame>{
     
   }
 
+  void _handleAnswer(){
+    if (userAnswer == null)
+      return;
+
+    if (userAnswer.content == correctAnswer.content)
+      Provider.of<GameplayState>(context, listen: true).answerRight();
+    else 
+      Provider.of<GameplayState>(context, listen: true).answerWrong();
+    
+    this.setState((){
+      submitted = true;
+    });
+
+    if (widget.currentIndex == words.length - 1){
+      Provider.of<GameplayState>(context, listen: true).setFinished(true);
+    }
+    
+  }
+
+  void _handleNext(){
+    widget.pageController.nextPage(
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeIn
+    );
+  }
 
   Widget _buildAnswers(context){
     // return Text('lalala');

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../models/Word.dart';
 import './components/ListeningGame.dart';
+import '../../models/GameplayState.dart';
+import 'package:provider/provider.dart';
+import './components/SummaryScreen.dart';
 
 class PlayingScreen extends StatefulWidget {
   List<Word> words;
@@ -32,26 +35,27 @@ class PlayingScreenState extends State<PlayingScreen> {
       automaticallyImplyLeading: true,
     );
 
-    return Scaffold(
-      appBar: appBar,
-      body: PageView.builder(
-        controller: pageController,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: _buildPageItem,
-        itemCount : words.length,
-        onPageChanged: (int page){
-          this.setState((){
-            _currentPage = page;
-          });
-        },
-        scrollDirection: Axis.horizontal,
-      ),
-      floatingActionButton: _currentPage < words.length - 1 ? null : FloatingActionButton(
-        child: Icon(Icons.check),
-        backgroundColor: Colors.green,
-        onPressed: (){
-          Navigator.maybePop(context);
-        },
+    return ChangeNotifierProvider(
+      builder: (context) => GameplayState(),
+      child : Scaffold(
+        appBar: appBar,
+        body: Stack(
+          children : <Widget>[ 
+            PageView.builder(
+              controller: pageController,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: _buildPageItem,
+              itemCount : words.length,
+              onPageChanged: (int page){
+                this.setState((){
+                  _currentPage = page;
+                });
+              },
+              scrollDirection: Axis.horizontal,
+            ),
+            SummaryScreen()
+          ]
+        ),
       )
     );
   }
