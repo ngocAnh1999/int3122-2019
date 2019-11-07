@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/components/ViewBook.dart';
 import 'package:mobile/core/models/Book.dart';
+import 'package:mobile/core/services/BookServices.dart';
 import 'package:mobile/core/services/authentication.dart';
 import 'package:mobile/views/screen/AboutScreen.dart';
+import 'package:mobile/views/widgets/BookList.dart';
 import 'package:mobile/views/screen/ResultUserScreen.dart';
 import 'package:mobile/views/screen/SettingsScreen.dart';
 import 'package:mobile/views/screen/UserProfileScreen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
 
 class HomeScreen extends StatelessWidget {
@@ -43,42 +44,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    itemList = _itemList();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Listen & Speak English'),
       ),
-      // body: _gridView(),
-      body: StreamBuilder(
-        stream: Firestore.instance.collection("EnglishBook").snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return const Center(
-              child: Text("Loading"),
-            );
-
-          // List<Book> listBooks;
-          // for (int i = 0; i < snapshot.data.documents.length; i++) {
-          //   var parsedJson = json.decode(snapshot.data.documents[i].toString());
-          //   var book = Book.fromJson(parsedJson);
-          //   listBooks.add(book);
-          // }
-
-          // Todo
-
-          return GridView.count(
-            crossAxisCount: 2,
-            padding: EdgeInsets.all(4.0),
-            childAspectRatio: 7.2 / 12.0,
-            children: itemList
-                .map(
-                  (Book) => ViewBook(item: Book),
-                )
-                .toList(),
-          );
-        },
-      ),
+      body: BookList(),
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -184,56 +154,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  List<Book> _itemList() {
-    return [
-      Book(
-        id: "0",
-        name: 'Speak English Level 1',
-        description: 'Actions, School & Animals',
-        image: 'assets/images/book1.jpg',
-      ),
-      Book(
-        id: "1",
-        name: 'Speak English Level 2',
-        description: 'Action, Adventure, Sci-Fi',
-        image: 'assets/images/book2.jpg',
-      ),
-      Book(
-        id: "2",
-        name: 'Speak English Level 3',
-        description: 'Action, Adventure, Sci-Fi',
-        image: 'assets/images/book3.jpg',
-      ),
-      Book(
-        id: "3",
-        name: 'Speak English Level 4',
-        description: 'Action, Adventure, Comedy',
-        image: 'assets/images/book4.jpg',
-      ),
-      Book(
-        id: "4",
-        name: 'Speak English Level 4',
-        description: 'Action, Adventure, Comedy',
-        image: 'assets/images/book4.jpg',
-      ),
-      Book(
-        id: "5",
-        name: 'Speak English Level 4',
-        description: 'Action, Adventure, Comedy',
-        image: 'assets/images/book4.jpg',
-      ),
-      Book(
-        id: "6",
-        name: 'Speak English Level 4',
-        description: 'Action, Adventure, Comedy',
-        image: 'assets/images/book4.jpg',
-      ),
-      Book(
-        id: "7",
-        name: 'Speak English Level 4',
-        description: 'Action, Adventure, Comedy',
-        image: 'assets/images/book4.jpg',
-      ),
-    ];
-  }
 }

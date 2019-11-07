@@ -1,28 +1,32 @@
-enum TYPE {
-  ZERO_HUMAN,
-  ONE_HUMAN,
-  TWO_HUMAN
-}
+import 'TimeCustom.dart';
+
+enum TYPE { ZERO_HUMAN, ONE_HUMAN, TWO_HUMAN }
 
 class Message {
-  String id;
+  int id;
   String text;
-  String voice;
+  Time starttime;
+  Time endtime;
+  String character;
   TYPE type;
 
-  Message({this.id,this.text,this.voice,this.type});
+  Message({this.id, this.text, this.starttime, this.endtime, this.character, this.type});
 
-  Message.fromMap(Map snapshot,String id) :
-        id = id ?? '',
+  Message.fromMap(Map snapshot, int id)
+      : id = id ?? '',
         text = snapshot['text'] ?? '',
-        voice = snapshot['voice'] ?? '',
+        starttime = snapshot['starttime'] ?? '',
+        endtime = snapshot['endtime'] ?? '',
+        character = snapshot['character'] ?? '',
         type = snapshot['type'] ?? '';
 
   toJson() {
     return {
       "id": id,
-      "voice": voice,
       "text": text,
+      "starttime": starttime,
+      "endtime": endtime,
+      "character": character,
       "type": type,
     };
   }

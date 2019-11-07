@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/core/components/root_page.dart';
+// import 'package:mobile/core/gen_data.dart';
 import 'package:mobile/core/services/authentication.dart';
 // import 'package:mobile/views/LoginPage.dart';
 import 'package:mobile/views/screen/HomeScreen.dart';
@@ -24,3 +25,14 @@ void main() => runApp(MaterialApp(
     // GRID_ITEM_DETAILS_SCREEN: (BuildContext context) => GridItemDetails(),
   },
 ));
+
+//void main() => runApp(MaterialApp(
+//  title: "Test Firebase",
+//  home: TestGenData(),
+//  debugShowCheckedModeBanner: false,
+//  theme: ThemeData(
+//    primaryColor: Colors.blue,
+//    accentColor: Color(0xFF761322),
+//  ),
+//)
+//);
