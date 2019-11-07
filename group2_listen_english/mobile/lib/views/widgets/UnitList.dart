@@ -7,7 +7,6 @@ import 'package:mobile/core/services/UnitServices.dart';
 import 'package:mobile/views/screen/ChatScreen.dart';
 
 class UnitList extends StatefulWidget {
-
   final Book book;
 
   UnitList({Key key, this.book}) : super(key: key);
@@ -30,33 +29,29 @@ class _UnitListState extends State<UnitList> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(this.widget.book.name),
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            ListView.builder(itemCount: listUnit.length,itemBuilder: (context, index){
-              return _buildRow(listUnit[index], index, context);
-            }),
-            Positioned(
-              child: loading
-                  ? Container(
-                child: Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(themeColor),
-                  ),
-                ),
-                color: Colors.white.withOpacity(0.8),
-              )
-                  : Container(),
-            ),
-          ]
-        )
-      );
-
+        body: Stack(fit: StackFit.expand, children: <Widget>[
+          ListView.builder(
+              itemCount: listUnit.length,
+              itemBuilder: (context, index) {
+                return _buildRow(listUnit[index], index, context);
+              }),
+          Positioned(
+            child: loading
+                ? Container(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                      ),
+                    ),
+                    color: Colors.white.withOpacity(0.8),
+                  )
+                : Container(),
+          ),
+        ]));
   }
 
   Widget _buildRow(Unit unit, int index, BuildContext context) {
@@ -70,6 +65,7 @@ class _UnitListState extends State<UnitList> {
           );
         },
         child: Container(
+          height: 50,
           padding: EdgeInsets.all(10.0),
           child: Row(
             children: <Widget>[
@@ -81,11 +77,16 @@ class _UnitListState extends State<UnitList> {
                   size: 26,
                 ),
               ),
-              Text(
-                unit.name,
-                style: TextStyle(color: Colors.black, fontSize: 18),
+              Expanded(
+                child: Text(
+                  unit.name,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(color: Colors.black, fontSize: 18),
+                ),
               ),
-              new Spacer(),
+
+              // new Spacer(),
               // Container(
               //   padding: EdgeInsets.only(left: 10.0, right: 10.0),
               //   child: Icon(Icons.check_box_outline_blank, color: Colors.green)
@@ -93,17 +94,17 @@ class _UnitListState extends State<UnitList> {
               Icon(Icons.navigate_next, color: Colors.black),
             ],
           ),
-        ));
+        )
+      );
   }
 
-  void fetchUnit() async{
-    this.setState((){
+  void fetchUnit() async {
+    this.setState(() {
       loading = true;
     });
     listUnit = await this.bookServices.getEUnitOf(widget.book);
-    this.setState((){
+    this.setState(() {
       loading = false;
     });
   }
-
 }
