@@ -5,8 +5,8 @@ enum TYPE { ZERO_HUMAN, ONE_HUMAN, TWO_HUMAN }
 class Message {
   int id;
   String text;
-  Time starttime;
-  Time endtime;
+  double starttime;
+  double endtime;
   String character;
   TYPE type;
 

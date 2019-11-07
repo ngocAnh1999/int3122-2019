@@ -20,6 +20,13 @@ enum CHAT {
   CHAT_RIGHT,
 }
 
+const fbMessLink =
+    "https://fsa.zobj.net/download/byhQNNt4wxLvJ2dZCCo6YbNh6D02Qc9LH5hi3OVLVpEdptE7jGG9NMmeiA58TZFi1SNJWXxWbih3CMco8z7MFaYbZS_uWgRU6LzjEBY0HHiDE-Ygtdl6WFRanMmI/?a=web&c=72&f=facebook_messenger.mp3&special=1573145288-M28lEeM5AEEU0lU0VLdTQqNztlg8hByXgcxeH2RMx1A%3D";
+const fbMessLink2 =
+    "https://fsb.zobj.net/download/bkDkORKxIy_2BfYTVhsgbmlGZyHa5maF_Tm0459lb8e4gvLxP3-2tbB8MJgLi_SJzJcYw46M2yaFCQvvB6Wy7u6i1knfvO5KGg12ht7ONA57kwAms4KlyUhWuR9s/?a=web&c=72&f=messenger.mp3&special=1573145376-kpb64aHXZQLWiAHBYxaF58C%2BYWRWA5Z7Ww%2BeNqkapY4%3D";
+const fail_sound =
+    "https://fsb.zobj.net/download/bjF3xKZck-WNjD0goRiTW9N3F1pvQXnl38VkzF7CaSYzTOv_XK6i1DtFgQ2gW8hNsHDgjvPFmHx2xaHy6VZ6yVH1LolEHEau_Mgwt2iEGvyzujJtGMxJhbb-VELs/?a=web&c=72&f=failed_sound.mp3&special=1573146083-7m3Gv0QSHs8gJjwFvqne0zCRNA0nZyNIL1Tcsj89aKo%3D";
+
 enum PlayerAudioState { stopped, playing, paused }
 
 class _ChatScreenState extends State<ChatScreen> {
@@ -52,6 +59,10 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isListening = false;
   String resultText = "";
 
+  bool _isChecking = false;
+  bool _yourRecognitionResult = false;
+  double yourRecognitionTrue = 0.0;
+
   @override
   initState() {
     super.initState();
@@ -59,45 +70,45 @@ class _ChatScreenState extends State<ChatScreen> {
     initTts();
     initAudioPlayer();
 
-    _everySecond = Timer.periodic(
-        Duration(seconds: learningMode == LearningMode.botVsBot ? 6 : 10),
-        (Timer t) {
-      switch (learningMode) {
-        case LearningMode.botVsBot:
-          break;
-        case LearningMode.botVsPlayer:
-          if (!_isListening &&
-              listMessages[indexSpeaking].type == TYPE.TWO_HUMAN &&
-              _isAvailableRecognition) {
-            _speechRecognition
-                .listen(locale: "en_US")
-                .then((result) => print('$result'));
-            setState(() {
-              _isListening = !_isListening;
-            });
-          } else if (!_isSpeaking &&
-              listMessages[indexSpeaking].type == TYPE.ONE_HUMAN) {}
-          break;
-        case LearningMode.playerVsPlayer:
-          if (!_isListening && _isAvailableRecognition) {
-            _speechRecognition
-                .listen(locale: "en_US")
-                .then((result) => print('$result'));
-            setState(() {
-              _isListening = !_isListening;
-            });
-          }
-          break;
-        default:
-      }
+    // _everySecond = Timer.periodic(
+    //     Duration(seconds: learningMode == LearningMode.botVsBot ? 6 : 10),
+    //     (Timer t) {
+    //   switch (learningMode) {
+    //     case LearningMode.botVsBot:
+    //       break;
+    //     case LearningMode.botVsPlayer:
+    //       if (!_isListening &&
+    //           listMessages[indexSpeaking].type == TYPE.TWO_HUMAN &&
+    //           _isAvailableRecognition) {
+    //         _speechRecognition
+    //             .listen(locale: "en_US")
+    //             .then((result) => print('$result'));
+    //         setState(() {
+    //           _isListening = !_isListening;
+    //         });
+    //       } else if (!_isSpeaking &&
+    //           listMessages[indexSpeaking].type == TYPE.ONE_HUMAN) {}
+    //       break;
+    //     case LearningMode.playerVsPlayer:
+    //       if (!_isListening && _isAvailableRecognition) {
+    //         _speechRecognition
+    //             .listen(locale: "en_US")
+    //             .then((result) => print('$result'));
+    //         setState(() {
+    //           _isListening = !_isListening;
+    //         });
+    //       }
+    //       break;
+    //     default:
+    //   }
 
-      if (indexSpeaking >= listMessages.length - 1) {
-        _everySecond.cancel();
-        setState(() {
-          indexSpeaking = -1;
-        });
-      }
-    });
+    //   if (indexSpeaking >= listMessages.length - 1) {
+    //     _everySecond.cancel();
+    //     setState(() {
+    //       indexSpeaking = -1;
+    //     });
+    //   }
+    // });
 
     flutterTts.setStartHandler(() {
       setState(() {
@@ -171,14 +182,22 @@ class _ChatScreenState extends State<ChatScreen> {
     _speechRecognition.setRecognitionCompleteHandler(() => {
           setState(() {
             _isListening = false;
+            _isChecking = true;
           }),
-          Future.delayed(const Duration(seconds: 7), () {
-            if (!_isListening) {
-              setState(() {
-                indexSpeaking++;
-              });
-            }
-          })
+
+          // _yourRecognitionResult = similarityChecker(listMessages[indexSpeaking].text, resultText) >= 0.4,
+          setState(() {
+            yourRecognitionTrue:
+            similarityChecker(listMessages[indexSpeaking].text, resultText);
+          }),
+          _yourRecognitionResult = yourRecognitionTrue > 0.4,
+          // Future.delayed(const Duration(seconds: 12), () {
+          //   if (!_isListening) {
+          //     setState(() {
+          //       indexSpeaking++;
+          //     });
+          //   }
+          // })
         });
 
     _speechRecognition.activate().then(
@@ -237,7 +256,13 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  similarityChecker(String origin, String record) {
+  double similarityChecker(String origin, String record) {
+    print("Check out put = " + origin + " / " + record);
+    origin = origin.replaceAll(new RegExp(r'[^\w\s]+'), '');
+    record = record.replaceAll(new RegExp(r'[^\w\s]+'), '');
+    origin = origin.toLowerCase();
+    record = record.toLowerCase();
+    print("Check out put after = " + origin + " / " + record);
     List<String> arrayOrigin = origin.split(' ').toList();
     List<String> arrayRecord = record.split(' ').toList();
     int score = 0;
@@ -248,7 +273,15 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }
     }
-    return score / arrayOrigin.length;
+    print("Check score = " + score.toString());
+    print("Check length origin = " + arrayOrigin.length.toString());
+    double result = score / arrayOrigin.length;
+    if (result >= 0.4) {
+      playAudio(fbMessLink);
+    } else {
+      playAudio(fail_sound);
+    }
+    return result;
   }
 
   Future playAudio(kUrl) async {
@@ -401,14 +434,19 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildRow(Message message, int index, BuildContext context) {
     if (position != null &&
-        message.starttime.minute ==
+        message.starttime ==
             int.parse(double.parse(position.toString().substring(2, 4))
                 .toStringAsFixed(0)) &&
-        message.starttime.second ==
+        message.starttime ==
             int.parse(double.parse(position.toString().substring(5))
                 .toStringAsFixed(0))) {
       indexSpeaking = index;
     }
+
+    print("Check position = " + (double.parse(position.toString().substring(2, 4))
+                    .toStringAsFixed(3) * 60 +
+                double.parse(position.toString().substring(5))
+                    .toStringAsFixed(3)).toString());
 
     final backgroundMessageColor =
         indexSpeaking == index ? Colors.red[100] : Colors.blue[100];
@@ -521,19 +559,30 @@ class _ChatScreenState extends State<ChatScreen> {
                   child: Row(
                     children: <Widget>[
                       Container(
-                        width: MediaQuery.of(context).size.width - 60,
+                        width: MediaQuery.of(context).size.width - 140,
                         child: Text(
                           resultText,
-                          style: TextStyle(fontSize: 24.0),
+                          style: TextStyle(fontSize: 16.0),
                         ),
                       ),
                       Container(
+                        width: 46,
                         child: Icon(
-                          Icons.check_circle,
-                          color: Colors.green,
+                          _yourRecognitionResult
+                              ? Icons.check_circle
+                              : Icons.clear,
+                          color: _yourRecognitionResult
+                              ? Colors.green
+                              : Colors.red,
                           size: 36,
                         ),
-                      )
+                      ),
+                      Container(
+                          width: 50,
+                          child: Text(
+                            yourRecognitionTrue.toString() + "% words",
+                            style: TextStyle(color: Colors.green, fontSize: 16),
+                          ))
                     ],
                   ))
               : Container(
@@ -570,10 +619,10 @@ class _ChatScreenState extends State<ChatScreen> {
               if (learningMode == LearningMode.playerVsPlayer)
                 GestureDetector(
                   onTap: () {
-                    _speechRecognition.stop();
-                    _speechRecognition.setRecognitionStartedHandler(
-                      () => setState(() => _isListening = true),
-                    );
+                    // _speechRecognition.stop();
+                    // _speechRecognition.setRecognitionStartedHandler(
+                    //   () => setState(() => _isListening = true),
+                    // );
                     if (_isAvailableRecognition && !_isListening) {
                       _speechRecognition
                           .listen(locale: "en_US")
