@@ -16,7 +16,7 @@ class HttpService {
         query += key + '=' + value;
       });
     }
-//    print(_host + endpoint + query);
+    print(_host + '/' + endpoint + query);
     var response = await http.get(_host + '/' + endpoint + query);
 //    print('Finished');
     if (response.statusCode == 200) {

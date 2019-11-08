@@ -15,9 +15,30 @@ class LessonSearchView extends StatefulWidget {
 class _LessonSearchViewState extends State<LessonSearchView> {
   @override
   Widget build(BuildContext context) {
+    final _textStyle = TextStyle(
+        fontSize: 20, color: Colors.black54, fontWeight: FontWeight.bold);
     if (widget.keyword.isEmpty) {
       return Center(
-        child: Text('Vui lòng nhập từ khóa'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ListTile(
+                title: Center(
+              child: Text(
+                "Nhập một chủ đề hoặc từ khoá",
+                style: _textStyle,
+              ),
+            )),
+            ListTile(
+              title: Center(
+                child: Text(
+                  "Mẹo: Càng cụ thể càng tốt",
+                  style: _textStyle,
+                ),
+              ),
+            )
+          ],
+        ),
       );
     } else
       return FutureBuilder(

@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
-import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/FlashCardService.dart';
 import 'package:quizlet_clone/core/services/UserService.dart';
 import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
@@ -41,7 +40,7 @@ class LessonItem extends StatelessWidget {
                             title: Text(
                               lesson.title,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 25),
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                           ),
                           ListTile(

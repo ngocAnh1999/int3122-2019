@@ -36,6 +36,13 @@ class _HomeViewState extends State<HomeView> {
   void _onInputSearchComplete() {
     setState(() {
       _searchValue = _searchTextField.value.text;
+      _searchTextField.clear();
+    });
+  }
+
+  void _onInputSearchChanged(String value) {
+    setState(() {
+      _searchValue = value;
     });
   }
 
@@ -49,6 +56,7 @@ class _HomeViewState extends State<HomeView> {
               ? Text(_TAB_NAMES[_selectedIndex])
               : TextField(
                   onEditingComplete: _onInputSearchComplete,
+                  onChanged: _onInputSearchChanged,
                   controller: _searchTextField,
                   decoration: InputDecoration(
                       fillColor: Colors.white,
@@ -59,7 +67,11 @@ class _HomeViewState extends State<HomeView> {
                           new TextStyle(color: Colors.black54, fontSize: 18)),
                 ),
           bottom: (_selectedIndex == 1)
-              ? TabBar(tabs: [Tab(text: 'Học phần'), Tab(text: 'Người dùng')])
+              ? TabBar(
+                  indicator: UnderlineTabIndicator(
+                    borderSide: BorderSide(width: 5, color: Color(0xfff1c40f)),
+                  ),
+                  tabs: [Tab(text: 'Học phần'), Tab(text: 'Người dùng')])
               : null,
         ),
         body: (_selectedIndex != 1)
