@@ -4,16 +4,14 @@ import 'package:mobile/core/models/Conversation.dart';
 
 class Unit {
   String docId;
-  String book_id;
-  String id;
-  int point;
+  int id;
+  String point;
   String name;
-  int level;
+  String level;
 
   Unit({
     @required this.docId,
-    @required this.book_id,
-    @required this.id,
+    this.id,
     @required this.name,
     this.point,
     this.level,
@@ -21,28 +19,36 @@ class Unit {
 
   Map<String, dynamic> toJson() => {
         'docId': docId,
-        'book_id': book_id,
         'id': id,
         'point': point,
         'name': name,
         'level': level,
-  };
+      };
 
-  factory Unit.fromSnapshot(DocumentSnapshot snapshot) {
-    return Unit(
-      docId: snapshot.documentID,
-      book_id: snapshot.data['book_id'].toString(),
-      id: snapshot.data['id'],
-      name: snapshot.data['name'],
-    );
-  }
+  Map<String, dynamic> toStrJson(int book_id) => {
+        'docId': docId,
+        'name': name,
+        'book': book_id.toString(),
+        'level': level,
+        'point': point
+      };
 
   factory Unit.fromESnapshot(DocumentSnapshot snapshot) {
     return Unit(
-      docId: snapshot.documentID,
-      level: snapshot.data['level'],
-      name: snapshot.data['name'],
-      point: snapshot.data['point']
+        docId: snapshot.documentID,
+        level: snapshot.data['level'].toString(),
+        name: snapshot.data['name'],
+        point: snapshot.data['point'].toString()
+    );
+  }
+
+  factory Unit.fromMappedJson(Map<String, dynamic> json) {
+    return Unit(
+      id: json['id'] as int,
+      docId: json['docId'] as String,
+      name: json['name'] as String,
+      level: json['level'] as String,
+      point: json['point'] as String,
     );
   }
 }
