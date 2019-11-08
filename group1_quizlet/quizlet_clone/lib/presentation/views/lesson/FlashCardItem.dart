@@ -38,6 +38,8 @@ class FlashCardItemState extends State<FlashCardItem> {
   initTts() {
     flutterTts = FlutterTts();
 
+    flutterTts.setLanguage("en-US");
+
     if (Platform.isAndroid) {
       flutterTts.ttsInitHandler(() {
         _getLanguages();

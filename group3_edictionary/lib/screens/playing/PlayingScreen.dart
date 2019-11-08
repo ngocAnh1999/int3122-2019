@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../models/Word.dart';
 import './components/ListeningGame.dart';
+import './components/WritingGame.dart';
+import '../../helpers/RandomHelper.dart';
 import '../../models/GameplayState.dart';
 import 'package:provider/provider.dart';
 import './components/SummaryScreen.dart';
@@ -17,6 +19,8 @@ class PlayingScreenState extends State<PlayingScreen> {
   int _currentPage = 0;
   PageController pageController = PageController();
   List<Word> get words => widget.words;
+
+  RandomHelper _randomHelper = new RandomHelper();
 
   @override 
   Widget build(BuildContext context){ 
@@ -70,8 +74,17 @@ class PlayingScreenState extends State<PlayingScreen> {
       height: screenHeight - appBar.preferredSize.height,
       width: screenWidth,
       decoration: BoxDecoration(color:  Colors.red[100]),
-      padding: EdgeInsets.fromLTRB(0, screenHeight * 0.15 , 0, 0),
-      child: ListeningGame(words: words, currentIndex: position, pageController: pageController,)
+      padding: EdgeInsets.fromLTRB(0, screenHeight * 0.05 , 0, 0),
+      child: _getRandomGame(position)
     );
+  }
+
+  Widget _getRandomGame(int position){
+    int randomGameIndex = _randomHelper.getRandomInt(2);
+    print(randomGameIndex);
+    if (randomGameIndex == 0)
+      return ListeningGame(words: words, currentIndex: position, pageController: pageController,);
+    if (randomGameIndex == 1)
+      return WritingGame(words: words, currentIndex: position, pageController: pageController,);
   }
 }
