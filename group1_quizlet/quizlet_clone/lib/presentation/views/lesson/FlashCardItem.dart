@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:toast/toast.dart';
 
 enum TtsState { playing, stopped }
 
@@ -38,6 +37,8 @@ class FlashCardItemState extends State<FlashCardItem> {
 
   initTts() {
     flutterTts = FlutterTts();
+
+    flutterTts.setLanguage("en-US");
 
     if (Platform.isAndroid) {
       flutterTts.ttsInitHandler(() {

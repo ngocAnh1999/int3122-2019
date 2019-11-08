@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/core/repositories/FlashCardRepository.dart';
-import 'package:quizlet_clone/core/repositories/implementations/FlashCardRepositoryImpl.dart';
+import 'package:quizlet_clone/core/repositories/strapi_implementations/FlashCardRepositoryStrapiImpl.dart';
 
 class FlashCardService {
   static final FlashCardService instance =
-      FlashCardService._(repository: new FlashCardRepositoryImpl());
+      FlashCardService._(repository: new FlashCardRepositoryStrapiImpl());
 
   final FlashCardRepository repository;
 

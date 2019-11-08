@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
-import 'package:quizlet_clone/core/models/User.dart';
 import 'package:quizlet_clone/core/services/FlashCardService.dart';
 import 'package:quizlet_clone/core/utilities/FacebookProfileGetter.dart';
 import 'package:quizlet_clone/presentation/layouts/FlashCardLayout.dart';
@@ -17,10 +16,9 @@ import 'LearningActivity.dart';
 
 class LessonView extends StatefulWidget {
   final Lesson lesson;
-  final User user;
   final FlashCardService fcService = FlashCardService.instance;
 
-  LessonView({Key key, this.lesson, this.user}) : super(key: key);
+  LessonView({Key key, this.lesson}) : super(key: key);
 
   @override
   LessonViewState createState() => new LessonViewState();
@@ -29,8 +27,7 @@ class LessonView extends StatefulWidget {
 class LessonViewState extends State<LessonView> {
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future:
-            FlashCardService.instance.getFlashCards(lessonId: widget.lesson.id),
+        future: FlashCardService.instance.getFlashCards(lessonId: widget.lesson.id),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -83,10 +80,10 @@ class LessonViewState extends State<LessonView> {
                             CircleAvatar(
                               backgroundImage: NetworkImage(
                                   FacebookProfileGetter.getAvatarUrl(
-                                      facebookId: widget.user.facebookId)),
+                                      facebookId: widget.lesson.facebookId)),
                             ),
                             Text(
-                              '\t' + widget.user.username,
+                              '\t' + widget.lesson.username,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),

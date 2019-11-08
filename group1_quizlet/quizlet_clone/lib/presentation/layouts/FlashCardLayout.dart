@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_view/flutter_flip_view.dart';
 import 'package:quizlet_clone/core/models/FlashCard.dart';
+import 'package:quizlet_clone/core/utilities/FlashCardImageGetter.dart';
 
 class FlashCardLayout extends StatefulWidget {
   final FlashCard flashCard;
@@ -47,13 +48,85 @@ class _FlashCardLayoutState extends State<FlashCardLayout>
     return Center(
       child: FlipView(
         animationController: _curvedAnimation,
-        front: _buildCard(widget.flashCard.word, () => _flip(true)),
-        back: _buildCard(widget.flashCard.meaning, () => _flip(false)),
+        front: _buildFront(widget.flashCard.word, () => _flip(true)),
+        back: _buildBack(widget.flashCard.meaning, widget.flashCard.imageUrl,
+            () => _flip(false)),
       ),
     );
   }
 
-  Widget _buildCard(String title, GestureTapCallback onTap) {
+  Widget _buildBack(String title, String imageUrl, GestureTapCallback onTap) {
+    return AspectRatio(
+      aspectRatio: widget.ratio,
+      child: Card(
+        elevation: 4,
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.white,
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+                splashColor: Colors.white.withOpacity(0.1),
+                highlightColor: Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+                onTap: onTap,
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: (widget.flashCard.imageUrl != null)
+                      ? Row(
+                          children: <Widget>[
+                            Container(
+                                width: 100,
+                                child: Center(
+                                  child: Text(
+                                    title,
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                )),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            (widget.flashCard.imageUrl != null)
+                                ? Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image:
+                                                FlashCardImageGetter.getImage(
+                                                    imageUrl: imageUrl))),
+                                  )
+                                : SizedBox()
+                          ],
+                        )
+                      : Center(
+                          child: Text(
+                            title,
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFront(String title, GestureTapCallback onTap) {
     return AspectRatio(
       aspectRatio: widget.ratio,
       child: Card(
