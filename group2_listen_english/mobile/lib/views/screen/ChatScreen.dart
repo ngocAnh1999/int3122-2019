@@ -433,20 +433,27 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildRow(Message message, int index, BuildContext context) {
+ 
+    // print("Check starttime = " + message.starttime.toStringAsFixed(0));
+    // print("Check position  = " + position.toString());
+    // print("Check position minute = " +
+    //     ((double.parse(position.toString().substring(2, 4)) * 2)
+    //         .toStringAsFixed(0)));
+    // print("Check position second = " +
+    //     (double.parse(position.toString().substring(5)).toStringAsFixed(0)));
+
+    // print("Check total second = " +
+    //     ((double.parse(position.toString().substring(2, 4)) * 60 +
+    //             double.parse(position.toString().substring(5)))
+    //         .toStringAsFixed(0)));
+
     if (position != null &&
-        message.starttime ==
-            int.parse(double.parse(position.toString().substring(2, 4))
-                .toStringAsFixed(0)) &&
-        message.starttime ==
-            int.parse(double.parse(position.toString().substring(5))
+        message.starttime.toStringAsFixed(0) ==
+            ((double.parse(position.toString().substring(2, 4)) * 60 +
+                    double.parse(position.toString().substring(5)))
                 .toStringAsFixed(0))) {
       indexSpeaking = index;
     }
-
-    print("Check position = " + (double.parse(position.toString().substring(2, 4))
-                    .toStringAsFixed(3) * 60 +
-                double.parse(position.toString().substring(5))
-                    .toStringAsFixed(3)).toString());
 
     final backgroundMessageColor =
         indexSpeaking == index ? Colors.red[100] : Colors.blue[100];
