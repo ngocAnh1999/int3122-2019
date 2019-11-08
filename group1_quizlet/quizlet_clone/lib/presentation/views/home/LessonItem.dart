@@ -9,6 +9,7 @@ import 'package:quizlet_clone/presentation/views/lesson/LessonView.dart';
 
 class LessonItem extends StatelessWidget {
   final Lesson lesson;
+  // ignore: unused_field
   static final UserService _userService = UserService.instance;
   static final FlashCardService _flashCardService = FlashCardService.instance;
 
@@ -19,10 +20,7 @@ class LessonItem extends StatelessWidget {
     return Container(
         height: 180,
         child: FutureBuilder(
-            future: Future.wait([
-              _userService.getUser(id: lesson.userId),
-              _flashCardService.countFlashCards(lessonId: lesson.id)
-            ]),
+            future: _flashCardService.countFlashCards(lessonId: lesson.id),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -34,8 +32,7 @@ class LessonItem extends StatelessWidget {
                     ),
                   );
                 case ConnectionState.done:
-                  User user = snapshot.data[0];
-                  int numberOfFlashCards = snapshot.data[1];
+                  int numberOfFlashCards = snapshot.data;
                   return GestureDetector(
                     child: Card(
                       child: Column(
@@ -62,9 +59,9 @@ class LessonItem extends StatelessWidget {
                                       fit: BoxFit.fill,
                                       image: NetworkImage(
                                           FacebookProfileGetter.getAvatarUrl(
-                                              facebookId: user.facebookId)))),
+                                              facebookId: lesson.facebookId)))),
                             ),
-                            title: Text(user.username),
+                            title: Text(lesson.username),
                           )
                         ],
                       ),
@@ -74,8 +71,7 @@ class LessonItem extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => LessonView(
-                                    lesson: lesson,
-                                    user: user,
+                                    lesson: lesson
                                   )));
                     },
                   );

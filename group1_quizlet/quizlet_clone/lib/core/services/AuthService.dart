@@ -67,10 +67,10 @@ class AuthService {
   Future<FirebaseUser> _firebaseLogIn({@required credential}) async {
     final FirebaseUser firebaseUser =
         (await _auth.signInWithCredential(credential)).user;
-    assert(firebaseUser.email != null);
-    assert(firebaseUser.displayName != null);
-    assert(!firebaseUser.isAnonymous);
-    assert(await firebaseUser.getIdToken() != null);
+    //assert(firebaseUser.email != null);
+    //assert(firebaseUser.displayName != null);
+    //assert(!firebaseUser.isAnonymous);
+    //assert(await firebaseUser.getIdToken() != null);
 
     final FirebaseUser currentUser = await _auth.currentUser();
     assert(firebaseUser.uid == currentUser.uid);

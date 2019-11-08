@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:quizlet_clone/core/models/Lesson.dart';
 import 'package:quizlet_clone/core/repositories/LessonRepository.dart';
-import 'package:quizlet_clone/core/repositories/implementations/LessonRepositoryImpl.dart';
+import 'package:quizlet_clone/core/repositories/strapi_implementations/LessonRepositoryStrapiImpl.dart';
 
 class LessonService {
   static final LessonService instance =
-      LessonService._(repository: new LessonRepositoryImpl());
+      LessonService._(repository: new LessonRepositoryStrapiImpl());
   final LessonRepository repository;
 
   const LessonService._({@required this.repository});
