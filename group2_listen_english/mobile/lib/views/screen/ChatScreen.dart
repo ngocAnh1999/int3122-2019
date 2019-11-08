@@ -21,11 +21,9 @@ enum CHAT {
 }
 
 const fbMessLink =
-    "https://fsa.zobj.net/download/byhQNNt4wxLvJ2dZCCo6YbNh6D02Qc9LH5hi3OVLVpEdptE7jGG9NMmeiA58TZFi1SNJWXxWbih3CMco8z7MFaYbZS_uWgRU6LzjEBY0HHiDE-Ygtdl6WFRanMmI/?a=web&c=72&f=facebook_messenger.mp3&special=1573145288-M28lEeM5AEEU0lU0VLdTQqNztlg8hByXgcxeH2RMx1A%3D";
-const fbMessLink2 =
-    "https://fsb.zobj.net/download/bkDkORKxIy_2BfYTVhsgbmlGZyHa5maF_Tm0459lb8e4gvLxP3-2tbB8MJgLi_SJzJcYw46M2yaFCQvvB6Wy7u6i1knfvO5KGg12ht7ONA57kwAms4KlyUhWuR9s/?a=web&c=72&f=messenger.mp3&special=1573145376-kpb64aHXZQLWiAHBYxaF58C%2BYWRWA5Z7Ww%2BeNqkapY4%3D";
+    "https://freesound.org/data/previews/109/109662_945474-lq.mp3";
 const fail_sound =
-    "https://fsb.zobj.net/download/bjF3xKZck-WNjD0goRiTW9N3F1pvQXnl38VkzF7CaSYzTOv_XK6i1DtFgQ2gW8hNsHDgjvPFmHx2xaHy6VZ6yVH1LolEHEau_Mgwt2iEGvyzujJtGMxJhbb-VELs/?a=web&c=72&f=failed_sound.mp3&special=1573146083-7m3Gv0QSHs8gJjwFvqne0zCRNA0nZyNIL1Tcsj89aKo%3D";
+    "https://freesound.org/data/previews/362/362205_6629901-lq.mp3";
 
 enum PlayerAudioState { stopped, playing, paused }
 
@@ -185,12 +183,10 @@ class _ChatScreenState extends State<ChatScreen> {
             _isChecking = true;
           }),
 
-          // _yourRecognitionResult = similarityChecker(listMessages[indexSpeaking].text, resultText) >= 0.4,
+          _yourRecognitionResult = similarityChecker(listMessages[indexSpeaking].text, resultText) >= 0.4,
           setState(() {
-            yourRecognitionTrue:
-            similarityChecker(listMessages[indexSpeaking].text, resultText);
+ 
           }),
-          _yourRecognitionResult = yourRecognitionTrue > 0.4,
           // Future.delayed(const Duration(seconds: 12), () {
           //   if (!_isListening) {
           //     setState(() {
@@ -276,6 +272,9 @@ class _ChatScreenState extends State<ChatScreen> {
     print("Check score = " + score.toString());
     print("Check length origin = " + arrayOrigin.length.toString());
     double result = score / arrayOrigin.length;
+    setState(() {
+      yourRecognitionTrue = result;
+    });
     if (result >= 0.4) {
       playAudio(fbMessLink);
     } else {
@@ -433,20 +432,27 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildRow(Message message, int index, BuildContext context) {
+ 
+    // print("Check starttime = " + message.starttime.toStringAsFixed(0));
+    // print("Check position  = " + position.toString());
+    // print("Check position minute = " +
+    //     ((double.parse(position.toString().substring(2, 4)) * 2)
+    //         .toStringAsFixed(0)));
+    // print("Check position second = " +
+    //     (double.parse(position.toString().substring(5)).toStringAsFixed(0)));
+
+    // print("Check total second = " +
+    //     ((double.parse(position.toString().substring(2, 4)) * 60 +
+    //             double.parse(position.toString().substring(5)))
+    //         .toStringAsFixed(0)));
+
     if (position != null &&
-        message.starttime ==
-            int.parse(double.parse(position.toString().substring(2, 4))
-                .toStringAsFixed(0)) &&
-        message.starttime ==
-            int.parse(double.parse(position.toString().substring(5))
+        message.starttime.toStringAsFixed(0) ==
+            ((double.parse(position.toString().substring(2, 4)) * 60 +
+                    double.parse(position.toString().substring(5)))
                 .toStringAsFixed(0))) {
       indexSpeaking = index;
     }
-
-    print("Check position = " + (double.parse(position.toString().substring(2, 4))
-                    .toStringAsFixed(3) * 60 +
-                double.parse(position.toString().substring(5))
-                    .toStringAsFixed(3)).toString());
 
     final backgroundMessageColor =
         indexSpeaking == index ? Colors.red[100] : Colors.blue[100];
@@ -580,7 +586,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       Container(
                           width: 50,
                           child: Text(
-                            yourRecognitionTrue.toString() + "% words",
+                            (yourRecognitionTrue * 100).toString() + "% words",
                             style: TextStyle(color: Colors.green, fontSize: 16),
                           ))
                     ],
