@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Unit {
-  String docId;
+  dynamic docId;
   int bookId;
   String description;
   String name;
@@ -20,4 +20,16 @@ class Unit {
       docId : snapshot.documentID
     );
   }
+
+  factory Unit.fromJson(Map<String, dynamic> data){
+    return Unit(
+      description: data['description'],
+      bookId: data['book_id'],
+      name: data['name'],
+      unitNumber: data['number'],
+      totalWords: data['total_words'],
+      docId : data['id']
+    );
+  }
+
 }

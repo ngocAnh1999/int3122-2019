@@ -1,30 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/Word.dart';
+import '../helpers/RequestHelper.dart';
+import 'dart:convert';
 
 class WordService{
+  
+  final RequestHelper _requestHelper = RequestHelper();
+
   Future<List<Word>> findWords({int bookId, int unitId}) async {
-    QuerySnapshot result = await Firestore.instance
-      .collection('words')
-      .where('book_id', isEqualTo: bookId)
-      .where('unit_id', isEqualTo: unitId)
-      .getDocuments();
-    return result.documents.map((snapshot) => Word.fromSnapshot(snapshot)).toList();
-  }
-
-  Future<String> findSourceFromImageName(String imageName) async {
-    if (imageName == null) 
-      return 'https://www.clipartwiki.com/clipimg/detail/83-830547_child-playing-png-kids-png.png';
-
-    QuerySnapshot result = await Firestore.instance
-      .collection('books')
-      .where('img_name', isEqualTo: imageName)
-      .getDocuments();
-    
-    if (result.documents.length == 0){
-      print('Length = 0');
-      return 'https://www.clipartwiki.com/clipimg/detail/83-830547_child-playing-png-kids-png.png';
-    
-    }
-    return result.documents[0]['cover_url'];
+   final response = await _requestHelper.request('words?unit_id=$unitId&book_id=$bookId', method: 'GET');
+    if (response.statusCode == 200){
+      List<dynamic> result = json.decode(response.body);
+      print(result);
+      return result.map((data) => Word.fromJson(data)).toList();
+    } 
+    else throw Exception('Unable to fetch words.');
   }
 }

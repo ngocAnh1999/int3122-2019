@@ -3,14 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Word {
   int bookId;
   int unitId;
-  String docId;
+  dynamic docId;
   String content;
   String imageName;
   String meaning;
   String pronunciation;
   String sentence;
   String type;
-  String imageSource;
 
   Word({
     this.bookId, 
@@ -22,7 +21,6 @@ class Word {
     this.pronunciation, 
     this.sentence, 
     this.type,
-    this.imageSource
   });
 
   factory Word.fromSnapshot(DocumentSnapshot snapshot){
@@ -39,8 +37,18 @@ class Word {
     );
   } 
 
-  void setImageSource(String imageSource){
-    this.imageSource = imageSource;
-  }
 
+  factory Word.fromJson(Map<String, dynamic> data){
+    return new Word(
+      bookId: data['book_id'],
+      unitId : data['unit_id'],
+      docId : data['id'],
+      content : data['content'],
+      imageName: data['image_name'],
+      meaning : data['meaning'],
+      pronunciation: data['pronunciation'],
+      sentence: data['sentence'],
+      type: data['type'],
+    );
+  } 
 }

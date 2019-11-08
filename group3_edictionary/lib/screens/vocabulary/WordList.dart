@@ -3,6 +3,7 @@ import './components/WordTile.dart';
 import '../../services/WordService.dart';
 import '../../models/Word.dart';
 import '../learning/LearningScreen.dart';
+import '../playing/PlayingScreen.dart';
 
 class WordList extends StatefulWidget { 
   int bookId;
@@ -29,19 +30,6 @@ class WordListState extends State<WordList> {
     fetchWords();
   }
 
-  Future<String> getImageSource(List<Word> words) async {
-    String imageName;
-    for (Word word in words)
-      if (word.imageName != null){
-        imageName = word.imageName;
-        print(imageName);
-        break;
-      }
-    
-    String fetchedImageSource = await _wordService.findSourceFromImageName(imageName);
-    return fetchedImageSource;
-  }
-
   Future<Null> fetchWords() async {
     this.setState((){
       loading = true;
@@ -52,15 +40,9 @@ class WordListState extends State<WordList> {
       unitId: widget.unitId
     );  
 
-    String fetchedImageSource = await getImageSource(fetchedWords);
-    List<Word> fetchedImageWords = fetchedWords.map((word){
-      word.setImageSource(fetchedImageSource);
-      return word;
-    }).toList();
-
     this.setState((){
       loading = false;
-      words = fetchedImageWords;
+      words = fetchedWords;
     });
   }
 
@@ -138,7 +120,10 @@ class WordListState extends State<WordList> {
             width: MediaQuery.of(context).size.width * 0.4,
             child : FlatButton.icon(
               onPressed: (){
-                print('Yolo');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlayingScreen(words: words)) 
+                );
               },
               icon: Icon(Icons.book, color : Colors.white),
               color: Colors.blue,
@@ -150,6 +135,7 @@ class WordListState extends State<WordList> {
       )
     );
   }
+
 	Widget _buildRow(context, index) {
 		if (index >= words.length) 
 			return null;

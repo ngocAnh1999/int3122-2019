@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/Word.dart';
 import '../../helpers/Speaker.dart';
+import '../../helpers/WordHelper.dart';
 
 class LearningScreen extends StatefulWidget {
   List<Word> words;
@@ -12,8 +13,8 @@ class LearningScreen extends StatefulWidget {
 
 class LearningScreenState extends State<LearningScreen> {
   Speaker _speaker = new Speaker();
+  WordHelper _wordHelper = new WordHelper();
   int _currentPage = 0;
-
   List<Word> get words => widget.words;
 
   @override 
@@ -55,12 +56,6 @@ class LearningScreenState extends State<LearningScreen> {
     );
   }
 
-  // Widget _buildBottomNav(BuildContext){
-  //   return Container(
-  //     width: ,
-  //   );
-  // }
-
   Widget _buildPageItem(BuildContext context, int position){
     Word currentWord = words[position];
     double screenHeight = MediaQuery.of(context).size.height;
@@ -88,7 +83,7 @@ class LearningScreenState extends State<LearningScreen> {
               ),
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: NetworkImage(currentWord.imageSource)
+                image: NetworkImage(_wordHelper.getImageSource(currentWord))
               )
             ),
           ),
