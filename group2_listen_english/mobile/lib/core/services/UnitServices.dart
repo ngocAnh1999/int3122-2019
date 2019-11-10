@@ -37,17 +37,20 @@ class UnitServices {
     }
   }
 
-  Future<Unit> postAUnit() async {
-    Map<String,dynamic> data = {
-      "docId": "asdas",
-      "name": "Unit 1 Nice to see you again"
-    };
-    print(data);
-    final response = await req.request('units',body: data,method: 'POST');
+  Future<Unit> getUnitWith(String name, int bookId) async{
+    String unitName = name.replaceAll("?", "%3F");
+    unitName = unitName.replaceAll(" ", "%20");
+    unitName = unitName.replaceAll("000", "%27");
+    unitName = unitName.replaceAll("090", "%E2%80%99");
+    unitName = unitName.replaceAll("!", "%21");
+    final response = await req.request("units?book=" + bookId.toString() + "&name=" + unitName,method: 'GET');
     if (response.statusCode == 200) {
-      return Unit.fromMappedJson(json.decode(response.body));
+      List<dynamic> list = json.decode(response.body);
+      if (list.length > 0)
+        return Unit.fromMappedJson(list[0]);
+      else throw Exception("No unit suitable" + name + "///" + bookId.toString());
     } else {
-      throw Exception('Unable to post unit');
+      throw Exception("Unable to get unit");
     }
   }
 
