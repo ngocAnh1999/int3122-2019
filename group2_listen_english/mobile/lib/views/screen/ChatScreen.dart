@@ -41,6 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final MessServices messServices = new MessServices();
   List<Mess> listMess = [];
+  String linkAudio = "";
 
   AudioPlayer _audioPlayer = new AudioPlayer();
   PlayerAudioState playerAudioState = PlayerAudioState.stopped;
@@ -80,6 +81,7 @@ class _ChatScreenState extends State<ChatScreen> {
     initSpeechRecognizer();
     initTts();
     initAudioPlayer();
+    fetchMess();
 
     // _everySecond = Timer.periodic(
     //     Duration(seconds: learningMode == LearningMode.botVsBot ? 6 : 10),
@@ -197,7 +199,7 @@ class _ChatScreenState extends State<ChatScreen> {
           }),
 
           _yourRecognitionResult =
-              similarityChecker(listMessages[indexSpeaking].text, resultText) >=
+              similarityChecker(listMess[indexSpeaking].text, resultText) >=
                   0.4,
           setState(() {}),
           // Future.delayed(const Duration(seconds: 12), () {
@@ -229,7 +231,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
         playerAudioState == PlayerAudioState.paused
             ? playAudio(
-                this.widget.linkConversation)
+                linkAudio)
             : pauseAudio();
         setState(() {
           _isSpeaking = !_isSpeaking;
@@ -370,7 +372,7 @@ class _ChatScreenState extends State<ChatScreen> {
           onPressed: () {
             playerAudioState == PlayerAudioState.paused
                 ? playAudio(
-                    this.widget.linkConversation)
+                    linkAudio)
                 : pauseAudio();
           },
         ),
@@ -431,10 +433,10 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Container(
         child: ListView.builder(
             padding: EdgeInsets.only(bottom: 60.0),
-            itemCount: listMessages.length,
+            itemCount: listMess.length,
             itemBuilder: (context, index) {
               return _buildRow(
-                listMessages[index],
+                listMess[index],
                 index,
                 context,
               );
@@ -663,10 +665,13 @@ class _ChatScreenState extends State<ChatScreen> {
   void fetchMess() async {
     this.setState(() {
       isloadingMess = true;
+      linkAudio = this.widget.conversation.audio;
     });
+    print("Check linkAudio = " + this.widget.conversation.audio);
     listMess = await this.messServices.getEMess(this.widget.book, this.widget.unit, this.widget.conversation);
     this.setState(() {
       isloadingMess = false;
+
     });
   }
 }
