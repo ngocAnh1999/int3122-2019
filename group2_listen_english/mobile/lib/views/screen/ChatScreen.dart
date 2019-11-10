@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:speech_recognition/speech_recognition.dart';
 import 'package:mobile/views/screen/DummyData.dart';
 import 'package:audioplayer/audioplayer.dart';
+import 'package:mobile/core/constant/Constant.dart';
 
 class ChatScreen extends StatefulWidget {
   final Book book;
@@ -229,6 +230,7 @@ class _ChatScreenState extends State<ChatScreen> {
         if (ttsState == TtsState.playing) {
           flutterTts.stop();
         }
+        print("Check audio link again = " + linkAudio);
         playerAudioState == PlayerAudioState.paused
             ? playAudio(
                 linkAudio)
@@ -473,7 +475,10 @@ class _ChatScreenState extends State<ChatScreen> {
     final borderMessageColor =
         indexSpeaking == index ? Colors.red : Colors.transparent;
     final textMessage = message.text;
-    final alignment = message.type == TYPE.ONE_HUMAN
+    // final alignment = message.type == TYPE.ONE_HUMAN
+    //     ? MainAxisAlignment.start
+    //     : MainAxisAlignment.end;
+        final alignment = index % 2 == 0
         ? MainAxisAlignment.start
         : MainAxisAlignment.end;
 
@@ -665,9 +670,8 @@ class _ChatScreenState extends State<ChatScreen> {
   void fetchMess() async {
     this.setState(() {
       isloadingMess = true;
-      linkAudio = this.widget.conversation.audio;
+      linkAudio = "https://s.sachmem.vn/public" + this.widget.conversation.audio;
     });
-    print("Check linkAudio = " + this.widget.conversation.audio);
     listMess = await this.messServices.getEMess(this.widget.book, this.widget.unit, this.widget.conversation);
     this.setState(() {
       isloadingMess = false;
