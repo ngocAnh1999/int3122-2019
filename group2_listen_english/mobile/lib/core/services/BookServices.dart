@@ -19,7 +19,7 @@ class BookServices {
    * Get books from strapi
    */
   Future<List<Book>> getBooks() async {
-    final response = await req.request('books', method: 'GET');
+    final response = await req.request('books?_sort=name:ASC', method: 'GET');
     if (response.statusCode == 200) {
       List<dynamic> result = json.decode(response.body);
       return result.map((data) => Book.fromMappedJson(data)).toList();

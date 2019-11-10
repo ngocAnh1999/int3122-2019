@@ -30,4 +30,12 @@ class User {
   factory User.fromDocument(DocumentSnapshot doc){
     return User.fromJson(doc.data);
   }
+
+  factory User.fromMappedJson(Map<String,String> json) {
+    return User(
+      id: json['id'],
+      email: json['email'],
+      name: json['email']
+    );
+  }
 }

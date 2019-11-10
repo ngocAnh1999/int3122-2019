@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobile/core/components/CustomIcons.dart';
 import 'package:mobile/core/constant/Constant.dart';
+import 'package:mobile/core/models/User.dart';
 import 'package:mobile/core/services/authentication.dart';
 import 'package:mobile/views/screen/HomeScreen.dart';
 import 'package:mobile/views/widgets/SocialIcons.dart';
@@ -16,10 +17,6 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => new _LoginPageState();
 }
 
-enum FormType {
-  LOGIN,
-  REGISTER,
-}
 
 class _LoginPageState extends State<LoginPage> {
 
@@ -27,8 +24,11 @@ class _LoginPageState extends State<LoginPage> {
   bool _isSelected = false;
   String _email;
   String _password;
-  FormType _formType = FormType.LOGIN;
+  String _username;
+  bool isLogIn = true;
   bool isLoading = false;
+
+  String actionString = "SIGN IN";
 
   @override
   void initState() {
@@ -73,12 +73,14 @@ class _LoginPageState extends State<LoginPage> {
     });
     if (validateAndSave()) {
       try {
-        if (_formType == FormType.LOGIN) {
+        if (isLogIn) {
           final String userId = await widget.auth.signIn(_email, _password);
           Fluttertoast.showToast(msg: "Sign in as $userId");
           widget.onSignedIn();
         } else {
-          final String userId = await widget.auth.signUp(_email, _password);
+          final User user = await widget.auth.signUpFromStrapi(_username, _email, _password);
+          Fluttertoast.showToast(msg: "Sign up successfully");
+          widget.onSignedIn();
         }
       } catch (e) {
         Fluttertoast.showToast(msg: "Your email or password are incorrect");
@@ -116,14 +118,16 @@ class _LoginPageState extends State<LoginPage> {
   void moveToRegister() {
     formKey.currentState.reset();
     setState(() {
-      _formType = FormType.REGISTER;
+      isLogIn = false;
+      actionString = "SIGN UP";
     });
   }
 
   void moveToLogin() {
     formKey.currentState.reset();
     setState(() {
-      _formType = FormType.LOGIN;
+      isLogIn = true;
+      actionString = "SIGN IN";
     });
   }
 
@@ -215,13 +219,24 @@ class _LoginPageState extends State<LoginPage> {
                         child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Login",style: TextStyle(
+                            Text(isLogIn ? "Login": "Register",style: TextStyle(
                                 fontSize: ScreenUtil.getInstance().setSp(30),
                                 fontFamily: "Poppins-Bold",
                                 letterSpacing: .6)),
                             SizedBox(
                               height: ScreenUtil.getInstance().setHeight(10),
                             ),
+                            !isLogIn ? Text("Username",style: TextStyle(
+                                fontSize: ScreenUtil.getInstance().setSp(16),
+                                fontFamily: "Poppins-Medium",
+                                letterSpacing: .6)): Container(),
+                            !isLogIn ? TextFormField(
+                              key: Key("username"),
+                              decoration: InputDecoration(
+                                  hintText: "Enter your username",
+                                  hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0)),
+                              onSaved: (String value) => _username = value,
+                            ): Container(),
                             Text("Email",
                                 style: TextStyle(
                                     fontFamily: "Poppins-Medium",
@@ -255,14 +270,14 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
+                              children: isLogIn ? <Widget>[
                                 Text("Forgot Password?",
                                   style: TextStyle(
                                       color: Colors.blue,
                                       fontFamily: "Poppins-Medium",
                                       fontSize: ScreenUtil.getInstance().setSp(18)
                                   ),)
-                              ],
+                              ]: <Widget> [],
                             )
                           ],
                         ),
@@ -311,7 +326,7 @@ class _LoginPageState extends State<LoginPage> {
 //                              key: Key("signIn"),
                               onTap: validateAndSubmit,
                               child: Center(
-                                  child: Text("SIGN IN",
+                                  child: Text(actionString,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily: "Poppins-Bold",
@@ -361,10 +376,10 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("New User?",style: TextStyle(fontFamily: "Poppins-Medium")),
+                      Text(isLogIn ? "New User?": "Already an user?",style: TextStyle(fontFamily: "Poppins-Medium")),
                       InkWell(
-                        onTap: moveToRegister,
-                        child: Text("Sign Up", style: TextStyle(color: Color(0xFF5d74e3),fontFamily: "Poppins-Bold")),
+                        onTap: isLogIn ? moveToRegister: moveToLogin,
+                        child: Text(isLogIn? "Sign Up": "Sign In", style: TextStyle(color: Color(0xFF5d74e3),fontFamily: "Poppins-Bold")),
                       )
                     ],
                   )

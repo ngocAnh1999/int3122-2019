@@ -366,85 +366,94 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
-        // IconButton(
-        //   icon: const Icon(Icons.settings),
-        //   onPressed: () {
-        //     playerAudioState == PlayerAudioState.paused
-        //         ? playAudio(
-        //             linkAudio)
-        //         : pauseAudio();
-        //   },
-        // ),
-        PopupMenuButton(
-          onSelected: (String value) {
-            print(value);
-            switch (value) {
-              case 'botVsBot':
-                setState(() {
-                  learningMode = LearningMode.botVsBot;
-                });
-                _showSnackBar();
-                break;
-              case 'botVsPlayer':
-                setState(() {
-                  learningMode = LearningMode.botVsPlayer;
-                });
-                _showSnackBar();
-                break;
-              case 'playerVsPlayer':
-                setState(() {
-                  learningMode = LearningMode.playerVsPlayer;
-                });
-                stopAudio();
-                _showSnackBar();
-                break;
-              default:
-            }
-          },
-          key: _menuKey,
-          itemBuilder: (_) => <PopupMenuItem<String>>[
-            new PopupMenuItem<String>(
-              value: 'botVsBot',
-              child: RadioListTile<LearningMode>(
-                title: Text("Luyện nghe"),
-                value: LearningMode.botVsBot,
-                groupValue: learningMode,
-              ),
-            ),
-            // new PopupMenuItem<String>(
-            //     value: 'botVsPlayer',
-            //     child: RadioListTile<LearningMode>(
-            //       title: Text("Luyện với bot"),
-            //       value: LearningMode.botVsPlayer,
-            //       groupValue: learningMode,
-            //     )),
-            new PopupMenuItem<String>(
-              value: 'playerVsPlayer',
-              child: RadioListTile<LearningMode>(
-                title: Text("Luyện nói"),
-                value: LearningMode.playerVsPlayer,
-                groupValue: learningMode,
-              ),
-            ),
-          ],
-        )
-      ]),
-      body: Container(
-        child: ListView.builder(
-            padding: EdgeInsets.only(bottom: 60.0),
-            itemCount: listMess.length,
-            itemBuilder: (context, index) {
-              return _buildRow(
-                listMess[index],
-                index,
-                context,
-              );
-            }),
+    return WillPopScope(
+      onWillPop: (){
+        Navigator.pop(context);
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(title: Text("Chat Screen"),
+            leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
+              Navigator.pop(context);
+            },),
+            actions: <Widget>[
+              // IconButton(
+              //   icon: const Icon(Icons.settings),
+              //   onPressed: () {
+              //     playerAudioState == PlayerAudioState.paused
+              //         ? playAudio(
+              //             linkAudio)
+              //         : pauseAudio();
+              //   },
+              // ),
+              PopupMenuButton(
+                onSelected: (String value) {
+                  print(value);
+                  switch (value) {
+                    case 'botVsBot':
+                      setState(() {
+                        learningMode = LearningMode.botVsBot;
+                      });
+                      _showSnackBar();
+                      break;
+                    case 'botVsPlayer':
+                      setState(() {
+                        learningMode = LearningMode.botVsPlayer;
+                      });
+                      _showSnackBar();
+                      break;
+                    case 'playerVsPlayer':
+                      setState(() {
+                        learningMode = LearningMode.playerVsPlayer;
+                      });
+                      stopAudio();
+                      _showSnackBar();
+                      break;
+                    default:
+                  }
+                },
+                key: _menuKey,
+                itemBuilder: (_) => <PopupMenuItem<String>>[
+                  new PopupMenuItem<String>(
+                    value: 'botVsBot',
+                    child: RadioListTile<LearningMode>(
+                      title: Text("Luyện nghe"),
+                      value: LearningMode.botVsBot,
+                      groupValue: learningMode,
+                    ),
+                  ),
+                  // new PopupMenuItem<String>(
+                  //     value: 'botVsPlayer',
+                  //     child: RadioListTile<LearningMode>(
+                  //       title: Text("Luyện với bot"),
+                  //       value: LearningMode.botVsPlayer,
+                  //       groupValue: learningMode,
+                  //     )),
+                  new PopupMenuItem<String>(
+                    value: 'playerVsPlayer',
+                    child: RadioListTile<LearningMode>(
+                      title: Text("Luyện nói"),
+                      value: LearningMode.playerVsPlayer,
+                      groupValue: learningMode,
+                    ),
+                  ),
+                ],
+              )
+            ]),
+        body: Container(
+          child: ListView.builder(
+              padding: EdgeInsets.only(bottom: 60.0),
+              itemCount: listMess.length,
+              itemBuilder: (context, index) {
+                return _buildRow(
+                  listMess[index],
+                  index,
+                  context,
+                );
+              }),
+        ),
+        bottomSheet: bottomControl(),
       ),
-      bottomSheet: bottomControl(),
     );
   }
 
@@ -603,7 +612,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       Container(
                           width: 50,
                           child: Text(
-                            (yourRecognitionTrue * 100).toString() + "% words",
+                            (yourRecognitionTrue * 100).toStringAsFixed(2) + "% words",
                             style: TextStyle(color: Colors.green, fontSize: 16),
                           ))
                     ],
@@ -642,10 +651,6 @@ class _ChatScreenState extends State<ChatScreen> {
               if (learningMode == LearningMode.playerVsPlayer)
                 GestureDetector(
                   onTap: () {
-                    // _speechRecognition.stop();
-                    // _speechRecognition.setRecognitionStartedHandler(
-                    //   () => setState(() => _isListening = true),
-                    // );
                     if (_isAvailableRecognition && !_isListening) {
                       _speechRecognition
                           .listen(locale: "en_US")
@@ -670,7 +675,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void fetchMess() async {
     this.setState(() {
       isloadingMess = true;
-      linkAudio = "https://s.sachmem.vn/public" + this.widget.conversation.audio;
+      linkAudio = URL_AUDIO + this.widget.conversation.audio;
     });
     listMess = await this.messServices.getEMess(this.widget.book, this.widget.unit, this.widget.conversation);
     this.setState(() {

@@ -1,17 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/core/models/User.dart';
+import 'package:mobile/core/services/authentication.dart';
 
 class UserProfileScreen extends StatefulWidget {
+
+  final BaseAuth auth;
+
+  const UserProfileScreen({Key key, this.auth}) : super(key: key);
   @override
   _UserProfileState createState() => _UserProfileState();
 }
 
 class _UserProfileState extends State<UserProfileScreen> {
   bool _isPushNotification = false;
+  bool isLoading = false;
+  FirebaseUser user;
+
+  @override
+  void initState() {
+    super.initState();
+    getUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("User Profile"),
+          title: Text("User's Profile"),
         ),
         body: Container(
           child: Column(
@@ -27,7 +44,7 @@ class _UserProfileState extends State<UserProfileScreen> {
                       ClipRRect(
                         borderRadius: new BorderRadius.circular(50.0),
                         child: Image.network(
-                          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cq5dam-web-1200-675-1552905198.jpeg?crop=0.5625xw:1xh;center,top&resize=980:*',
+                          'http://www.gravatar.com/avatar/?d=mm',
                           fit: BoxFit.fill,
                           width: 100,
                           height: 100,
@@ -45,10 +62,10 @@ class _UserProfileState extends State<UserProfileScreen> {
                     color: Colors.blue,
                     size: 22.0,
                   ),
-                  title: Text("Tên",
+                  title: Text("Name",
                       style: TextStyle(fontWeight: FontWeight.w400)),
                   trailing: Text(
-                    "Pham Ngoc Tai",
+                    user.email,
                     style: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w700,
@@ -73,7 +90,7 @@ class _UserProfileState extends State<UserProfileScreen> {
                   title: Text("Email",
                       style: TextStyle(fontWeight: FontWeight.w400)),
                   trailing: Text(
-                    "taipham1803@gmail.com",
+                    user.email,
                     style: TextStyle(
                         color: Colors.grey,
                         fontWeight: FontWeight.w700,
@@ -95,7 +112,7 @@ class _UserProfileState extends State<UserProfileScreen> {
                     color: Colors.blue,
                     size: 22.0,
                   ),
-                  title: Text("Hiện thông báo",
+                  title: Text("Notification",
                       style: TextStyle(fontWeight: FontWeight.w400)),
                   trailing: Switch(
                     onChanged: (val) => setState(
@@ -168,5 +185,16 @@ class _UserProfileState extends State<UserProfileScreen> {
             ],
           ),
         ));
+  }
+
+  void getUser() async {
+    this.setState(() {
+      isLoading = true;
+    });
+    FirebaseUser tempUser = await widget.auth.getCurrentUser();
+    this.setState(() {
+      user = tempUser;
+      isLoading = false;
+    });
   }
 }

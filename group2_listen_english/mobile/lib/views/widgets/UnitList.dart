@@ -70,7 +70,6 @@ class _UnitListState extends State<UnitList> {
             convs = tempConv;
             indexUnitSelected = index;
           }),
-          print("CHeck length convs = " + convs.length.toString())
         },
         child: Container(
             // height: 50,
@@ -173,15 +172,5 @@ class _UnitListState extends State<UnitList> {
     for (int index = 0; index < listUnit.length; index++) {
       // fetchConversationOfUnit(index, listUnit[index]);
     }
-  }
-
-  void fetchConversationOfUnit(int indexUnit, Unit unit) async {
-    List<Conversation> tempConversation =
-        await this.conversationServices.getEConversationOf(widget.book, unit);
-    // listUnit[indexUnit].conversations = tempConversation;
-    print("Check get success conversation unit index = " +
-        indexUnit.toString() +
-        " with number conversation = " +
-        tempConversation.length.toString());
   }
 }

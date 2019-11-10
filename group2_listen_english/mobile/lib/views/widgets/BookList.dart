@@ -54,7 +54,7 @@ class _BookList extends State<BookList> {
     this.setState((){
       loading = true;
     });
-    listBook = await this.bookServices.getEBooks();
+    listBook = await this.bookServices.getBooks();
     this.setState((){
       loading = false;
     });

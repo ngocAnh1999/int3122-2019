@@ -26,7 +26,7 @@ class _ResultUserState extends State<ResultUserScreen> {
                       ClipRRect(
                         borderRadius: new BorderRadius.circular(50.0),
                         child: Image.network(
-                          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cq5dam-web-1200-675-1552905198.jpeg?crop=0.5625xw:1xh;center,top&resize=980:*',
+                          'http://www.gravatar.com/avatar/?d=mm',
                           fit: BoxFit.fill,
                           width: 100,
                           height: 100,
