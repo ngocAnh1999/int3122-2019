@@ -78,43 +78,42 @@ class _UnitListState extends State<UnitList> {
             padding: EdgeInsets.all(10.0),
             child: Card(
                 child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                children: <Widget>[
-                  Row(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(
                     children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                        child: Icon(
-                          Icons.book,
-                          color: color,
-                          size: 26,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          unit.name,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
-                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                            child: Icon(
+                              Icons.book,
+                              color: color,
+                              size: 26,
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              unit.name,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: TextStyle(color: Colors.black, fontSize: 18),
+                            ),
+                          ),
 
-                      // new Spacer(),
-                      // Container(
-                      //   padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      //   child: Icon(Icons.check_box_outline_blank, color: Colors.green)
-                      // ),
-                      Icon(Icons.navigate_next, color: Colors.black),
+                           new Spacer(),
+                           Container(
+                             padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                             child: Icon(Icons.check_box_outline_blank, color: Colors.green)
+                           ),
+                          Icon(Icons.navigate_next, color: Colors.black),
+                        ],
+                      ),
+                       ListView.builder(
+                           itemCount: unit.conversations.length,
+                           itemBuilder: (context, index) {
+                             return _buildRowConversation(unit.conversations[index], index, context);
+                           })
                     ],
-                  ),
-                  // ListView.builder(
-                  //     itemCount: unit.conversations.length,
-                  //     itemBuilder: (context, index) {
-                  //       return _buildRowConversation(
-                  //           unit.conversations[index], index, context);
-                  //     })
-                ],
               ),
             ))));
   }

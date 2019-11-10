@@ -36,7 +36,7 @@ class Conversation {
   factory Conversation.fromESnapshot(DocumentSnapshot snapshot) {
     return Conversation(
       docId: snapshot.documentID,
-      id: snapshot.data['id'],
+      convId: snapshot.data['id'],
       name: snapshot.data['name'],
       audio: snapshot.data['audio']
     );
