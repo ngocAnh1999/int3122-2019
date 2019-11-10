@@ -14,6 +14,7 @@ class ChatScreen extends StatefulWidget {
   final Book book;
   final Unit unit;
   final Conversation conversation;
+  final linkConversation = "https://s.sachmem.vn/public/audio/TA2V2SHS/R4-L1-1.mp3";
 
   const ChatScreen({Key key, this.book, this.unit, this.conversation}) : super(key: key);
   @override
@@ -228,7 +229,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
         playerAudioState == PlayerAudioState.paused
             ? playAudio(
-                "https://s.sachmem.vn/public/audio/TA2V2SHS/R4-L1-1.mp3")
+                this.widget.linkConversation)
             : pauseAudio();
         setState(() {
           _isSpeaking = !_isSpeaking;
@@ -369,7 +370,7 @@ class _ChatScreenState extends State<ChatScreen> {
           onPressed: () {
             playerAudioState == PlayerAudioState.paused
                 ? playAudio(
-                    "https://s.sachmem.vn/public/audio/TA2V2SHS/R4-L1-1.mp3")
+                    this.widget.linkConversation)
                 : pauseAudio();
           },
         ),
@@ -505,7 +506,7 @@ class _ChatScreenState extends State<ChatScreen> {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            _read(textMessage);
+            (!_isChecking || _isListening || _isSpeaking) ? _read(textMessage) : null;
           },
           child: Container(
             margin: EdgeInsets.only(
