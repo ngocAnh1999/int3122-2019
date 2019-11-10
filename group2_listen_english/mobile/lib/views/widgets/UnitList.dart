@@ -31,27 +31,6 @@ class _UnitListState extends State<UnitList> {
     fetchUnit();
   }
 
-  List<Conversation> listConversation = [
-    Conversation(
-        audio: "abc",
-        convId: "1",
-        docId: "docId",
-        id: 1,
-        name: "Conversation 1"),
-    Conversation(
-        audio: "abc",
-        convId: "2",
-        docId: "docId",
-        id: 2,
-        name: "Conversation 2"),
-    Conversation(
-        audio: "abc",
-        convId: "3",
-        docId: "docId",
-        id: 3,
-        name: "Conversation 3"),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +40,7 @@ class _UnitListState extends State<UnitList> {
         body: Stack(fit: StackFit.expand, children: <Widget>[
           ListView.builder(
               itemCount: listUnit.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (context, index)  {
                 return _buildRow(listUnit[index], index, context);
               }),
           Positioned(
@@ -80,12 +59,12 @@ class _UnitListState extends State<UnitList> {
   }
 
   Widget _buildRow(Unit unit, int index, BuildContext context) {
+    
     final color = index < 5 ? Colors.red : Colors.blue;
-    // print("Check unit name " + unit.name + " with number conversation = " + unit.conversations.length.toString());
+    List<Conversation> convs = [];
     return GestureDetector(
-        onTap: () {
-          print("Check number conversation of this unit = " +
-              unit.conversations.length.toString());
+        onTap: () async => {
+          convs = await this.conversationServices.getEConversationOf(widget.book, unit)
         },
         child: Container(
             // height: 50,
@@ -113,13 +92,6 @@ class _UnitListState extends State<UnitList> {
                           style: TextStyle(color: Colors.black, fontSize: 18),
                         ),
                       ),
-
-                      //  new Spacer(),
-                      //  Container(
-                      //    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      //    child: Icon(Icons.check_box_outline_blank, color: Colors.green)
-                      //  ),
-                      // Icon(Icons.navigate_next, color: Colors.black),
                     ],
                   ),
                   Container(
@@ -128,12 +100,11 @@ class _UnitListState extends State<UnitList> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        // itemCount: unit.conversations.length,
-                        itemCount: listConversation.length,
+                        itemCount: convs.length,
                         itemBuilder: (context, index) {
                           return _buildRowConversation(
                               // unit.conversations[index], index, unit, context);
-                              listConversation[index], index, unit, context);
+                              convs[index], index, unit, context);
                         }),
                   )
                 ],
@@ -188,15 +159,5 @@ class _UnitListState extends State<UnitList> {
     this.setState(() {
       isLoadingUnit = false;
     });
-    print("Check length listUnit = " + listUnit.length.toString());
-    for (int index = 0; index < listUnit.length; index++) {
-      // fetchConversationOfUnit(index, listUnit[index]);
-    }
-  }
-
-  void fetchConversationOfUnit(int indexUnit, Unit unit) async {
-    List<Conversation> tempConversation = await this.conversationServices.getEConversationOf(widget.book, unit);
-    listUnit[indexUnit].conversations = tempConversation;
-    print("Check get success conversation unit index = " + indexUnit.toString() + " with number conversation = " + tempConversation.length.toString());
   }
 }
