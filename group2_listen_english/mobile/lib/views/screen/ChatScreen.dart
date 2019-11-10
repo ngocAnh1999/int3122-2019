@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:mobile/core/models/Message.dart';
+import 'package:mobile/core/models/Conversation.dart';
+import 'package:mobile/core/models/Mess.dart';
+import 'package:mobile/core/models/Book.dart';
+import 'package:mobile/core/models/Unit.dart';
+import 'package:mobile/core/services/MessServices.dart';
 import 'dart:async';
 import 'package:speech_recognition/speech_recognition.dart';
 import 'package:mobile/views/screen/DummyData.dart';
 import 'package:audioplayer/audioplayer.dart';
-import 'package:mobile/core/models/TimeCustom.dart';
 
 class ChatScreen extends StatefulWidget {
+  final Book book;
+  final Unit unit;
+  final Conversation conversation;
+
+  const ChatScreen({Key key, this.book, this.unit, this.conversation}) : super(key: key);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -29,6 +37,9 @@ enum PlayerAudioState { stopped, playing, paused }
 
 class _ChatScreenState extends State<ChatScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  final MessServices messServices = new MessServices();
+  List<Mess> listMess = [];
 
   AudioPlayer _audioPlayer = new AudioPlayer();
   PlayerAudioState playerAudioState = PlayerAudioState.stopped;
@@ -60,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isChecking = false;
   bool _yourRecognitionResult = false;
   double yourRecognitionTrue = 0.0;
+  bool isloadingMess = false;
 
   @override
   initState() {
@@ -183,10 +195,10 @@ class _ChatScreenState extends State<ChatScreen> {
             _isChecking = true;
           }),
 
-          _yourRecognitionResult = similarityChecker(listMessages[indexSpeaking].text, resultText) >= 0.4,
-          setState(() {
- 
-          }),
+          _yourRecognitionResult =
+              similarityChecker(listMessages[indexSpeaking].text, resultText) >=
+                  0.4,
+          setState(() {}),
           // Future.delayed(const Duration(seconds: 12), () {
           //   if (!_isListening) {
           //     setState(() {
@@ -431,8 +443,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Widget _buildRow(Message message, int index, BuildContext context) {
- 
+  Widget _buildRow(Mess message, int index, BuildContext context) {
     // print("Check starttime = " + message.starttime.toStringAsFixed(0));
     // print("Check position  = " + position.toString());
     // print("Check position minute = " +
@@ -447,7 +458,7 @@ class _ChatScreenState extends State<ChatScreen> {
     //         .toStringAsFixed(0)));
 
     if (position != null &&
-        message.starttime.toStringAsFixed(0) ==
+        double.parse(message.start).toStringAsFixed(0) ==
             ((double.parse(position.toString().substring(2, 4)) * 60 +
                     double.parse(position.toString().substring(5)))
                 .toStringAsFixed(0))) {
@@ -648,5 +659,15 @@ class _ChatScreenState extends State<ChatScreen> {
         ],
       ),
     );
+  }
+
+  void fetchMess() async {
+    this.setState(() {
+      isloadingMess = true;
+    });
+    listMess = await this.messServices.getEMess(this.widget.book, this.widget.unit, this.widget.conversation);
+    this.setState(() {
+      isloadingMess = false;
+    });
   }
 }
