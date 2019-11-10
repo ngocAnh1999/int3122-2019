@@ -495,8 +495,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ? print("Check positionText = " + positionText.toString())
         : null;
 
-    // print("Check starttime = " + message.starttime.toString());
-
     final marginLeft = alignment == MainAxisAlignment.start ? 10.0 : 50.0;
     final marginRight = alignment == MainAxisAlignment.start ? 50.0 : 10.0;
 
@@ -506,7 +504,7 @@ class _ChatScreenState extends State<ChatScreen> {
       children: <Widget>[
         GestureDetector(
           onTap: () {
-            (!_isChecking || _isListening || _isSpeaking) ? _read(textMessage) : null;
+            (_isListening || playerAudioState == PlayerAudioState.playing) ? null : _read(textMessage);
           },
           child: Container(
             margin: EdgeInsets.only(

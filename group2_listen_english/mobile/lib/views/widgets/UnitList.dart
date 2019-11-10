@@ -128,12 +128,12 @@ class _UnitListState extends State<UnitList> {
                     child: ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        // itemCount: unit.conversations.length,
-                        itemCount: listConversation.length,
+                        // itemCount: unit.conversations.length, // user real data
+                        itemCount: listConversation.length, // user dummy data
                         itemBuilder: (context, index) {
                           return _buildRowConversation(
-                              // unit.conversations[index], index, unit, context);
-                              listConversation[index], index, unit, context);
+                              // unit.conversations[index], index, unit, context); // user real data
+                              listConversation[index], index, unit, context); // user dummy data
                         }),
                   )
                 ],
