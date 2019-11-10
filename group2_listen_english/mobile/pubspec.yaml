@@ -61,30 +61,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    # - assets/csvbook.json
-    # - assets/csvjson.json
-    - assets/input/
-    - assets/images/ic_thumb_11.png
-    - assets/images/ic_thumb_12.png
-    - assets/images/ic_thumb_13.png
-    - assets/images/ic_thumb_21.png
-    - assets/images/ic_thumb_31.png
-    - assets/images/ic_thumb_41.png
-    - assets/images/movie_banner_1.png
-    - assets/images/movie_banner_2.png
-    - assets/images/movie_banner_3.png
-    - assets/images/movie_banner_4.png
+    # - assets/csvbook.json # import book and unit data to firebase
+    # - assets/csv3.json # import conversation data to strapi
+    # - assets/csvjson.json # import conversation data to firebase
+    # - assets/input/ # import message to firebase
     - assets/images/logo.png
     - assets/images/logo2.png
     - assets/images/powered_by.png
-    - assets/images/ic_preview_1.png
-    - assets/images/ic_preview_2.png
-    - assets/images/ic_preview_3.png
-    - assets/images/ic_preview_4.png
-    - assets/images/book1.jpg
-    - assets/images/book2.jpg
-    - assets/images/book3.jpg
-    - assets/images/book4.jpg
     - assets/images/appname.png
     - assets/images/background_login.jpg
 

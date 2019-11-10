@@ -31,6 +31,27 @@ class _UnitListState extends State<UnitList> {
     fetchUnit();
   }
 
+  List<Conversation> listConversation = [
+    Conversation(
+        audio: "abc",
+        convId: "1",
+        docId: "docId",
+        id: 1,
+        name: "Conversation 1"),
+    Conversation(
+        audio: "abc",
+        convId: "2",
+        docId: "docId",
+        id: 2,
+        name: "Conversation 2"),
+    Conversation(
+        audio: "abc",
+        convId: "3",
+        docId: "docId",
+        id: 3,
+        name: "Conversation 3"),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,15 +84,8 @@ class _UnitListState extends State<UnitList> {
     // print("Check unit name " + unit.name + " with number conversation = " + unit.conversations.length.toString());
     return GestureDetector(
         onTap: () {
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatScreen(
-                    book: this.widget.book,
-                    unit: unit,
-                    conversation: null)),
-          );
+          print("Check number conversation of this unit = " +
+              unit.conversations.length.toString());
         },
         child: Container(
             // height: 50,
@@ -100,47 +114,69 @@ class _UnitListState extends State<UnitList> {
                         ),
                       ),
 
-                      // new Spacer(),
-                      // Container(
-                      //   padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                      //   child: Icon(Icons.check_box_outline_blank, color: Colors.green)
-                      // ),
-                      Icon(Icons.navigate_next, color: Colors.black),
+                      //  new Spacer(),
+                      //  Container(
+                      //    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      //    child: Icon(Icons.check_box_outline_blank, color: Colors.green)
+                      //  ),
+                      // Icon(Icons.navigate_next, color: Colors.black),
                     ],
                   ),
-                  // ListView.builder(
-                  //     itemCount: unit.conversations.length,
-                  //     itemBuilder: (context, index) {
-                  //       return _buildRowConversation(
-                  //           unit.conversations[index], index, context);
-                  //     })
+                  Container(
+                    // height: 200,
+                    padding: EdgeInsets.all(12.0),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        // itemCount: unit.conversations.length,
+                        itemCount: listConversation.length,
+                        itemBuilder: (context, index) {
+                          return _buildRowConversation(
+                              // unit.conversations[index], index, unit, context);
+                              listConversation[index], index, unit, context);
+                        }),
+                  )
                 ],
               ),
             ))));
   }
 
   Widget _buildRowConversation(
-      Conversation conversation, int index, BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Icon(
-            Icons.book,
-            color: Colors.blue,
-            size: 26,
-          ),
+      Conversation conversation, int index, Unit unit, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ChatScreen(
+                  book: this.widget.book, unit: unit, conversation: conversation)),
+        );
+      },
+      child: Container(
+        height: 40,
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Icon(
+                Icons.book,
+                color: Colors.blue,
+                size: 26,
+              ),
+            ),
+            Expanded(
+              child: Text(
+                conversation.name,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(color: Colors.black, fontSize: 18),
+              ),
+            ),
+            Icon(Icons.navigate_next, color: Colors.black),
+          ],
         ),
-        Expanded(
-          child: Text(
-            conversation.name,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-        ),
-        Icon(Icons.navigate_next, color: Colors.black),
-      ],
+      ),
     );
   }
 
@@ -154,20 +190,17 @@ class _UnitListState extends State<UnitList> {
     });
     print("Check length listUnit = " + listUnit.length.toString());
     for (int index = 0; index < listUnit.length; index++) {
-      fetchConversationOfUnit(index, listUnit[index]);
+      // fetchConversationOfUnit(index, listUnit[index]);
     }
   }
 
   void fetchConversationOfUnit(int indexUnit, Unit unit) async {
-    this.setState(() {
-      isLoadingConversation = true;
-    });
-    List<Conversation> tempConversation = await this.conversationServices.getEConversationOf(widget.book, unit);
+    List<Conversation> tempConversation =
+        await this.conversationServices.getEConversationOf(widget.book, unit);
     listUnit[indexUnit].conversations = tempConversation;
-       
-    print("Check get success conversation unit index = " + indexUnit.toString() + " with number conversation = " + tempConversation.length.toString());
-    this.setState(() {
-      isLoadingConversation = false;
-    });
+    print("Check get success conversation unit index = " +
+        indexUnit.toString() +
+        " with number conversation = " +
+        tempConversation.length.toString());
   }
 }

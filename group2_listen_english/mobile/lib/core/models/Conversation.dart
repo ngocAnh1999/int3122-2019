@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class Conversation {
   String docId;
-  String unit_id;
-  String id;
+  String convId;
+  int id;
   String name;
   String audio;
 
   Conversation({
-    @required this.unit_id,
+    @required this.convId,
     @required this.docId,
     @required this.id,
     @required this.name,
@@ -27,7 +27,6 @@ class Conversation {
     return Conversation(
       docId: snapshot.documentID,
       id: snapshot.data['id'],
-      unit_id: snapshot.data['unit_id'],
       name: snapshot.data['name'],
       audio: snapshot.data['audio']
     );
@@ -37,9 +36,18 @@ class Conversation {
   factory Conversation.fromESnapshot(DocumentSnapshot snapshot) {
     return Conversation(
       docId: snapshot.documentID,
-      id: snapshot.data['id'],
+      convId: snapshot.data['id'],
       name: snapshot.data['name'],
       audio: snapshot.data['audio']
+    );
+  }
+
+  factory Conversation.fromMappedJson(Map<String,dynamic> json) {
+    return Conversation(
+      id: json['id'] as int,
+      name: json['name'] as String,
+      convId: json['connId'] as String,
+      audio: json['audio'] as String
     );
   }
 }
