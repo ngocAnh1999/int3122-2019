@@ -29,7 +29,6 @@ class Book {
       };
 
   Map<String, dynamic> toStrJson() => {
-    'id': id,
     'docId': docId,
     'book_id': book_id.toString(),
     'name': name,
