@@ -59,7 +59,7 @@ class _UnitListState extends State<UnitList> {
   }
 
   Widget _buildRow(Unit unit, int index, BuildContext context) {
-    
+
     final color = index < 5 ? Colors.red : Colors.blue;
     List<Conversation> convs = [];
     return GestureDetector(
@@ -159,5 +159,19 @@ class _UnitListState extends State<UnitList> {
     this.setState(() {
       isLoadingUnit = false;
     });
+    print("Check length listUnit = " + listUnit.length.toString());
+    for (int index = 0; index < listUnit.length; index++) {
+      // fetchConversationOfUnit(index, listUnit[index]);
+    }
+  }
+
+  void fetchConversationOfUnit(int indexUnit, Unit unit) async {
+    List<Conversation> tempConversation =
+        await this.conversationServices.getEConversationOf(widget.book, unit);
+    listUnit[indexUnit].conversations = tempConversation;
+    print("Check get success conversation unit index = " +
+        indexUnit.toString() +
+        " with number conversation = " +
+        tempConversation.length.toString());
   }
 }
