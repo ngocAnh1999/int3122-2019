@@ -25,6 +25,8 @@ class _UnitListState extends State<UnitList> {
   List<Unit> listUnit = [];
   bool isLoadingUnit = false;
   bool isLoadingConversation = false;
+  List<Conversation> convs = [];
+  int indexUnitSelected = 0;
   @override
   void initState() {
     super.initState();
@@ -59,12 +61,16 @@ class _UnitListState extends State<UnitList> {
   }
 
   Widget _buildRow(Unit unit, int index, BuildContext context) {
-
+    List<Conversation> tempConv = [];
     final color = index < 5 ? Colors.red : Colors.blue;
-    List<Conversation> convs = [];
     return GestureDetector(
         onTap: () async => {
-          convs = await this.conversationServices.getEConversationOf(widget.book, unit)
+          tempConv = await this.conversationServices.getEConversationOf(widget.book, unit),
+          this.setState(() {
+            convs = tempConv;
+            indexUnitSelected = index;
+          }),
+          print("CHeck length convs = " + convs.length.toString())
         },
         child: Container(
             // height: 50,
@@ -94,6 +100,7 @@ class _UnitListState extends State<UnitList> {
                       ),
                     ],
                   ),
+                  indexUnitSelected == index ?
                   Container(
                     // height: 200,
                     padding: EdgeInsets.all(12.0),
@@ -106,7 +113,10 @@ class _UnitListState extends State<UnitList> {
                               // unit.conversations[index], index, unit, context);
                               convs[index], index, unit, context);
                         }),
-                  )
+                    // child: Text("Length = " + convs.length.toString()),
+                  ) : Container(
+                    height: 0,
+                  ),
                 ],
               ),
             ))));
@@ -168,7 +178,7 @@ class _UnitListState extends State<UnitList> {
   void fetchConversationOfUnit(int indexUnit, Unit unit) async {
     List<Conversation> tempConversation =
         await this.conversationServices.getEConversationOf(widget.book, unit);
-    listUnit[indexUnit].conversations = tempConversation;
+    // listUnit[indexUnit].conversations = tempConversation;
     print("Check get success conversation unit index = " +
         indexUnit.toString() +
         " with number conversation = " +
