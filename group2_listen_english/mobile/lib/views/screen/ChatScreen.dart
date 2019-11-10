@@ -369,15 +369,15 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("Chat Screen"), actions: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            playerAudioState == PlayerAudioState.paused
-                ? playAudio(
-                    linkAudio)
-                : pauseAudio();
-          },
-        ),
+        // IconButton(
+        //   icon: const Icon(Icons.settings),
+        //   onPressed: () {
+        //     playerAudioState == PlayerAudioState.paused
+        //         ? playAudio(
+        //             linkAudio)
+        //         : pauseAudio();
+        //   },
+        // ),
         PopupMenuButton(
           onSelected: (String value) {
             print(value);
