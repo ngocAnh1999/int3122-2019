@@ -12,4 +12,4 @@ String ITEM_DETAILS_SCREEN='ITEM_DETAILS_SCREEN';
 String GRID_ITEM_DETAILS_SCREEN='GRID_ITEM_DETAILS_SCREEN';
 
 String URL_IMG = "https://nghenoi.sachmem.vn/assets/imgs/books/";
-String URL_AUDIO = "";
+String URL_AUDIO = "http://s.sachmem.vn/public/audio/";
