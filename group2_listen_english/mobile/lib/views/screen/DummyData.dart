@@ -1,97 +1,95 @@
-import 'package:mobile/core/models/Message.dart';
-import 'package:mobile/core/models/TimeCustom.dart';
+import 'package:mobile/core/models/Mess.dart';
 
-
-final List<Message> listMessages = [
-  Message(
-      id: 0,
+final List<Mess> listMessages = [
+  Mess(
+      order: 0,
       text: "Hello, I’m Phonic Phil!",
-      starttime: 3.452,
-      endtime: 6.203,
+      start: "3.452",
+      end: "6.203",
       character: "Phil",
       type: TYPE.ONE_HUMAN),
-  Message(
-      id: 1,
+  Mess(
+      order: 1,
       text: "… and I’m Super Sue!",
-      starttime: 6.686,
-      endtime: 6.686,
+      start: "6.686",
+      end: "9.686",
       character: "Sue",
       type: TYPE.TWO_HUMAN),
-  Message(
-      id: 2,
+  Mess(
+      order: 2,
       text: "Grandmother, I’ve got a toothache.",
-      starttime: 12.909,
-      endtime: 16.953,
+      start: "12.909",
+      end: "16.953",
       character: "girl1",
       type: TYPE.ONE_HUMAN),
-  Message(
-      id: 3,
+  Mess(
+      order: 3,
       text: "And I’ve got a sore thumb",
-      starttime: 17.866,
-      endtime: 20.332,
+      start: "17.866",
+      end: "20.332",
       character: "boy",
       type: TYPE.TWO_HUMAN),
-  Message(
-      id: 4,
+  Mess(
+      order: 4,
       text: "Oh dear...",
-      starttime: 21.154,
-      endtime: 22.980,
+      start: "21.154",
+      end: "22.980",
       character: "ba",
       type: TYPE.ONE_HUMAN),
-  Message(
-      id: 5,
+  Mess(
+      order: 5,
       text: "Is it a plane?",
-      starttime: 28.953,
-      endtime: 30.580,
+      start: "28.953",
+      end: "30.580",
       character: "boy",
       type: TYPE.TWO_HUMAN),
-  Message(
-      id: 6,
+  Mess(
+      order: 6,
       text: "Is it a kite?",
-      starttime: 31.347,
-      endtime: 32.991,
+      start: "31.347",
+      end: "32.991",
       character: "girl1",
       type: TYPE.ONE_HUMAN),
-  Message(
-      id: 7,
+  Mess(
+      order: 7,
       text: "No It’s Phil and Sue!",
-      starttime: 34.180,
-      endtime: 37.500,
+      start: "34.180",
+      end: "37.500",
       character: "boy",
       type: TYPE.TWO_HUMAN),
-  Message(
-      id: 8,
+  Mess(
+      order: 8,
       text: "What’s the matter, Grandmother?",
-      starttime: 45.928,
-      endtime: 48.391,
+      start: "45.928",
+      end: "48.391",
       character: "Sue",
       type: TYPE.ONE_HUMAN),
-  Message(
-      id: 9,
+  Mess(
+      order: 9,
       text: "She has a toothache, and he has a sore thumb.",
-      starttime: 49.214,
-      endtime: 55.531,
+      start: "49.214",
+      end: "55.531",
       character: "ba",
       type: TYPE.TWO_HUMAN),
-  Message(
-      id: 10,
+  Mess(
+      order: 10,
       text: "Let’s go!",
-      starttime: 62.147,
-      endtime: 64.785,
+      start: "62.147",
+      end: "64.785",
       character: "Sue",
       type: TYPE.ONE_HUMAN),
-  Message(
-      id: 11,
+  Mess(
+      order: 11,
       text: "To the hospital!",
-      starttime: 65.052,
-      endtime: 65.052,
+      start: "65.052",
+      end: "65.052",
       character: "Phil",
       type: TYPE.TWO_HUMAN),
-  Message(
-      id: 12,
+  Mess(
+      order: 12,
       text: "Thank you, Phil and Sue!",
-      starttime: 68.85,
-      endtime: 72.080,
+      start: "68.85",
+      end: "72.080",
       character: "ba",
       type: TYPE.ONE_HUMAN),
 ];

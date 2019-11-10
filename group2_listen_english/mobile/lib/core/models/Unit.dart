@@ -8,6 +8,7 @@ class Unit {
   String point;
   String name;
   String level;
+  List<Conversation> conversations;
 
   Unit({
     @required this.docId,
@@ -15,6 +16,7 @@ class Unit {
     @required this.name,
     this.point,
     this.level,
+    this.conversations
   });
 
   Map<String, dynamic> toJson() => {
@@ -23,6 +25,7 @@ class Unit {
         'point': point,
         'name': name,
         'level': level,
+        'conversations': conversations
       };
 
   Map<String, dynamic> toStrJson(int book_id) => {
@@ -30,7 +33,8 @@ class Unit {
         'name': name,
         'book': book_id.toString(),
         'level': level,
-        'point': point
+        'point': point,
+        'conversations': conversations
       };
 
   factory Unit.fromESnapshot(DocumentSnapshot snapshot) {
@@ -38,7 +42,8 @@ class Unit {
         docId: snapshot.documentID,
         level: snapshot.data['level'].toString(),
         name: snapshot.data['name'],
-        point: snapshot.data['point'].toString()
+        point: snapshot.data['point'].toString(),
+        conversations: snapshot.data['conversations'],
     );
   }
 
@@ -49,6 +54,7 @@ class Unit {
       name: json['name'] as String,
       level: json['level'] as String,
       point: json['point'] as String,
+      conversations: json['conversations'] as List<Conversation>
     );
   }
 }
