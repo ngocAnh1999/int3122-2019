@@ -165,7 +165,6 @@ class _LoginPageState extends State<LoginPage> {
     var screenSize = MediaQuery.of(context).size;
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance = ScreenUtil(width: screenSize.width,height: screenSize.height,allowFontScaling: true);
-    // TODO: implement build
     return new Scaffold(
       resizeToAvoidBottomPadding: false,
       body: Stack(

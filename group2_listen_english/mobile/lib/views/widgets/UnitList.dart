@@ -95,24 +95,17 @@ class _UnitListState extends State<UnitList> {
                             child: Text(
                               unit.name,
                               overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                              maxLines: 2,
                               style: TextStyle(color: Colors.black, fontSize: 18),
                             ),
                           ),
-
-                           new Spacer(),
-                           Container(
-                             padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                             child: Icon(Icons.check_box_outline_blank, color: Colors.green)
-                           ),
-                          Icon(Icons.navigate_next, color: Colors.black),
                         ],
                       ),
-                       ListView.builder(
-                           itemCount: unit.conversations.length,
-                           itemBuilder: (context, index) {
-                             return _buildRowConversation(unit.conversations[index], index, context);
-                           })
+//                       ListView.builder(
+//                           itemCount: unit.conversations.length,
+//                           itemBuilder: (context, index) {
+//                             return _buildRowConversation(unit.conversations[index], index, context);
+//                           })
                     ],
               ),
             ))));
@@ -158,15 +151,8 @@ class _UnitListState extends State<UnitList> {
   }
 
   void fetchConversationOfUnit(int indexUnit, Unit unit) async {
-    this.setState(() {
-      isLoadingConversation = true;
-    });
     List<Conversation> tempConversation = await this.conversationServices.getEConversationOf(widget.book, unit);
     listUnit[indexUnit].conversations = tempConversation;
-       
     print("Check get success conversation unit index = " + indexUnit.toString() + " with number conversation = " + tempConversation.length.toString());
-    this.setState(() {
-      isLoadingConversation = false;
-    });
   }
 }
