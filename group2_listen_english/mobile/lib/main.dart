@@ -8,7 +8,7 @@ import 'package:mobile/views/screen/HomeScreen.dart';
 import 'package:mobile/views/screen/SplashScreen.dart';
 
 import 'core/constant/Constant.dart';
-import 'core/gen_data.dart';
+// import 'core/gen_data.dart';
 
 void main() => runApp(MaterialApp(
   title: 'English Beater',

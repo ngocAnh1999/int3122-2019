@@ -374,7 +374,8 @@ class _ChatScreenState extends State<ChatScreen> {
         key: _scaffoldKey,
         appBar: AppBar(title: Text("Chat Screen"),
             leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
+              Navigator.pop(context, true);
             },),
             actions: <Widget>[
               // IconButton(

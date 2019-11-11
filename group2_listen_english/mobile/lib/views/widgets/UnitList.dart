@@ -125,7 +125,6 @@ class _UnitListState extends State<UnitList> {
       Conversation conversation, int index, Unit unit, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context);
         Navigator.push(
           context,
           MaterialPageRoute(
