@@ -20,4 +20,10 @@ class LessonRepositoryImpl implements LessonRepository {
     var doc = await _ref.document(id).get();
     return Lesson.fromMap(doc.data, doc.documentID);
   }
+
+  @override
+  Future<List<Lesson>> getLessonsByUser({String username}) {
+    // TODO: implement getLessonsByUser
+    return null;
+  }
 }

@@ -9,7 +9,8 @@ class FlashCardRepositoryStrapiImpl implements FlashCardRepository {
   @override
   Future<int> countFlashCards({String lessonId}) async {
     var response = await HttpService.get(
-        endpoint: _endpoint + '/' + StrapiConfig.countEndpoint);
+        endpoint: _endpoint + '/' + StrapiConfig.countEndpoint,
+        params: {'lesson': lessonId});
     return response;
   }
 

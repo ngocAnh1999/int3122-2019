@@ -5,4 +5,6 @@ abstract class LessonRepository {
   Future<List<Lesson>> getLessons();
 
   Future<Lesson> getLessonById({@required String id});
+
+  Future<List<Lesson>> getLessonsByUser({@required String username});
 }

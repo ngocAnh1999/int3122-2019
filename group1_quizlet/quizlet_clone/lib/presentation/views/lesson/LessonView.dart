@@ -33,8 +33,13 @@ class LessonViewState extends State<LessonView> {
             case ConnectionState.none:
             case ConnectionState.waiting:
             case ConnectionState.active:
-              return Center(
-                child: CircularProgressIndicator(),
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.lesson.title),
+                ),
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             case ConnectionState.done:
               List<FlashCard> flashCards = snapshot.data;
@@ -95,10 +100,10 @@ class LessonViewState extends State<LessonView> {
                           title: Column(
                               children: List<Widget>.from(
                                   flashCards.map((FlashCard flashCard) {
-                        return FlashCardItem(
-                          flashCard: flashCard,
-                        );
-                      }).toList()))),
+                                    return FlashCardItem(
+                                      flashCard: flashCard,
+                                    );
+                                  }).toList()))),
                       Container(
                         margin: EdgeInsets.fromLTRB(0, 0, 0, 55),
                       )
@@ -108,7 +113,7 @@ class LessonViewState extends State<LessonView> {
                       decoration: BoxDecoration(
                           border: Border(
                               top:
-                                  BorderSide(width: 1, color: Colors.black12))),
+                              BorderSide(width: 1, color: Colors.black12))),
                       child: Row(children: <Widget>[
                         LearningActivity(
                             iconData: Icons.folder_open,
@@ -129,9 +134,9 @@ class LessonViewState extends State<LessonView> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => WritingActivity(
-                                            lesson: widget.lesson,
-                                            flashCards: flashCards,
-                                          )));
+                                        lesson: widget.lesson,
+                                        flashCards: flashCards,
+                                      )));
                             }),
                         LearningActivity(
                             iconData: Icons.filter_none,
@@ -151,9 +156,9 @@ class LessonViewState extends State<LessonView> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => ExamView(
-                                            lesson: widget.lesson,
-                                            flashCards: flashCards,
-                                          )));
+                                        lesson: widget.lesson,
+                                        flashCards: flashCards,
+                                      )));
                             })
                       ])));
           }

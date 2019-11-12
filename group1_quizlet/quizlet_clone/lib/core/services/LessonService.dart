@@ -17,4 +17,8 @@ class LessonService {
   Future<Lesson> getLessonById({@required String id}) async {
     return repository.getLessonById(id: id);
   }
+
+  Future<List<Lesson>> getLessonsByUser({@required String username}) async {
+    return repository.getLessonsByUser(username: username);
+  }
 }

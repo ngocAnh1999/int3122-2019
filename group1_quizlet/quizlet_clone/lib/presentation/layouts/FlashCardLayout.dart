@@ -75,39 +75,36 @@ class _FlashCardLayoutState extends State<FlashCardLayout>
                 borderRadius: BorderRadius.circular(8),
                 onTap: onTap,
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.all(10),
                   child: (widget.flashCard.imageUrl != null)
-                      ? Row(
-                          children: <Widget>[
-                            Container(
-                                width: 100,
-                                child: Center(
-                                  child: Text(
-                                    title,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.bold,
+                      ? Center(
+                          child: Row(
+                            children: <Widget>[
+                              Container(
+                                  padding: EdgeInsets.all(10),
+                                  child: Center(
+                                    child: Text(
+                                      title,
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            (widget.flashCard.imageUrl != null)
-                                ? Container(
-                                    width: 100,
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle,
-                                        image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image:
-                                                FlashCardImageGetter.getImage(
-                                                    imageUrl: imageUrl))),
-                                  )
-                                : SizedBox()
-                          ],
+                                  )),
+                              Container(
+                                width: 60,
+                                height: 60,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    image: DecorationImage(
+                                        fit: BoxFit.fill,
+                                        image: FlashCardImageGetter.getImage(
+                                            imageUrl: imageUrl))),
+                              )
+                            ],
+                          ),
                         )
                       : Center(
                           child: Text(
