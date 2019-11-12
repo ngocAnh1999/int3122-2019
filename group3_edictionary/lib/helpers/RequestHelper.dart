@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class RequestHelper {
-  final String host = 'http://192.168.1.158:1337/';
+  final String host = 'https://safe-sierra-54080.herokuapp.com/';
 
   Future<http.Response> request(String endpoint, { Map<String, dynamic> body,Map<String, dynamic> headers, String method }) async {
     String uri = '$host$endpoint';

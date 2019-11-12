@@ -30,7 +30,6 @@ class BookListState extends State<BookList> {
     });
 
     List<Book> fetchedBooks = await _bookService.findBooks();
-    print(fetchedBooks);    
     this.setState((){
       books = fetchedBooks;
       loading = false;

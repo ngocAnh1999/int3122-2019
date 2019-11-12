@@ -6,6 +6,7 @@ import '../../helpers/RandomHelper.dart';
 import '../../models/GameplayState.dart';
 import 'package:provider/provider.dart';
 import './components/SummaryScreen.dart';
+import './components/ReadingGame.dart';
 
 class PlayingScreen extends StatefulWidget {
   List<Word> words;
@@ -80,11 +81,13 @@ class PlayingScreenState extends State<PlayingScreen> {
   }
 
   Widget _getRandomGame(int position){
-    int randomGameIndex = _randomHelper.getRandomInt(2);
+    int randomGameIndex = _randomHelper.getRandomInt(3);
     print(randomGameIndex);
     if (randomGameIndex == 0)
       return ListeningGame(words: words, currentIndex: position, pageController: pageController,);
     if (randomGameIndex == 1)
-      return WritingGame(words: words, currentIndex: position, pageController: pageController,);
+      return WritingGame(words: words, currentIndex: position, pageController: pageController);
+    if (randomGameIndex == 2)
+      return ReadingGame(words: words, currentIndex: position, pageController: pageController);
   }
 }
