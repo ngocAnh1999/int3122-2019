@@ -13,13 +13,11 @@ class _SettingsState extends State<SettingsScreen> {
         appBar: AppBar(
           title: Text("Settings"),
         ),
-        body: StreamBuilder(
-          stream: Firestore.instance.collection('EnglishBook').snapshots(),
-          builder: (context, snapshot){
-            if(!snapshot.hasData){
-              
-            }
-          },
-        ));
+        body: Center(
+          child: Text(
+            "Settings"
+          )
+        )
+    );
   }
 }
